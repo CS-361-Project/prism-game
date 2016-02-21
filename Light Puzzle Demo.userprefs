@@ -1,0 +1,24 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Board.cs">
+    <Files>
+      <File FileName="Assets\Resources\Scripts\Board.cs" Line="36" Column="9" />
+      <File FileName="Assets\Resources\Scripts\GameManager.cs" Line="39" Column="52" />
+      <File FileName="Assets\Resources\Scripts\PlayerMovement.cs" Line="11" Column="73" />
+      <File FileName="Assets\Resources\Scripts\LeverBlock.cs" Line="25" Column="31" />
+      <File FileName="Assets\Resources\Scripts\LeverModel.cs" Line="10" Column="30" />
+      <File FileName="Assets\Resources\Scripts\BlockModel.cs" Line="16" Column="30" />
+    </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>activeSprite</Value>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
