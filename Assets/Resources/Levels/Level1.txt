@@ -1,11 +1,7 @@
-﻿10 10
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
+﻿5 5
+6
+e e e G e
+y e w w e
+e b R B e
+e e w e y
+B R e y e

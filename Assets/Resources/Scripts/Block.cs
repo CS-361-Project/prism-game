@@ -25,4 +25,10 @@ public class Block : MonoBehaviour {
 	public virtual bool isPassable() {
 		return !blockModel.isActive();
 	}
+
+	public void setColor(Color c, Color bgColor) {
+		baseColor = c;
+		blockModel.setColor(c);
+		onBackgroundChange(bgColor);
+	}
 }

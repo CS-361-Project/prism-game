@@ -1,19 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System;
 
 public class GameManager : MonoBehaviour {
 	Board board;
 	public SpriteRenderer background;
 	PlayerMovement player;
+	const string levelFile = "Assets/Resources/Levels/Level1.txt";
+
+	public enum FileSymbols {
+		RedBlock = 'r',
+		GreenBlock = 'g',
+		BlueBlock = 'b',
+		YellowBLock = 'y',
+		MagentaBlock = 'm',
+		CyanBlock = 'c',
+		WhiteBlock= 'w',
+		EmptyBlock = 'e',
+		RedSwitch = 'R',
+		GreenSwitch = 'G',
+		BlueSwitch = 'B'
+	};
 
 	public static class CustomColors {
-		public static Color Red = Color.red;
-		public static Color Green = Color.green;
-		public static Color Blue = Color.blue;
-		public static Color Yellow = Color.yellow;
-		public static Color Magenta = Color.magenta;
-		public static Color Cyan = Color.cyan;
+		public static Color Red = Color.red * .8f;
+		public static Color Green = Color.green * .8f;
+		public static Color Blue = Color.blue * .8f;
+		public static Color Yellow = Color.yellow * .8f;
+		public static Color Magenta = Color.magenta * .8f;
+		public static Color Cyan = Color.cyan * .8f;
 		public static Color Black = Color.black;
 		public static Color White = Color.white;
 		public static Color Brown = new Color(0.39607f, 0.26274f, 0.12941f);
@@ -21,7 +38,7 @@ public class GameManager : MonoBehaviour {
 		public static Color[] colors = { Red, Green, Blue, Yellow, Magenta, Cyan, Black, White, Brown};
 
 		public static Color randomColor() {
-			return colors[Random.Range(0, Mathf.Min(6, colors.Length))];
+			return colors[UnityEngine.Random.Range(0, Mathf.Min(6, colors.Length))];
 		}
 
 		public static Color addColor(Color a, Color b) {
@@ -72,7 +89,7 @@ public class GameManager : MonoBehaviour {
 		background.color = CustomColors.Green;
 		GameObject boardObj = new GameObject();
 		board = boardObj.AddComponent<Board>();
-		board.init(11, 10, background);
+		loadLevelFromFile(levelFile, board);
 		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<PlayerMovement>();
 		player.init(board);
 	}
@@ -110,6 +127,96 @@ public class GameManager : MonoBehaviour {
 			else if (Input.GetKey(KeyCode.RightArrow)) {
 				player.move(Vector2.right);
 			}
+		}
+	}
+
+	public void loadLevelFromFile(string fileName, Board board) {
+		try {
+			StreamReader file = new StreamReader(fileName);
+			int lineNumber = 0;
+			int width = 0;
+			int height = 0;
+			Color bgColor = Color.black;
+			using (file) {
+				string line;
+				while ((line = file.ReadLine()) != null) {
+					string[] words = line.Split(' ');
+					if (words.Length > 0) {
+						if (lineNumber == 0) {
+							if (words.Length >= 2) {
+								width = int.Parse(words[0]);
+								height = int.Parse(words[1]);
+								board.init(width, height, background);
+							}
+							else {
+								print("Error reading file.");
+							}
+						}
+						else if (lineNumber == 1) {
+							int colorNumber = int.Parse(words[0]);
+							bgColor = CustomColors.colors[colorNumber];
+						}
+						else if (lineNumber < height + 2) {
+							if (words.Length >= width) {
+								for (int i = 0; i < width; i++) {
+									int x = (height - 1) - (lineNumber - 2);
+									int y = i;
+									char c = words[i].ToCharArray()[0];
+									addBlock(x, y, c);
+								}
+							}
+							else {
+								print("Error reading file...");
+							}
+						}
+						lineNumber++;
+					}
+					board.setBackground(bgColor);
+				}
+			}
+		}
+		catch (Exception e) {
+			print("Error reading file: " + e.ToString());
+			print(e.StackTrace);
+		}
+	}
+
+	void addBlock(int y, int x, char c) {
+		print("Adding block at " + x + ", " + y);
+		switch (c) {
+			case (char)FileSymbols.EmptyBlock:
+				board.addEmptyBlock(x, y);
+				break;
+			case (char)FileSymbols.RedBlock:
+				board.addBlock(x, y, CustomColors.Red);
+				break;
+			case (char)FileSymbols.GreenBlock:
+				board.addBlock(x, y, CustomColors.Green);
+				break;
+			case (char)FileSymbols.BlueBlock:
+				board.addBlock(x, y, CustomColors.Blue);
+				break;
+			case (char)FileSymbols.MagentaBlock:
+				board.addBlock(x, y, CustomColors.Magenta);
+				break;
+			case (char)FileSymbols.YellowBLock:
+				board.addBlock(x, y, CustomColors.Yellow);
+				break;
+			case (char)FileSymbols.CyanBlock:
+				board.addBlock(x, y, CustomColors.Cyan);
+				break;
+			case (char)FileSymbols.WhiteBlock:
+				board.addBlock(x, y, CustomColors.White);
+				break;
+			case (char)FileSymbols.RedSwitch:
+				board.addLever(x, y, CustomColors.Red);
+				break;
+			case (char)FileSymbols.GreenSwitch:
+				board.addLever(x, y, CustomColors.Green);
+				break;
+			case (char)FileSymbols.BlueSwitch:
+				board.addLever(x, y, CustomColors.Blue);
+				break;
 		}
 	}
 }

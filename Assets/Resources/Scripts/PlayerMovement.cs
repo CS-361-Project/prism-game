@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour {
 		GetComponent<SpriteRenderer>().color = GameManager.CustomColors.Brown;
 		board = b;
 		x = 0;
-		y = 0;
+		y = b.getHeight() - 1;
 		updatePosition();
 	}
 

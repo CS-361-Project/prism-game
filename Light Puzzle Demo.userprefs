@@ -1,21 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Board.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Levels\Level1.txt">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Board.cs" Line="36" Column="9" />
-      <File FileName="Assets\Resources\Scripts\GameManager.cs" Line="39" Column="52" />
-      <File FileName="Assets\Resources\Scripts\PlayerMovement.cs" Line="11" Column="73" />
+      <File FileName="Assets\Resources\Scripts\GameManager.cs" Line="183" Column="28" />
+      <File FileName="Assets\Resources\Scripts\Board.cs" Line="98" Column="1" />
       <File FileName="Assets\Resources\Scripts\LeverBlock.cs" Line="25" Column="31" />
-      <File FileName="Assets\Resources\Scripts\LeverModel.cs" Line="10" Column="30" />
-      <File FileName="Assets\Resources\Scripts\BlockModel.cs" Line="16" Column="30" />
+      <File FileName="Assets\Resources\Levels\Level1.txt" Line="1" Column="4" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State>
-          <Value>activeSprite</Value>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

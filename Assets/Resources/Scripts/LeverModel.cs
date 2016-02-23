@@ -26,10 +26,6 @@ public class LeverModel : BlockModel {
 		}
 	}
 
-	public void setColor(Color c) {
-		rend.color = c;
-	}
-
 	public Color getColor() {
 		return rend.color;
 	}

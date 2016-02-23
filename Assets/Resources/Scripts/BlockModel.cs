@@ -30,12 +30,22 @@ public class BlockModel : MonoBehaviour {
 		}
 		else {
 			rend.sprite = inactiveSprite;
-			rend.color = baseColor + new Color(.4f, .4f, .4f);
+			if (baseColor == GameManager.CustomColors.White) {
+				rend.color = baseColor - new Color(.2f, .2f, .2f, 0);
+			}
+			else {
+				rend.color = baseColor + new Color(.3f, .3f, .3f);
+			}
 		}
 	}
 
 	public bool isActive() {
 		return active;
+	}
+
+	public void setColor(Color c) {
+		baseColor = c;
+		setActive(active);
 	}
 }
 
