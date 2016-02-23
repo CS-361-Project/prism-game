@@ -31,8 +31,8 @@ public class GameManager : MonoBehaviour {
 		public static Color Yellow = Color.yellow * .8f;
 		public static Color Magenta = Color.magenta * .8f;
 		public static Color Cyan = Color.cyan * .8f;
-		public static Color Black = Color.black;
-		public static Color White = Color.white;
+		public static Color Black = Color.black + new Color(.2f, .2f, .2f);
+		public static Color White = Color.white - new Color(.1f, .1f, .1f, 0);
 		public static Color Brown = new Color(0.39607f, 0.26274f, 0.12941f);
 
 		public static Color[] colors = { Red, Green, Blue, Yellow, Magenta, Cyan, Black, White, Brown};
@@ -170,6 +170,7 @@ public class GameManager : MonoBehaviour {
 						}
 						lineNumber++;
 					}
+					background.transform.localScale = new Vector3((float)width / 4f, (float)height / 4f, 1);
 					board.setBackground(bgColor);
 				}
 			}
