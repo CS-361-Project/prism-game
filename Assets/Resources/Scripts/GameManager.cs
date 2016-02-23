@@ -79,7 +79,6 @@ public class GameManager : MonoBehaviour {
 					result = curr;
 				}
 			}
-			print("Closest color to " + c + " was " + result);
 			return result;
 		}
 	};
@@ -182,7 +181,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void addBlock(int y, int x, char c) {
-		print("Adding block at " + x + ", " + y);
 		switch (c) {
 			case (char)FileSymbols.EmptyBlock:
 				board.addEmptyBlock(x, y);

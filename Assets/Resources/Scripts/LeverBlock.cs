@@ -29,12 +29,10 @@ public class LeverBlock : Block {
 		Color c = board.getBackgroundColor();
 		if (state) {
 			board.setBackground(GameManager.CustomColors.subColor(c, leverColor));
-			print("Subtracted " + leverColor + " from " + c);
 			state = false;
 		}
 		else {
 			board.setBackground(GameManager.CustomColors.addColor(c, leverColor));
-			print("Added " + leverColor + " to " + c);
 			state = true;
 		}
 	}
