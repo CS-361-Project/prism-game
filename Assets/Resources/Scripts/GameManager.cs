@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 	Board board;
 	public SpriteRenderer background;
 	PlayerMovement player;
-	const string levelFile = "Assets/Resources/Levels/Level1.txt";
+	const string levelFile = "Assets/Resources/Levels/Level4.txt";
 
 	public enum FileSymbols {
 		RedBlock = 'r',

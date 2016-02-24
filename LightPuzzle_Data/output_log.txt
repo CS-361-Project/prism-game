@@ -14,80 +14,14 @@ Platform assembly: C:\Users\Simon\Documents\Dev Projects\Light Puzzle Demo\Light
 Loading C:\Users\Simon\Documents\Dev Projects\Light Puzzle Demo\LightPuzzle_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: C:\Users\Simon\Documents\Dev Projects\Light Puzzle Demo\LightPuzzle_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading C:\Users\Simon\Documents\Dev Projects\Light Puzzle Demo\LightPuzzle_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.460 seconds
+- Completed reload, in  0.198 seconds
 Platform assembly: C:\Users\Simon\Documents\Dev Projects\Light Puzzle Demo\LightPuzzle_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Simon\Documents\Dev Projects\Light Puzzle Demo\LightPuzzle_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 2.235705 ms
-Closest color to RGBA(1.000, 1.000, 0.000, 2.000) was RGBA(1.000, 0.922, 0.016, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Added RGBA(1.000, 0.000, 0.000, 1.000) to RGBA(0.000, 1.000, 0.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Setting up 1 worker threads for Enlighten.
-  Thread -> id: 1530 -> priority: 1 
-Closest color to RGBA(1.000, 0.922, 1.016, 2.000) was RGBA(1.000, 1.000, 1.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Added RGBA(0.000, 0.000, 1.000, 1.000) to RGBA(1.000, 0.922, 0.016, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Closest color to RGBA(1.000, 1.000, 0.000, 0.000) was RGBA(1.000, 0.922, 0.016, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Subtracted RGBA(0.000, 0.000, 1.000, 1.000) from RGBA(1.000, 1.000, 1.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Closest color to RGBA(0.000, 0.922, 0.016, 0.000) was RGBA(0.000, 1.000, 0.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Subtracted RGBA(1.000, 0.000, 0.000, 1.000) from RGBA(1.000, 0.922, 0.016, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Closest color to RGBA(0.000, 0.000, 0.000, 0.000) was RGBA(0.000, 0.000, 0.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Subtracted RGBA(0.000, 1.000, 0.000, 1.000) from RGBA(0.000, 1.000, 0.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Closest color to RGBA(0.000, 1.000, 0.000, 2.000) was RGBA(0.000, 1.000, 0.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Added RGBA(0.000, 1.000, 0.000, 1.000) to RGBA(0.000, 0.000, 0.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Closest color to RGBA(1.000, 1.000, 0.000, 2.000) was RGBA(1.000, 0.922, 0.016, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Added RGBA(1.000, 0.000, 0.000, 1.000) to RGBA(0.000, 1.000, 0.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Closest color to RGBA(0.000, 0.922, 0.016, 0.000) was RGBA(0.000, 1.000, 0.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Subtracted RGBA(1.000, 0.000, 0.000, 1.000) from RGBA(1.000, 0.922, 0.016, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
+UnloadTime: 2.058098 ms
 Closest color to RGBA(0.000, 1.000, 1.000, 2.000) was RGBA(0.000, 1.000, 1.000, 1.000)
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
@@ -96,27 +30,5 @@ Added RGBA(0.000, 0.000, 1.000, 1.000) to RGBA(0.000, 1.000, 0.000, 1.000)
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
 
-Closest color to RGBA(0.000, 0.000, 1.000, 0.000) was RGBA(0.000, 0.000, 1.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Subtracted RGBA(0.000, 1.000, 0.000, 1.000) from RGBA(0.000, 1.000, 1.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Closest color to RGBA(1.000, 0.000, 1.000, 2.000) was RGBA(1.000, 0.000, 1.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Added RGBA(1.000, 0.000, 0.000, 1.000) to RGBA(0.000, 0.000, 1.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Closest color to RGBA(0.000, 0.000, 1.000, 0.000) was RGBA(0.000, 0.000, 1.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-Subtracted RGBA(1.000, 0.000, 0.000, 1.000) from RGBA(1.000, 0.000, 1.000, 1.000)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 1544 -> priority: 1 

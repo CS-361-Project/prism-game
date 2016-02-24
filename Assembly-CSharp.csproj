@@ -53,7 +53,10 @@
      <Compile Include="Assets\Resources\Scripts\LeverBlock.cs" />
      <Compile Include="Assets\Resources\Scripts\LeverModel.cs" />
      <Compile Include="Assets\Resources\Scripts\PlayerMovement.cs" />
+     <None Include="Assets\Resources\Levels\Level4.txt" />
+     <None Include="Assets\Resources\Levels\Level3.txt" />
      <None Include="Assets\Resources\Levels\Level1.txt" />
+     <None Include="Assets\Resources\Levels\Level2.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

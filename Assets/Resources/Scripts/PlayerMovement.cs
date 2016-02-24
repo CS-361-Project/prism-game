@@ -39,6 +39,6 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	public bool readyToMove() {
-		return (Time.time - lastMovement) >= 0.15f;
+		return (Time.time - lastMovement) >= 0.2f;
 	}
 }

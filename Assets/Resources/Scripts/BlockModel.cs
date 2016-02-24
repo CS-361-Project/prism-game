@@ -19,7 +19,7 @@ public class BlockModel : MonoBehaviour {
 
 		active = true;
 		activeSprite = rend.sprite;
-		inactiveSprite = Resources.Load<Sprite>("Sprites/Block_old");
+		inactiveSprite = rend.sprite;
 	}
 
 	public virtual void setActive(bool active) {
