@@ -6,27 +6,30 @@ public class Board : MonoBehaviour {
 	int width, height;
 	public Block[,] blocks;
 	SpriteRenderer background;
+	GameObject emptyBlockFolder, blockFolder, switchFolder;
 	// Use this for initialization
 	public void init(int w, int h, SpriteRenderer bgRender) {
 		Vector3 center = new Vector3((float)w / 2.0f - .5f, (float)h / 2.0f - .5f, 0);
 		transform.position = -center;
 		background = bgRender;
+		bgRender.transform.parent = transform;
 		width = w;
 		height = h;
 		blocks = new Block[w,h];
 		name = "Board";
+		emptyBlockFolder = new GameObject();
+		emptyBlockFolder.name = "Empty Blocks";
+		emptyBlockFolder.transform.parent = transform;
+		emptyBlockFolder.transform.localPosition = new Vector3(0, 0, 0);
+		blockFolder = new GameObject();
+		blockFolder.name = "Blocks";
+		blockFolder.transform.parent = transform;
+		blockFolder.transform.localPosition = new Vector3(0, 0, 0);
+		switchFolder = new GameObject();
+		switchFolder.name = "Switches";
+		switchFolder.transform.parent = transform;
+		switchFolder.transform.localPosition = new Vector3(0, 0, 0);
 		onBackgroundChange();
-	}
-
-	public void addRandomBlock(int x, int y, GameObject obj) {
-		if (Random.Range(0, 2) == 1) {
-			blocks[x, y] = obj.AddComponent<Block>();
-		}
-		else {
-			blocks[x, y] = obj.AddComponent<EmptyBlock>();
-		}
-		blocks[x, y].init(CustomColors.randomColor(), background.color, this);
-		blocks[x, y].transform.localPosition = new Vector3(x, y, 0);
 	}
 
 	public void addLever(int x, int y, Color c) {
@@ -34,7 +37,7 @@ public class Board : MonoBehaviour {
 		if (blocks[x, y] == null) {
 			GameObject obj = new GameObject();
 			b = obj.AddComponent<LeverBlock>();
-			b.init(c, background.color, this);
+			b.init(c, background.color, this, switchFolder.transform);
 			b.transform.localPosition = new Vector3(x, y, 0);
 			blocks[x, y] = b;
 		}
@@ -42,7 +45,7 @@ public class Board : MonoBehaviour {
 			GameObject obj = blocks[x, y].gameObject;
 			DestroyImmediate(blocks[x, y]);
 			blocks[x, y] = obj.AddComponent<LeverBlock>();
-			blocks[x, y].init(c, background.color, this);
+			blocks[x, y].init(c, background.color, this, switchFolder.transform);
 		}
 	}
 
@@ -51,7 +54,7 @@ public class Board : MonoBehaviour {
 		if (blocks[x, y] == null) {
 			GameObject obj = new GameObject();
 			b = obj.AddComponent<Block>();
-			b.init(c, background.color, this);
+			b.init(c, background.color, this, blockFolder.transform);
 			b.transform.localPosition = new Vector3(x, y, 0);
 			blocks[x, y] = b;
 		}
@@ -59,7 +62,7 @@ public class Board : MonoBehaviour {
 			GameObject obj = blocks[x, y].gameObject;
 			DestroyImmediate(blocks[x, y]);
 			blocks[x, y] = obj.AddComponent<Block>();
-			blocks[x, y].init(c, background.color, this);
+			blocks[x, y].init(c, background.color, this, blockFolder.transform);
 		}
 	}
 
@@ -67,7 +70,7 @@ public class Board : MonoBehaviour {
 		if (blocks[x, y] == null) {
 			GameObject obj = new GameObject();
 			EmptyBlock b = obj.AddComponent<EmptyBlock>();
-			b.init(background.color, background.color, this);
+			b.init(background.color, background.color, this, emptyBlockFolder.transform);
 			b.transform.localPosition = new Vector3(x, y, 0);
 			blocks[x, y] = b;
 		}
@@ -75,7 +78,7 @@ public class Board : MonoBehaviour {
 			GameObject obj = blocks[x, y].gameObject;
 			DestroyImmediate(blocks[x, y]);
 			blocks[x, y] = obj.AddComponent<EmptyBlock>();
-			blocks[x, y].init(background.color, background.color, this);
+			blocks[x, y].init(background.color, background.color, this, emptyBlockFolder.transform);
 		}
 	}
 

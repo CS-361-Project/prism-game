@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour {
 	Board board;
 	public SpriteRenderer background;
 	PlayerMovement player;
-	public string levelFile = "Assets/Resources/Levels/Level4.txt";
+	public int level = 6;
+	string levelFile;
 
 	public enum FileSymbols {
 		RedBlock = 'r',
@@ -26,7 +27,8 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		background = GameObject.Find("Background").GetComponent<SpriteRenderer>();
+		levelFile = "Assets/Resources/Levels/Level" + level + ".txt";
+		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
 		GameObject boardObj = new GameObject();
 		board = boardObj.AddComponent<Board>();

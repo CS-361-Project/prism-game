@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class EmptyBlock : Block {
-	public override void init(Color c, Color bgColor, Board parent) {
-		transform.parent = parent.transform;
+	public override void init(Color c, Color bgColor, Board b, Transform parent) {
+		transform.parent = parent;
 		name = "Empty Block";
 	}
 

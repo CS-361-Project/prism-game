@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21261358}
   - 114: {fileID: 11418696}
   m_Layer: 0
-  m_Name: LeverRed
+  m_Name: Lever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,9 +40,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d508fe58870424f4384230cfa2dd752b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeSprite: {fileID: 21300000, guid: 3c9b68ff727f21b4f82b8506222ef456, type: 3}
-  inactiveSprite: {fileID: 21300000, guid: 92b7f251320464146b4d62aeee1feff0, type: 3}
+  activeSprite: {fileID: 21300000, guid: c7e868d011786c548889799099b0bf8c, type: 3}
+  inactiveSprite: {fileID: 21300000, guid: c38a3c7dddd9ea146b344e4e3a4e63a4, type: 3}
   baseColor: {r: 0, g: 0, b: 0, a: 0}
+  inactiveColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!212 &21261358
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -96,12 +97,12 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: inactiveSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 92b7f251320464146b4d62aeee1feff0,
+      objectReference: {fileID: 21300000, guid: c38a3c7dddd9ea146b344e4e3a4e63a4,
         type: 3}
     - target: {fileID: 0}
       propertyPath: activeSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 3c9b68ff727f21b4f82b8506222ef456,
+      objectReference: {fileID: 21300000, guid: c7e868d011786c548889799099b0bf8c,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

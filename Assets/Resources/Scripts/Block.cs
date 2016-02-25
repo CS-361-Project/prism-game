@@ -4,8 +4,8 @@ using System.Collections;
 public class Block : MonoBehaviour {
 	protected BlockModel blockModel;
 	protected Color baseColor;
-	public virtual void init(Color c, Color bgColor, Board parent) {
-		transform.parent = parent.transform;
+	public virtual void init(Color c, Color bgColor, Board b, Transform parent) {
+		transform.parent = parent;
 		blockModel = Instantiate(Resources.Load<GameObject>("Prefabs/Block")).GetComponent<BlockModel>();
 		baseColor = c;
 		blockModel.init(transform, baseColor);

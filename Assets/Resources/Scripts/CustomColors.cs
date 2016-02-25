@@ -4,14 +4,13 @@ using System.Collections.Generic;
 
 public static class CustomColors {
 	public static Color Red = HexToColor("FF6978");
-	public static Color Green = HexToColor("A9F76E");
-	public static Color Blue = HexToColor("99BFF9");
-	public static Color Yellow = HexToColor("FDFD4E");
-	public static Color Magenta = HexToColor("C33AD8");
-	public static Color Cyan = HexToColor("ADFFD8");
-	public static Color Black = HexToColor("858FA7");
+	public static Color Green = HexToColor("94EA54");
+	public static Color Blue = HexToColor("3885F9");
+	public static Color Yellow = HexToColor("F4EE36");
+	public static Color Magenta = HexToColor("C85ED8");
+	public static Color Cyan = HexToColor("4CEDDE");
+	public static Color Black = HexToColor("858F91");
 	public static Color White = HexToColor("FFF8F4");
-	public static Color Brown = new Color(0.39607f, 0.26274f, 0.12941f);
 
 	public static Color[] colors = {Black, Red, Green, Yellow, Blue, Magenta, Cyan, White};
 
@@ -23,7 +22,7 @@ public static class CustomColors {
 		int indexA = indexOf(a);
 		int indexB = indexOf(b);
 		if (indexA == -1 || indexB == -1) {
-			return Brown;
+			return Black;
 		}
 		return colors[indexA | indexB];
 	}
@@ -32,7 +31,7 @@ public static class CustomColors {
 		int indexA = indexOf(a);
 		int indexB = indexOf(b);
 		if (indexA == -1 || indexB == -1) {
-			return Brown;
+			return Black;
 		}
 		return colors[indexA & ~indexB];
 	}

@@ -6,12 +6,12 @@ public class LeverBlock : Block {
 	public bool state;
 	Board board;
 
-	public override void init(Color c, Color bgColor, Board parent) {
+	public override void init(Color c, Color bgColor, Board b, Transform parent) {
 		blockModel = Instantiate(Resources.Load<GameObject>("Prefabs/Lever")).GetComponent<LeverModel>();
 		blockModel.init(this.transform, c);
-		transform.parent = parent.transform;
+		transform.parent = parent;
 		name = "Lever";
-		board = parent;
+		board = b;
 		leverColor = c;
 		state = false;
 	}

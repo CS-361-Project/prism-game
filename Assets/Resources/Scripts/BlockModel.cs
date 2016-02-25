@@ -6,6 +6,7 @@ public class BlockModel : MonoBehaviour {
 	public Sprite activeSprite;
 	public Sprite inactiveSprite;
 	public Color baseColor;
+	public Color inactiveColor;
 	protected bool active;
 
 	public virtual void init (Transform parent, Color baseColor) {
@@ -14,6 +15,7 @@ public class BlockModel : MonoBehaviour {
 
 		rend = GetComponent<SpriteRenderer>();
 		this.baseColor = baseColor;
+		inactiveColor = baseColor - new Color(.1f, .1f, .1f, 0.3f);
 		rend.color = baseColor;
 		rend.sortingLayerName = "Foreground";
 
@@ -28,7 +30,7 @@ public class BlockModel : MonoBehaviour {
 		}
 		else {
 			rend.sprite = inactiveSprite;
-			rend.color = baseColor * .5f;
+			rend.color = inactiveColor;
 		}
 	}
 
