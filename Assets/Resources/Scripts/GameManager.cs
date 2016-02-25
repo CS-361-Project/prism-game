@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
 	string levelFile;
 	float transitionTimer = 0.0f;
 	public float transitionTime = 0.15f;
+	public float holdMovementTime = 0.35f;
 
 	public enum FileSymbols {
 		RedBlock = 'r',
@@ -41,9 +42,14 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		if (board.bgTransitioning) {
+		if (board.bgTransitioning || player.moving) {
 			transitionTimer += Time.deltaTime;
-			board.whileBGTransitioning(transitionTimer / transitionTime);
+			if (board.bgTransitioning) {
+				board.whileBGTransitioning (transitionTimer / transitionTime);
+			} 
+			if (player.moving){
+				player.whileMoving (transitionTimer / transitionTime);
+			}
 			if (transitionTimer / transitionTime >= 1.0f) {
 				transitionTimer = 0.0f;
 			}
@@ -67,7 +73,26 @@ public class GameManager : MonoBehaviour {
 			if (Input.GetKeyDown("6")) {
 				board.setBackground(CustomColors.Cyan);
 			}
+			bool moved = false;
 			if (player.readyToMove()) {
+				if (Input.GetKeyDown(KeyCode.UpArrow)) {
+					player.move(Vector2.up);
+					moved = true;
+				}
+				else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+					player.move(Vector2.down);
+					moved = true;
+				}
+				else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+					player.move(Vector2.left);
+					moved = true;
+				}
+				else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+					player.move(Vector2.right);
+					moved = true;
+				}
+			}
+			if (!moved && player.timeSinceLastMovement() >= holdMovementTime) {
 				if (Input.GetKey(KeyCode.UpArrow)) {
 					player.move(Vector2.up);
 				}

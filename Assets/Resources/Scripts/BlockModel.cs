@@ -15,7 +15,7 @@ public class BlockModel : MonoBehaviour {
 
 		rend = GetComponent<SpriteRenderer>();
 		this.baseColor = baseColor;
-		inactiveColor = baseColor - new Color(.1f, .1f, .1f, 0.3f);
+		inactiveColor = baseColor - new Color(.1f, .1f, .1f, 0.36f);
 		rend.color = baseColor;
 		rend.sortingLayerName = "Foreground";
 

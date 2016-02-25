@@ -9,7 +9,7 @@ public static class CustomColors {
 	public static Color Yellow = HexToColor("F4EE36");
 	public static Color Magenta = HexToColor("C85ED8");
 	public static Color Cyan = HexToColor("4CEDDE");
-	public static Color Black = HexToColor("858F91");
+	public static Color Black = HexToColor("464B63");
 	public static Color White = HexToColor("FFF8F4");
 
 	public static Color[] colors = {Black, Red, Green, Yellow, Blue, Magenta, Cyan, White};
