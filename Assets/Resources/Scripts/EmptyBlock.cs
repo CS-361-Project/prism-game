@@ -13,5 +13,8 @@ public class EmptyBlock : Block {
 
 	public override void onBackgroundChange(Color bgColor) {
 	}
+
+	public override void onBGTransition(Color a, Color b, float t) {
+	}
 }
 

@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour {
 	PlayerMovement player;
 	public int level = 6;
 	string levelFile;
+	float transitionTimer = 0.0f;
+	public float transitionTime = 0.15f;
 
 	public enum FileSymbols {
 		RedBlock = 'r',
@@ -39,36 +41,45 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		if (Input.GetKeyDown("1")) {
-			board.setBackground(CustomColors.Red);
-		}
-		if (Input.GetKeyDown("2")) {
-			board.setBackground(CustomColors.Green);
-		}
-		if (Input.GetKeyDown("3")) {
-			board.setBackground(CustomColors.Blue);
-		}
-		if (Input.GetKeyDown("4")) {
-			board.setBackground(CustomColors.Magenta);
-		}
-		if (Input.GetKeyDown("5")) {
-			board.setBackground(CustomColors.Yellow);
-		}
-		if (Input.GetKeyDown("6")) {
-			board.setBackground(CustomColors.Cyan);
-		}
-		if (player.readyToMove()) {
-			if (Input.GetKey(KeyCode.UpArrow)) {
-				player.move(Vector2.up);
+		if (board.bgTransitioning) {
+			transitionTimer += Time.deltaTime;
+			board.whileBGTransitioning(transitionTimer / transitionTime);
+			if (transitionTimer / transitionTime >= 1.0f) {
+				transitionTimer = 0.0f;
 			}
-			else if (Input.GetKey(KeyCode.DownArrow)) {
-				player.move(Vector2.down);
+		}
+		else {
+			if (Input.GetKeyDown("1")) {
+				board.setBackground(CustomColors.Red);
 			}
-			else if (Input.GetKey(KeyCode.LeftArrow)) {
-				player.move(Vector2.left);
+			if (Input.GetKeyDown("2")) {
+				board.setBackground(CustomColors.Green);
 			}
-			else if (Input.GetKey(KeyCode.RightArrow)) {
-				player.move(Vector2.right);
+			if (Input.GetKeyDown("3")) {
+				board.setBackground(CustomColors.Blue);
+			}
+			if (Input.GetKeyDown("4")) {
+				board.setBackground(CustomColors.Magenta);
+			}
+			if (Input.GetKeyDown("5")) {
+				board.setBackground(CustomColors.Yellow);
+			}
+			if (Input.GetKeyDown("6")) {
+				board.setBackground(CustomColors.Cyan);
+			}
+			if (player.readyToMove()) {
+				if (Input.GetKey(KeyCode.UpArrow)) {
+					player.move(Vector2.up);
+				}
+				else if (Input.GetKey(KeyCode.DownArrow)) {
+					player.move(Vector2.down);
+				}
+				else if (Input.GetKey(KeyCode.LeftArrow)) {
+					player.move(Vector2.left);
+				}
+				else if (Input.GetKey(KeyCode.RightArrow)) {
+					player.move(Vector2.right);
+				}
 			}
 		}
 	}

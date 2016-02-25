@@ -22,6 +22,25 @@ public class Block : MonoBehaviour {
 		}
 	}
 
+	public virtual void onBGTransition(Color from, Color to, float progress) {
+		if (to == baseColor) {
+			if (progress >= 1) {
+				blockModel.setActive(false);
+			}
+			else {
+				blockModel.setTransitionColor(true, progress);
+			}
+		}
+		else if (from == baseColor) {
+			if (progress >= 1) {
+				blockModel.setActive(true);
+			}
+			else {
+				blockModel.setTransitionColor(false, progress);
+			}
+		}
+	}
+
 	public virtual bool isPassable() {
 		return !blockModel.isActive();
 	}

@@ -5,14 +5,19 @@ using System.Collections.Generic;
 public class Board : MonoBehaviour {
 	int width, height;
 	public Block[,] blocks;
+	List<Block> solidBlocks;
 	SpriteRenderer background;
 	GameObject emptyBlockFolder, blockFolder, switchFolder;
+	public bool bgTransitioning = false;
+	Color oldBG, newBG;
 	// Use this for initialization
 	public void init(int w, int h, SpriteRenderer bgRender) {
 		Vector3 center = new Vector3((float)w / 2.0f - .5f, (float)h / 2.0f - .5f, 0);
 		transform.position = -center;
 		background = bgRender;
 		bgRender.transform.parent = transform;
+		oldBG = background.color;
+		newBG = background.color;
 		width = w;
 		height = h;
 		blocks = new Block[w,h];
@@ -29,7 +34,7 @@ public class Board : MonoBehaviour {
 		switchFolder.name = "Switches";
 		switchFolder.transform.parent = transform;
 		switchFolder.transform.localPosition = new Vector3(0, 0, 0);
-		onBackgroundChange();
+		solidBlocks = new List<Block>();
 	}
 
 	public void addLever(int x, int y, Color c) {
@@ -50,13 +55,11 @@ public class Board : MonoBehaviour {
 	}
 
 	public void addBlock(int x, int y, Color c) {
-		Block b;
 		if (blocks[x, y] == null) {
 			GameObject obj = new GameObject();
-			b = obj.AddComponent<Block>();
-			b.init(c, background.color, this, blockFolder.transform);
-			b.transform.localPosition = new Vector3(x, y, 0);
-			blocks[x, y] = b;
+			blocks[x, y] = obj.AddComponent<Block>();
+			blocks[x, y].init(c, background.color, this, blockFolder.transform);
+			blocks[x, y].transform.localPosition = new Vector3(x, y, 0);
 		}
 		else {
 			GameObject obj = blocks[x, y].gameObject;
@@ -64,6 +67,7 @@ public class Board : MonoBehaviour {
 			blocks[x, y] = obj.AddComponent<Block>();
 			blocks[x, y].init(c, background.color, this, blockFolder.transform);
 		}
+		solidBlocks.Add(blocks[x, y]);
 	}
 
 	public void addEmptyBlock(int x, int y) {
@@ -109,7 +113,29 @@ public class Board : MonoBehaviour {
 
 	public void setBackground(Color bgColor) {
 		background.color = bgColor;
+		oldBG = bgColor;
 		onBackgroundChange();
+
+	}
+
+	public void startBGTransition(Color bgColor) {
+		newBG = bgColor;
+		bgTransitioning = true;
+	}
+
+	public void whileBGTransitioning(float t) {
+		if (t >= 1) {
+			background.color = newBG;
+			oldBG = newBG;
+			bgTransitioning = false;
+			foreach (Block b in blocks) {
+				b.onBackgroundChange(newBG);
+			}
+		}
+		background.color = Color.Lerp(oldBG, newBG, t);
+		foreach (Block b in solidBlocks) {
+			b.onBGTransition(oldBG, newBG, t);
+		}
 	}
 
 	public Color getBackgroundColor() {
