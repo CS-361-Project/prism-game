@@ -42,5 +42,14 @@ public class BlockModel : MonoBehaviour {
 		baseColor = c;
 		setActive(active);
 	}
+
+	public void setTransitionColor(bool prevState, float t) {
+		if (prevState) {
+			rend.color = Color.Lerp(baseColor, inactiveColor, t);
+		}
+		else {
+			rend.color = Color.Lerp(inactiveColor, baseColor, t);
+		}
+	}
 }
 

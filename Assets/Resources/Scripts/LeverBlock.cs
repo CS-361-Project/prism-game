@@ -28,10 +28,10 @@ public class LeverBlock : Block {
 	public void toggle() {
 		Color c = board.getBackgroundColor();
 		if (state) {
-			board.setBackground(CustomColors.subColor(c, leverColor));
+			board.startBGTransition(CustomColors.subColor(c, leverColor));
 		}
 		else {
-			board.setBackground(CustomColors.addColor(c, leverColor));
+			board.startBGTransition(CustomColors.addColor(c, leverColor));
 		}
 	}
 
