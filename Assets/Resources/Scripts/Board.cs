@@ -37,6 +37,13 @@ public class Board : MonoBehaviour {
 		switchFolder.transform.parent = transform;
 		switchFolder.transform.localPosition = new Vector3(0, 0, 0);
 		solidBlocks = new List<Block>();
+
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				addEmptyBlock(x, y);
+			}
+		}
+		initPlayer();
 	}
 
 	public void initPlayer() {

@@ -150,7 +150,6 @@ public class GameManager : MonoBehaviour {
 				}
 				background.transform.localScale = new Vector3((float)width / 4f, (float)height / 4f, 1);
 				board.setBackground(bgColor);
-				board.initPlayer();
 			}
 		}
 		catch (Exception e) {
