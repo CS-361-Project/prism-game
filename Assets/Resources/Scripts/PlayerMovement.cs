@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour {
 		//updatePosition();
 	}
 
-	public void move(Vector2 direction) {
+	public bool move(Vector2 direction) {
 		bool moved;
 		moving = true;
 		int dx = (int)direction.x;
@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour {
 		else {
 			lastMovement = Time.time;
 		}
+		return moved;
 	}
 
 	public void onBackgroundTransition(Color oldBG, Color newBG, float progress) {

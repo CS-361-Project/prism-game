@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
 	float transitionTimer = 0.0f;
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
+	public int moveCounter = 0;
 
 	public enum FileSymbols {
 		RedBlock = 'r',
@@ -73,37 +74,46 @@ public class GameManager : MonoBehaviour {
 			bool moved = false;
 			if (board.getPlayer().readyToMove()) {
 				if (Input.GetKeyDown(KeyCode.UpArrow)) {
-					board.getPlayer().move(Vector2.up);
-					moved = true;
+					moved = board.getPlayer().move(Vector2.up);
 				}
 				else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-					board.getPlayer().move(Vector2.down);
-					moved = true;
+					moved = board.getPlayer().move(Vector2.down);
 				}
 				else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-					board.getPlayer().move(Vector2.left);
-					moved = true;
+					moved = board.getPlayer().move(Vector2.left);
 				}
 				else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-					board.getPlayer().move(Vector2.right);
-					moved = true;
+					moved = board.getPlayer().move(Vector2.right);
+				}
+				else {
+					moved = false;
 				}
 			}
 			if (!moved && board.getPlayer().timeSinceLastMovement() >= holdMovementTime) {
 				if (Input.GetKey(KeyCode.UpArrow)) {
-					board.getPlayer().move(Vector2.up);
+					moved = board.getPlayer().move(Vector2.up);
 				}
 				else if (Input.GetKey(KeyCode.DownArrow)) {
-					board.getPlayer().move(Vector2.down);
+					moved = board.getPlayer().move(Vector2.down);
 				}
 				else if (Input.GetKey(KeyCode.LeftArrow)) {
-					board.getPlayer().move(Vector2.left);
+					moved = board.getPlayer().move(Vector2.left);
 				}
 				else if (Input.GetKey(KeyCode.RightArrow)) {
-					board.getPlayer().move(Vector2.right);
+					moved = board.getPlayer().move(Vector2.right);
+				}
+				else {
+					moved = false;
 				}
 			}
+			if (moved) {
+				moveCounter++;
+			}
 		}
+	}
+
+	void OnGUI() {
+		GUI.Label(new Rect(10, 10, 110, 110), moveCounter.ToString());
 	}
 
 	public void loadLevelFromFile(string fileName, Board board) {
@@ -150,6 +160,7 @@ public class GameManager : MonoBehaviour {
 				}
 				background.transform.localScale = new Vector3((float)width / 4f, (float)height / 4f, 1);
 				board.setBackground(bgColor);
+				moveCounter = 0;
 			}
 		}
 		catch (Exception e) {
