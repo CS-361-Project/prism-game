@@ -54,6 +54,7 @@
      <Compile Include="Assets\Resources\Scripts\Generator.cs" />
      <Compile Include="Assets\Resources\Scripts\LeverBlock.cs" />
      <Compile Include="Assets\Resources\Scripts\LeverModel.cs" />
+     <Compile Include="Assets\Resources\Scripts\MoveCounter.cs" />
      <Compile Include="Assets\Resources\Scripts\PlayerMovement.cs" />
      <None Include="Assets\Resources\Levels\Level4.txt" />
      <None Include="Assets\Resources\Levels\Level3.txt" />

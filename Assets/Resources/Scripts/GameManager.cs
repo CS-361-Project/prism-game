@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour {
 	float transitionTimer = 0.0f;
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
-	public int moveCounter = 0;
+	MoveCounter moveCounter;
 
 	public enum FileSymbols {
 		RedBlock = 'r',
@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		levelFile = "Assets/Resources/Levels/Level" + level + ".txt";
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
@@ -107,13 +108,9 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 			if (moved) {
-				moveCounter++;
+				moveCounter.increment();
 			}
 		}
-	}
-
-	void OnGUI() {
-		GUI.Label(new Rect(10, 10, 110, 110), moveCounter.ToString());
 	}
 
 	public void loadLevelFromFile(string fileName, Board board) {
@@ -160,7 +157,7 @@ public class GameManager : MonoBehaviour {
 				}
 				background.transform.localScale = new Vector3((float)width / 4f, (float)height / 4f, 1);
 				board.setBackground(bgColor);
-				moveCounter = 0;
+				moveCounter.reset();
 			}
 		}
 		catch (Exception e) {
