@@ -13,10 +13,15 @@ public class PlayerMovement : MonoBehaviour {
 	public float moveSquish = 0.6f;
 	public float moveStretch = 1.15f;
 	public bool moving = false;
+
+	SpriteRenderer rend;
+	Color baseColor = Color.white;
+	Color greyColor = CustomColors.Grey;
 	// Use this for initialization
 	public void init(Board b) {
 		transform.parent = b.transform;
-//		GetComponent<SpriteRenderer>().color = CustomColors.Brown;
+		rend = GetComponent<SpriteRenderer>();
+		rend.color = baseColor;
 		board = b;
 		x = 0;
 		y = b.getHeight() - 1;
@@ -40,6 +45,15 @@ public class PlayerMovement : MonoBehaviour {
 		}
 		else {
 			lastMovement = Time.time;
+		}
+	}
+
+	public void onBackgroundTransition(Color oldBG, Color newBG, float progress) {
+		if (newBG == CustomColors.White) {
+			rend.color = Color.Lerp(baseColor, greyColor, progress);
+		}
+		else if (oldBG == CustomColors.White) {
+			rend.color = Color.Lerp(greyColor, baseColor, progress);
 		}
 	}
 

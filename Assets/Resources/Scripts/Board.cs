@@ -10,6 +10,7 @@ public class Board : MonoBehaviour {
 	GameObject emptyBlockFolder, blockFolder, switchFolder;
 	public bool bgTransitioning = false;
 	Color oldBG, newBG;
+	PlayerMovement player;
 	// Use this for initialization
 	public void init(int w, int h, SpriteRenderer bgRender) {
 		Vector3 center = new Vector3((float)w / 2.0f - .5f, (float)h / 2.0f - .5f, 0);
@@ -21,6 +22,7 @@ public class Board : MonoBehaviour {
 		width = w;
 		height = h;
 		blocks = new Block[w,h];
+
 		name = "Board";
 		emptyBlockFolder = new GameObject();
 		emptyBlockFolder.name = "Empty Blocks";
@@ -35,6 +37,11 @@ public class Board : MonoBehaviour {
 		switchFolder.transform.parent = transform;
 		switchFolder.transform.localPosition = new Vector3(0, 0, 0);
 		solidBlocks = new List<Block>();
+	}
+
+	public void initPlayer() {
+		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<PlayerMovement>();
+		player.init(this);
 	}
 
 	public void addLever(int x, int y, Color c) {
@@ -136,6 +143,7 @@ public class Board : MonoBehaviour {
 		foreach (Block b in solidBlocks) {
 			b.onBGTransition(oldBG, newBG, t);
 		}
+		player.onBackgroundTransition(oldBG, newBG, t);
 	}
 
 	public Color getBackgroundColor() {
@@ -148,5 +156,9 @@ public class Board : MonoBehaviour {
 
 	public int getHeight() {
 		return height;
+	}
+
+	public PlayerMovement getPlayer() {
+		return player;
 	}
 }

@@ -7,7 +7,6 @@ using System;
 public class GameManager : MonoBehaviour {
 	Board board;
 	public SpriteRenderer background;
-	PlayerMovement player;
 	public int level = 6;
 	string levelFile;
 	float transitionTimer = 0.0f;
@@ -36,19 +35,17 @@ public class GameManager : MonoBehaviour {
 		GameObject boardObj = new GameObject();
 		board = boardObj.AddComponent<Board>();
 		loadLevelFromFile(levelFile, board);
-		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<PlayerMovement>();
-		player.init(board);
 	}
 
 	// Update is called once per frame
 	void Update() {
-		if (board.bgTransitioning || player.moving) {
+		if (board.bgTransitioning || board.getPlayer().moving) {
 			transitionTimer += Time.deltaTime;
 			if (board.bgTransitioning) {
 				board.whileBGTransitioning (transitionTimer / transitionTime);
 			} 
-			if (player.moving){
-				player.whileMoving (transitionTimer / transitionTime);
+			if (board.getPlayer().moving){
+				board.getPlayer().whileMoving (transitionTimer / transitionTime);
 			}
 			if (transitionTimer / transitionTime >= 1.0f) {
 				transitionTimer = 0.0f;
@@ -74,36 +71,36 @@ public class GameManager : MonoBehaviour {
 				board.setBackground(CustomColors.Cyan);
 			}
 			bool moved = false;
-			if (player.readyToMove()) {
+			if (board.getPlayer().readyToMove()) {
 				if (Input.GetKeyDown(KeyCode.UpArrow)) {
-					player.move(Vector2.up);
+					board.getPlayer().move(Vector2.up);
 					moved = true;
 				}
 				else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-					player.move(Vector2.down);
+					board.getPlayer().move(Vector2.down);
 					moved = true;
 				}
 				else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-					player.move(Vector2.left);
+					board.getPlayer().move(Vector2.left);
 					moved = true;
 				}
 				else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-					player.move(Vector2.right);
+					board.getPlayer().move(Vector2.right);
 					moved = true;
 				}
 			}
-			if (!moved && player.timeSinceLastMovement() >= holdMovementTime) {
+			if (!moved && board.getPlayer().timeSinceLastMovement() >= holdMovementTime) {
 				if (Input.GetKey(KeyCode.UpArrow)) {
-					player.move(Vector2.up);
+					board.getPlayer().move(Vector2.up);
 				}
 				else if (Input.GetKey(KeyCode.DownArrow)) {
-					player.move(Vector2.down);
+					board.getPlayer().move(Vector2.down);
 				}
 				else if (Input.GetKey(KeyCode.LeftArrow)) {
-					player.move(Vector2.left);
+					board.getPlayer().move(Vector2.left);
 				}
 				else if (Input.GetKey(KeyCode.RightArrow)) {
-					player.move(Vector2.right);
+					board.getPlayer().move(Vector2.right);
 				}
 			}
 		}
@@ -150,9 +147,10 @@ public class GameManager : MonoBehaviour {
 						}
 						lineNumber++;
 					}
-					background.transform.localScale = new Vector3((float)width / 4f, (float)height / 4f, 1);
-					board.setBackground(bgColor);
 				}
+				background.transform.localScale = new Vector3((float)width / 4f, (float)height / 4f, 1);
+				board.setBackground(bgColor);
+				board.initPlayer();
 			}
 		}
 		catch (Exception e) {
