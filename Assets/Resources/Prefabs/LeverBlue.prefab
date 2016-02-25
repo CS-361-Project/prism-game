@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21261358}
   - 114: {fileID: 11418696}
   m_Layer: 0
-  m_Name: LeverRed
+  m_Name: LeverBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

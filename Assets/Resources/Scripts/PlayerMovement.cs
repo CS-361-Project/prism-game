@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour {
 	// Use this for initialization
 	public void init(Board b) {
 		transform.parent = b.transform;
-		GetComponent<SpriteRenderer>().color = GameManager.CustomColors.Brown;
+//		GetComponent<SpriteRenderer>().color = GameManager.CustomColors.Brown;
 		board = b;
 		x = 0;
 		y = b.getHeight() - 1;

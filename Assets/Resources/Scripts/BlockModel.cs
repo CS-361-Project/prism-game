@@ -3,8 +3,8 @@ using System.Collections;
 
 public class BlockModel : MonoBehaviour {
 	protected SpriteRenderer rend;
-	protected Sprite activeSprite;
-	protected Sprite inactiveSprite;
+	public Sprite activeSprite;
+	public Sprite inactiveSprite;
 	public Color baseColor;
 	protected bool active;
 
@@ -17,9 +17,7 @@ public class BlockModel : MonoBehaviour {
 		rend.color = baseColor;
 		rend.sortingLayerName = "Foreground";
 
-		active = true;
-		activeSprite = rend.sprite;
-		inactiveSprite = rend.sprite;
+		setActive(true);
 	}
 
 	public virtual void setActive(bool active) {

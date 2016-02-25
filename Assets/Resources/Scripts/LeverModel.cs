@@ -11,9 +11,7 @@ public class LeverModel : BlockModel {
 		rend.color = baseColor;
 		rend.sortingLayerName = "Foreground";
 
-		active = false;
-		inactiveSprite = rend.sprite;
-		activeSprite = Resources.Load<Sprite>("Sprites/Lever_Right");
+		setActive(false);
 	}
 
 	public override void setActive(bool active) {

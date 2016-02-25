@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 	Board board;
 	public SpriteRenderer background;
 	PlayerMovement player;
-	const string levelFile = "Assets/Resources/Levels/Level4.txt";
+	public string levelFile = "Assets/Resources/Levels/Level4.txt";
 
 	public enum FileSymbols {
 		RedBlock = 'r',
@@ -25,14 +25,14 @@ public class GameManager : MonoBehaviour {
 	};
 
 	public static class CustomColors {
-		public static Color Red = Color.red * .8f;
-		public static Color Green = Color.green * .8f;
-		public static Color Blue = Color.blue * .8f;
-		public static Color Yellow = Color.yellow * .8f;
-		public static Color Magenta = Color.magenta * .8f;
-		public static Color Cyan = Color.cyan * .8f;
-		public static Color Black = Color.black + new Color(.2f, .2f, .2f);
-		public static Color White = Color.white - new Color(.1f, .1f, .1f, 0);
+		public static Color Red = HexToColor("FF6978");
+		public static Color Green = HexToColor("A9F76E");
+		public static Color Blue = HexToColor("99BFF9");
+		public static Color Yellow = HexToColor("F7DB51");
+		public static Color Magenta = HexToColor("C33AD8");
+		public static Color Cyan = HexToColor("ADFFD8");
+		public static Color Black = HexToColor("858FA7");
+		public static Color White = HexToColor("FFF8F4");
 		public static Color Brown = new Color(0.39607f, 0.26274f, 0.12941f);
 
 		public static Color[] colors = { Red, Green, Blue, Yellow, Magenta, Cyan, Black, White, Brown};
@@ -80,6 +80,13 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 			return result;
+		}
+
+		static Color HexToColor(string hex) {
+			byte r = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+			byte g = byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+			byte b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+			return new Color32(r, g, b, 255);
 		}
 	};
 	// Use this for initialization
