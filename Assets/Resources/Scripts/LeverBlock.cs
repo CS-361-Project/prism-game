@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class LeverBlock : Block {
-	Color leverColor;
-	bool state;
+	public Color leverColor;
+	public bool state;
 	Board board;
 
 	public override void init(Color c, Color bgColor, Board parent) {
@@ -21,19 +21,18 @@ public class LeverBlock : Block {
 	}
 
 	public override void onBackgroundChange(Color bgColor) {
-		state = GameManager.CustomColors.contains(bgColor, leverColor);
+		state = CustomColors.contains(bgColor, leverColor);
 		blockModel.setActive(state);
 	}
 
 	public void toggle() {
 		Color c = board.getBackgroundColor();
+		print("Toggling lever from state: " + state);
 		if (state) {
-			board.setBackground(GameManager.CustomColors.subColor(c, leverColor));
-			state = false;
+			board.setBackground(CustomColors.subColor(c, leverColor));
 		}
 		else {
-			board.setBackground(GameManager.CustomColors.addColor(c, leverColor));
-			state = true;
+			board.setBackground(CustomColors.addColor(c, leverColor));
 		}
 	}
 

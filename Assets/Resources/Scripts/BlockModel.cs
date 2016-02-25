@@ -28,12 +28,7 @@ public class BlockModel : MonoBehaviour {
 		}
 		else {
 			rend.sprite = inactiveSprite;
-			if (baseColor == GameManager.CustomColors.White) {
-				rend.color = baseColor - new Color(.2f, .2f, .2f, 0);
-			}
-			else {
-				rend.color = baseColor + new Color(.3f, .3f, .3f);
-			}
+			rend.color = baseColor * .5f;
 		}
 	}
 

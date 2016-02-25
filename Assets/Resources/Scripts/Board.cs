@@ -14,17 +14,6 @@ public class Board : MonoBehaviour {
 		width = w;
 		height = h;
 		blocks = new Block[w,h];
-//		for (int x = 0; x < w; x++) {
-//			for (int y = 0; y < h; y++) {
-//				if (Random.Range(0, 5) == 0) {
-//					addLever(x, y, GameManager.CustomColors.colors[Random.Range(0, 3)]);
-//				}
-//				else {
-//					GameObject obj = new GameObject();
-//					addRandomBlock(x, y, obj);
-//				}
-//			}
-//		}
 		name = "Board";
 		onBackgroundChange();
 	}
@@ -36,7 +25,7 @@ public class Board : MonoBehaviour {
 		else {
 			blocks[x, y] = obj.AddComponent<EmptyBlock>();
 		}
-		blocks[x, y].init(GameManager.CustomColors.randomColor(), background.color, this);
+		blocks[x, y].init(CustomColors.randomColor(), background.color, this);
 		blocks[x, y].transform.localPosition = new Vector3(x, y, 0);
 	}
 

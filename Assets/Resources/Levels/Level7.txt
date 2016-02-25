@@ -1,0 +1,6 @@
+4 4
+0
+e G y R
+g c y B
+R y B c
+c e b e
