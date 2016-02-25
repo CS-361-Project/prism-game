@@ -27,7 +27,6 @@ public class LeverBlock : Block {
 
 	public void toggle() {
 		Color c = board.getBackgroundColor();
-		print("Toggling lever from state: " + state);
 		if (state) {
 			board.setBackground(CustomColors.subColor(c, leverColor));
 		}
