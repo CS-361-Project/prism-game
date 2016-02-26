@@ -6,10 +6,10 @@ public class MoveCounter : MonoBehaviour {
 	int moves;
 	Text text;
 	// Use this for initialization
-	void Start() {
+	void Awake () {
 		moves = 0;
 		text = GetComponent<Text>();
-		this.text.text = moves.ToString();
+		text.text = moves.ToString();
 	}
 	
 	public void increment() {
@@ -19,6 +19,6 @@ public class MoveCounter : MonoBehaviour {
 
 	public void reset() {
 		moves = 0;
-		this.text.text = moves.ToString();
+		text.text = moves.ToString();
 	}
 }
