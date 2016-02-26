@@ -69,7 +69,7 @@ public class StartMenu : MonoBehaviour {
 		float diffr3 = (1F - CustomColors.Green.r)/2F;
 		float diffg3 = (1F - CustomColors.Green.g)/2F;
 		float diffb3 = (1F - CustomColors.Green.b)/2F;
-		yesCol.highlightedColor = new Color (CustomColors.Yellow.r + diffr3, CustomColors.Yellow.g + diffg3, CustomColors.Yellow.b +diffb3);
+		yesCol.highlightedColor = new Color (CustomColors.Green.r + diffr3, CustomColors.Green.g + diffg3, CustomColors.Green.b +diffb3);
 		yesQuit.colors = yesCol;
 
 		noQuit = noQuit.GetComponent<Button> ();
