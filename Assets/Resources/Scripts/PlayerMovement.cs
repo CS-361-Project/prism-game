@@ -30,6 +30,9 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	public bool move(Vector2 direction) {
+		if (direction == Vector2.zero) {
+			return false;
+		}
 		bool moved;
 		moving = true;
 		int dx = (int)direction.x;
@@ -102,7 +105,11 @@ public class PlayerMovement : MonoBehaviour {
 		lastMovement = Time.time;
 	}
 
-	public bool readyToMove() {
+	public void finishMovementImmedate() {
+		whileMoving(1.0f);
+	}
+
+	public bool finishedMovement() {
 		return !moving;
 	}
 

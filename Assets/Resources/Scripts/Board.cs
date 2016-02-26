@@ -11,6 +11,7 @@ public class Board : MonoBehaviour {
 	public bool bgTransitioning = false;
 	Color oldBG, newBG;
 	PlayerMovement player;
+	float lastColorChange = -1.0f;
 	// Use this for initialization
 	public void init(int w, int h, SpriteRenderer bgRender) {
 		Vector3 center = new Vector3((float)w / 2.0f - .5f, (float)h / 2.0f - .5f, 0);
@@ -128,6 +129,7 @@ public class Board : MonoBehaviour {
 	public void setBackground(Color bgColor) {
 		background.color = bgColor;
 		oldBG = bgColor;
+		lastColorChange = Time.time;
 		onBackgroundChange();
 
 	}
@@ -135,6 +137,11 @@ public class Board : MonoBehaviour {
 	public void startBGTransition(Color bgColor) {
 		newBG = bgColor;
 		bgTransitioning = true;
+		lastColorChange = Time.time;
+	}
+
+	public void finishBGTransitionImmediate() {
+		whileBGTransitioning(1.0f);
 	}
 
 	public void whileBGTransitioning(float t) {
@@ -145,12 +152,17 @@ public class Board : MonoBehaviour {
 			foreach (Block b in blocks) {
 				b.onBackgroundChange(newBG);
 			}
+			player.onBackgroundTransition(oldBG, newBG, t);
 		}
 		background.color = Color.Lerp(oldBG, newBG, t);
 		foreach (Block b in solidBlocks) {
 			b.onBGTransition(oldBG, newBG, t);
 		}
 		player.onBackgroundTransition(oldBG, newBG, t);
+	}
+
+	public float timeSinceLastColorChange() {
+		return Time.time - lastColorChange;
 	}
 
 	public Color getBackgroundColor() {

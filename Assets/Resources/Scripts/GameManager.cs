@@ -7,7 +7,6 @@ using System;
 public class GameManager : MonoBehaviour {
 	Board board;
 	public SpriteRenderer background;
-	float transitionTimer = 0.0f;
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
 	MoveCounter moveCounter;
@@ -76,47 +75,90 @@ public class GameManager : MonoBehaviour {
 		}
 		if (inLevel) {
 			if (board.bgTransitioning || board.getPlayer().moving) {
-				transitionTimer += Time.deltaTime;
-				if (board.bgTransitioning) {
-					board.whileBGTransitioning(transitionTimer / transitionTime);
-				} 
+				Vector2 dir = getKeyPressDirection();
 				if (board.getPlayer().moving) {
-					board.getPlayer().whileMoving(transitionTimer / transitionTime);
+					if (dir != Vector2.zero) {
+						board.getPlayer().finishMovementImmedate();
+						if (board.bgTransitioning) {
+							board.finishBGTransitionImmediate();
+						}
+						if (board.getPlayer().move(dir)) {
+							moveCounter.increment();
+						}
+					}
+					else {
+						board.getPlayer().whileMoving(board.getPlayer().timeSinceLastMovement() / transitionTime);
+					}
 				}
-				if (transitionTimer / transitionTime >= 1.0f) {
-					transitionTimer = 0.0f;
+				if (board.bgTransitioning) {
+					board.whileBGTransitioning(board.timeSinceLastColorChange() / transitionTime);
 				}
 			}
 			else {
-				if (Input.GetKeyDown("1")) {
-					board.setBackground(CustomColors.Red);
+				Vector2 dir1 = getKeyPressDirection();
+				if (dir1 != Vector2.zero) {
+					bool moved = board.getPlayer().move(dir1);
+					if (moved) {
+						moveCounter.increment();
+					}
 				}
-				if (Input.GetKeyDown("2")) {
-					board.setBackground(CustomColors.Green);
-				}
-				if (Input.GetKeyDown("3")) {
-					board.setBackground(CustomColors.Blue);
-				}
-				if (Input.GetKeyDown("4")) {
-					board.setBackground(CustomColors.Magenta);
-				}
-				if (Input.GetKeyDown("5")) {
-					board.setBackground(CustomColors.Yellow);
-				}
-				if (Input.GetKeyDown("6")) {
-					board.setBackground(CustomColors.Cyan);
-				}
-				bool moved = moveFromKeyboardInput();
-				if (moved) {
-					moveCounter.increment();
+				else {
+					Vector2 dir2 = getKeyHoldDirection();
+					if (board.getPlayer().timeSinceLastMovement() >= holdMovementTime &&
+					    dir2 != Vector2.zero) {
+						bool moved = board.getPlayer().move(dir2);
+						if (moved) {
+							moveCounter.increment();
+						}
+					}
 				}
 			}
 		}
 	}
 
+	public Vector2 getKeyPressDirection() {
+		Vector2 result;
+		if (Input.GetKeyDown(KeyCode.UpArrow)) {
+			result = Vector2.up;
+		}
+		else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+			result = Vector2.down;
+		}
+		else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+			result = Vector2.left;
+		}
+		else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+			result = Vector2.right;
+		}
+		else {
+			result = Vector2.zero;
+		}
+		return result;
+	}
+
+	public Vector2 getKeyHoldDirection() {
+		Vector2 result;
+		if (Input.GetKey(KeyCode.UpArrow)) {
+			result = Vector2.up;
+		}
+		else if (Input.GetKey(KeyCode.DownArrow)) {
+			result = Vector2.down;
+		}
+		else if (Input.GetKey(KeyCode.LeftArrow)) {
+			result = Vector2.left;
+		}
+		else if (Input.GetKey(KeyCode.RightArrow)) {
+			result = Vector2.right;
+		}
+		else {
+			result = Vector2.zero;
+		}
+		return result;
+	}
+
 	public bool moveFromKeyboardInput() {
 	bool moved = false;
-	if (board.getPlayer().readyToMove()) {
+	if (board.getPlayer().finishedMovement()) {
 		if (Input.GetKeyDown(KeyCode.UpArrow)) {
 			moved = board.getPlayer().move(Vector2.up);
 		}
