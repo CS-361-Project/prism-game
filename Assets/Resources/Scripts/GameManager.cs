@@ -7,12 +7,12 @@ using System;
 public class GameManager : MonoBehaviour {
 	Board board;
 	public SpriteRenderer background;
-	public int level = 6;
-	string levelFile;
 	float transitionTimer = 0.0f;
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
 	MoveCounter moveCounter;
+	GameObject levelSelection;
+	bool inLevel = false;
 
 	public enum FileSymbols {
 		RedBlock = 'r',
@@ -31,86 +31,126 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
-		levelFile = "Assets/Resources/Levels/Level" + level + ".txt";
+		moveCounter.gameObject.SetActive(false);
+		levelSelection = GameObject.Find("Level Selection");
+		if (levelSelection == null) {
+			print("Unable to find level selection");
+		}
+	}
+
+	public void loadLevel(int number) {
+		moveCounter.gameObject.SetActive(true);
+		string levelFile = "Assets/Resources/Levels/Level" + number + ".txt";
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
+		if (board != null) {
+			DestroyImmediate(board.gameObject);
+		}
 		GameObject boardObj = new GameObject();
 		board = boardObj.AddComponent<Board>();
 		loadLevelFromFile(levelFile, board);
+		inLevel = true;
+	}
+
+	void goToLevelSelection() {
+		inLevel = false;
+		levelSelection.SetActive(true);
+		moveCounter.gameObject.SetActive(false);
+	}
+
+	void exitLevelSelection() {
+		inLevel = true;
+		levelSelection.SetActive(false);
+		moveCounter.gameObject.SetActive(true);
 	}
 
 	// Update is called once per frame
 	void Update() {
-		if (board.bgTransitioning || board.getPlayer().moving) {
-			transitionTimer += Time.deltaTime;
-			if (board.bgTransitioning) {
-				board.whileBGTransitioning (transitionTimer / transitionTime);
-			} 
-			if (board.getPlayer().moving){
-				board.getPlayer().whileMoving (transitionTimer / transitionTime);
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			if (inLevel) {
+				goToLevelSelection();
 			}
-			if (transitionTimer / transitionTime >= 1.0f) {
-				transitionTimer = 0.0f;
+			else if (board != null) {
+				exitLevelSelection();
 			}
+		}
+		if (inLevel) {
+			if (board.bgTransitioning || board.getPlayer().moving) {
+				transitionTimer += Time.deltaTime;
+				if (board.bgTransitioning) {
+					board.whileBGTransitioning(transitionTimer / transitionTime);
+				} 
+				if (board.getPlayer().moving) {
+					board.getPlayer().whileMoving(transitionTimer / transitionTime);
+				}
+				if (transitionTimer / transitionTime >= 1.0f) {
+					transitionTimer = 0.0f;
+				}
+			}
+			else {
+				if (Input.GetKeyDown("1")) {
+					board.setBackground(CustomColors.Red);
+				}
+				if (Input.GetKeyDown("2")) {
+					board.setBackground(CustomColors.Green);
+				}
+				if (Input.GetKeyDown("3")) {
+					board.setBackground(CustomColors.Blue);
+				}
+				if (Input.GetKeyDown("4")) {
+					board.setBackground(CustomColors.Magenta);
+				}
+				if (Input.GetKeyDown("5")) {
+					board.setBackground(CustomColors.Yellow);
+				}
+				if (Input.GetKeyDown("6")) {
+					board.setBackground(CustomColors.Cyan);
+				}
+				bool moved = moveFromKeyboardInput();
+				if (moved) {
+					moveCounter.increment();
+				}
+			}
+		}
+	}
+
+	public bool moveFromKeyboardInput() {
+	bool moved = false;
+	if (board.getPlayer().readyToMove()) {
+		if (Input.GetKeyDown(KeyCode.UpArrow)) {
+			moved = board.getPlayer().move(Vector2.up);
+		}
+		else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+			moved = board.getPlayer().move(Vector2.down);
+		}
+		else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+			moved = board.getPlayer().move(Vector2.left);
+		}
+		else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+			moved = board.getPlayer().move(Vector2.right);
 		}
 		else {
-			if (Input.GetKeyDown("1")) {
-				board.setBackground(CustomColors.Red);
+			moved = false;
+		}
+	}
+		if (!moved && board.getPlayer().timeSinceLastMovement() >= holdMovementTime) {
+			if (Input.GetKey(KeyCode.UpArrow)) {
+				moved = board.getPlayer().move(Vector2.up);
 			}
-			if (Input.GetKeyDown("2")) {
-				board.setBackground(CustomColors.Green);
+			else if (Input.GetKey(KeyCode.DownArrow)) {
+				moved = board.getPlayer().move(Vector2.down);
 			}
-			if (Input.GetKeyDown("3")) {
-				board.setBackground(CustomColors.Blue);
+			else if (Input.GetKey(KeyCode.LeftArrow)) {
+				moved = board.getPlayer().move(Vector2.left);
 			}
-			if (Input.GetKeyDown("4")) {
-				board.setBackground(CustomColors.Magenta);
+			else if (Input.GetKey(KeyCode.RightArrow)) {
+				moved = board.getPlayer().move(Vector2.right);
 			}
-			if (Input.GetKeyDown("5")) {
-				board.setBackground(CustomColors.Yellow);
-			}
-			if (Input.GetKeyDown("6")) {
-				board.setBackground(CustomColors.Cyan);
-			}
-			bool moved = false;
-			if (board.getPlayer().readyToMove()) {
-				if (Input.GetKeyDown(KeyCode.UpArrow)) {
-					moved = board.getPlayer().move(Vector2.up);
-				}
-				else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-					moved = board.getPlayer().move(Vector2.down);
-				}
-				else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-					moved = board.getPlayer().move(Vector2.left);
-				}
-				else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-					moved = board.getPlayer().move(Vector2.right);
-				}
-				else {
-					moved = false;
-				}
-			}
-			if (!moved && board.getPlayer().timeSinceLastMovement() >= holdMovementTime) {
-				if (Input.GetKey(KeyCode.UpArrow)) {
-					moved = board.getPlayer().move(Vector2.up);
-				}
-				else if (Input.GetKey(KeyCode.DownArrow)) {
-					moved = board.getPlayer().move(Vector2.down);
-				}
-				else if (Input.GetKey(KeyCode.LeftArrow)) {
-					moved = board.getPlayer().move(Vector2.left);
-				}
-				else if (Input.GetKey(KeyCode.RightArrow)) {
-					moved = board.getPlayer().move(Vector2.right);
-				}
-				else {
-					moved = false;
-				}
-			}
-			if (moved) {
-				moveCounter.increment();
+			else {
+				moved = false;
 			}
 		}
+		return moved;
 	}
 
 	public void loadLevelFromFile(string fileName, Board board) {
