@@ -17,11 +17,8 @@ public class StartMenu : MonoBehaviour {
 
 	public Text exitMessage;
 	public Text rTitle;
-	public bool redClicked = true;
 	public Text gTitle;
-	public bool greenClicked = true;
 	public Text bTitle;
-	public bool blueClicked = true;
 
 	public Image quitScreen;
 
@@ -129,33 +126,31 @@ public class StartMenu : MonoBehaviour {
 	}
 
 	public void BackgroundChangeRed(){
-		if (redClicked) {
-			main.backgroundColor = CustomColors.Red;
-			redClicked = !redClicked;
-		} else {
-			main.backgroundColor = new Color (0, 0, 0);
-			redClicked = !redClicked;
-		}
+		main.backgroundColor = CustomColors.Red;
 	}
 
 	public void BackgroundChangeGreen(){
-		if (greenClicked) {
-			main.backgroundColor = CustomColors.Green;
-			greenClicked = !greenClicked;
-		} else {
-			main.backgroundColor = new Color (0, 0, 0);
-			greenClicked = !greenClicked;
-		}
+		main.backgroundColor = CustomColors.Green;
 	}
 
 	public void BackgroundChangeBlue(){
-		if (blueClicked) {
-			main.backgroundColor = CustomColors.Blue;
-			blueClicked = !blueClicked;
-		} else {
-			main.backgroundColor = new Color (0, 0, 0);
-			blueClicked = !blueClicked;
-		}
+		main.backgroundColor = CustomColors.Blue;
+	}
+
+	public void BackgroundChangeYellow(){
+		main.backgroundColor = CustomColors.Yellow;
+	}
+
+	public void BackgroundChangeCyan(){
+		main.backgroundColor = CustomColors.Cyan;
+	}
+
+	public void BackgroundChangeMagenta(){
+		main.backgroundColor = CustomColors.Magenta;
+	}
+
+	public void BackgroundReset(){
+		main.backgroundColor = new Color (0, 0, 0);
 	}
 
 }
