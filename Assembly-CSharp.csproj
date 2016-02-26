@@ -62,6 +62,9 @@
 =======
      <Compile Include="Assets\Resources\Scripts\menu.cs" />
      <None Include="Assets\Resources\Levels\Level0.txt" />
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
      <None Include="Assets\Resources\Levels\Level4.txt" />
      <None Include="Assets\Resources\Levels\Level3.txt" />

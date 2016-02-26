@@ -778,7 +778,11 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
 <<<<<<< HEAD
+<<<<<<< HEAD
     m_Font: {fileID: 12800000, guid: f9fb18604054742a19a13bc6660257d5, type: 3}
+=======
+    m_Font: {fileID: 12800000, guid: 347499aa2833a1042b39c441dd72bc67, type: 3}
+>>>>>>> master
 =======
     m_Font: {fileID: 12800000, guid: 347499aa2833a1042b39c441dd72bc67, type: 3}
 >>>>>>> master
