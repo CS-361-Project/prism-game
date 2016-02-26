@@ -56,7 +56,7 @@
      <Compile Include="Assets\Resources\Scripts\LeverModel.cs" />
      <Compile Include="Assets\Resources\Scripts\MoveCounter.cs" />
      <Compile Include="Assets\Resources\Scripts\PlayerMovement.cs" />
-     <Compile Include="Assets\Resources\Scripts\menu.cs" />
+     <Compile Include="Assets\Resources\Scripts\StartMenu.cs" />
      <None Include="Assets\Resources\Levels\Level4.txt" />
      <None Include="Assets\Resources\Levels\Level3.txt" />
      <None Include="Assets\Resources\Levels\Level5.txt" />
