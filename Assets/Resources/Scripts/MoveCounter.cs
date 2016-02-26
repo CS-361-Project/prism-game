@@ -6,7 +6,7 @@ public class MoveCounter : MonoBehaviour {
 	int moves;
 	Text text;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		moves = 0;
 		text = GetComponent<Text>();
 		text.text = moves.ToString();
