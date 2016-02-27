@@ -27,55 +27,41 @@ public class StartMenu : MonoBehaviour {
 
 		exitMenu = exitMenu.GetComponent<Canvas> ();
 
-		/*quitScreen = quitScreen.GetComponent<Image> ();
-		quitScreen.color = CustomColors.Black;*/
+		quitScreen = quitScreen.GetComponent<Image> ();
+		quitScreen.color = CustomColors.White;
 
 		main = main.GetComponent<Camera>();
+		main.backgroundColor = CustomColors.White;
 
 		//Buttons 
 		startButton = startButton.GetComponent<Button> ();
 		ColorBlock startCol = startButton.colors;
 		startCol.normalColor = CustomColors.Yellow;
-		float diffr = (1F - CustomColors.Yellow.r)/2.0F;
-		float diffg = (1F - CustomColors.Yellow.g)/2.0F;
-		float diffb = (1F - CustomColors.Yellow.b)/2.0F;
-		startCol.highlightedColor = new Color (CustomColors.Yellow.r+diffr, CustomColors.Yellow.g+diffg, CustomColors.Yellow.b+diffb);
+		startCol.highlightedColor = Color.Lerp(CustomColors.Yellow, CustomColors.White, .5F);
 		startButton.colors = startCol;
 
 		exitButton = exitButton.GetComponent<Button> ();
 		ColorBlock exitCol = exitButton.colors;
 		exitCol.normalColor = CustomColors.Cyan;
-		float diffr1 = (1F - CustomColors.Cyan.r)/2F;
-		float diffg1 = (1F - CustomColors.Cyan.g)/2F;
-		float diffb1 = (1F - CustomColors.Cyan.b)/2F;
-		exitCol.highlightedColor = new Color (CustomColors.Cyan.r + diffr1, CustomColors.Cyan.g + diffg1, CustomColors.Cyan.b +diffb1);
+		exitCol.highlightedColor = Color.Lerp(CustomColors.Cyan,CustomColors.White,.5F);
 		exitButton.colors = exitCol;
 
 		howTo = howTo.GetComponent<Button> ();
 		ColorBlock howToCol = howTo.colors;
 		howToCol.normalColor = CustomColors.Magenta;
-		float diffr2 = (1F - CustomColors.Magenta.r)/2F;
-		float diffg2 = (1F - CustomColors.Magenta.g)/2F;
-		float diffb2 = (1F - CustomColors.Magenta.b)/2F;
-		howToCol.highlightedColor = new Color (CustomColors.Magenta.r + diffr2, CustomColors.Magenta.g + diffg2, CustomColors.Magenta.b +diffb2);
+		howToCol.highlightedColor = Color.Lerp(CustomColors.Magenta,CustomColors.White,.5F);
 		howTo.colors = howToCol;
 
 		yesQuit = yesQuit.GetComponent<Button> ();
 		ColorBlock yesCol = yesQuit.colors;
 		yesCol.normalColor = CustomColors.Green;
-		float diffr3 = (1F - CustomColors.Green.r)/2F;
-		float diffg3 = (1F - CustomColors.Green.g)/2F;
-		float diffb3 = (1F - CustomColors.Green.b)/2F;
-		yesCol.highlightedColor = new Color (CustomColors.Green.r + diffr3, CustomColors.Green.g + diffg3, CustomColors.Green.b +diffb3);
+		yesCol.highlightedColor = Color.Lerp(CustomColors.Green, CustomColors.White, .5F);
 		yesQuit.colors = yesCol;
 
 		noQuit = noQuit.GetComponent<Button> ();
 		ColorBlock noCol = noQuit.colors;
 		noCol.normalColor = CustomColors.Red;
-		float diffr4 = (1F - CustomColors.Red.r)/2F;
-		float diffg4 = (1F - CustomColors.Red.g)/2F;
-		float diffb4 = (1F - CustomColors.Red.b)/2F;
-		noCol.highlightedColor = new Color (CustomColors.Red.r + diffr4, CustomColors.Red.g + diffg4, CustomColors.Red.b +diffb4);
+		noCol.highlightedColor = Color.Lerp(CustomColors.Red,CustomColors.White,.5F);
 		noQuit.colors = noCol;
 
 		//Text
@@ -150,7 +136,7 @@ public class StartMenu : MonoBehaviour {
 	}
 
 	public void BackgroundReset(){
-		main.backgroundColor = new Color (0, 0, 0);
+		main.backgroundColor = CustomColors.White;
 	}
 
 }
