@@ -158,18 +158,20 @@ public class Board : MonoBehaviour {
 	public void whileBGTransitioning(float t) {
 		if (t >= 1) {
 			background.color = newBG;
-			oldBG = newBG;
-			bgTransitioning = false;
+			player.onBackgroundTransition(oldBG, newBG, t);
 			foreach (Block b in blocks) {
 				b.onBackgroundChange(newBG);
 			}
+			oldBG = newBG;
+			bgTransitioning = false;
+		}
+		else {
+			background.color = Color.Lerp(oldBG, newBG, t);
+			foreach (Block b in solidBlocks) {
+				b.onBGTransition(oldBG, newBG, t);
+			}
 			player.onBackgroundTransition(oldBG, newBG, t);
 		}
-		background.color = Color.Lerp(oldBG, newBG, t);
-		foreach (Block b in solidBlocks) {
-			b.onBGTransition(oldBG, newBG, t);
-		}
-		player.onBackgroundTransition(oldBG, newBG, t);
 	}
 
 	public float timeSinceLastColorChange() {

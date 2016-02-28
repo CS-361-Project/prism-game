@@ -78,10 +78,10 @@ public class GameManager : MonoBehaviour {
 				Vector2 dir = getKeyPressDirection();
 				if (board.getPlayer().moving) {
 					if (dir != Vector2.zero) {
-						board.getPlayer().finishMovementImmedate();
 						if (board.bgTransitioning) {
 							board.finishBGTransitionImmediate();
 						}
+						board.getPlayer().finishMovementImmedate();
 						if (board.getPlayer().move(dir)) {
 							moveCounter.increment();
 						}
