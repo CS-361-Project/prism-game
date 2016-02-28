@@ -20,6 +20,11 @@ public class StartMenu : MonoBehaviour {
 	public Text gTitle;
 	public Text bTitle;
 
+	public bool bgTransitioning = false;
+	Color newBG, oldBG;
+	float lastColorChange = -1.0f;
+	public float transitionTime = 1f;
+
 	public Image quitScreen;
 
 	// Use this for initialization
@@ -32,6 +37,8 @@ public class StartMenu : MonoBehaviour {
 
 		main = main.GetComponent<Camera>();
 		main.backgroundColor = CustomColors.White;
+		newBG = main.backgroundColor;
+		oldBG = main.backgroundColor;
 
 		//Buttons 
 		startButton = startButton.GetComponent<Button> ();
@@ -82,6 +89,14 @@ public class StartMenu : MonoBehaviour {
 		exitMenu.enabled = false;
 	}
 
+	void Update(){
+		if (bgTransitioning) {
+			
+			whileBGTransitioning(timeSinceLastColorChange() / transitionTime);
+		}
+	}
+
+
 	public void ExitPressed(){
 		exitMenu.enabled = true;
 		startButton.enabled = false;
@@ -112,31 +127,84 @@ public class StartMenu : MonoBehaviour {
 	}
 
 	public void BackgroundChangeRed(){
-		main.backgroundColor = CustomColors.Red;
+		if (bgTransitioning) {
+			finishBGTransitionImmediate ();
+		}
+		startBGTransition (CustomColors.Red);
 	}
 
 	public void BackgroundChangeGreen(){
-		main.backgroundColor = CustomColors.Green;
+		if (bgTransitioning) {
+			finishBGTransitionImmediate ();
+		}
+		startBGTransition(CustomColors.Green);
 	}
 
 	public void BackgroundChangeBlue(){
-		main.backgroundColor = CustomColors.Blue;
+		if (bgTransitioning) {
+			finishBGTransitionImmediate ();
+		}
+		startBGTransition(CustomColors.Blue);
 	}
 
 	public void BackgroundChangeYellow(){
-		main.backgroundColor = CustomColors.Yellow;
+		if (bgTransitioning) {
+			finishBGTransitionImmediate ();
+		}
+		startBGTransition(CustomColors.Yellow);
 	}
 
 	public void BackgroundChangeCyan(){
-		main.backgroundColor = CustomColors.Cyan;
+		if (bgTransitioning) {
+			finishBGTransitionImmediate ();
+		}
+		startBGTransition(CustomColors.Cyan);
 	}
 
 	public void BackgroundChangeMagenta(){
-		main.backgroundColor = CustomColors.Magenta;
+		if (bgTransitioning) {
+			finishBGTransitionImmediate ();
+		}
+		startBGTransition(CustomColors.Magenta);
 	}
 
 	public void BackgroundReset(){
-		main.backgroundColor = CustomColors.White;
+		if (bgTransitioning) {
+			finishBGTransitionImmediate ();
+		}
+		startBGTransition (CustomColors.White);
 	}
+
+
+	public void startBGTransition(Color bgColor) {
+		newBG = bgColor;
+		bgTransitioning = true;
+		lastColorChange = Time.time;
+	}
+
+	public void finishBGTransitionImmediate() {
+		newBG = main.backgroundColor;
+		whileBGTransitioning(1.0f);
+	}
+
+	public void whileBGTransitioning(float t) {
+		if (t >= 1) {
+			main.backgroundColor = newBG;
+			oldBG = newBG;
+			bgTransitioning = false;
+		}
+		main.backgroundColor = Color.Lerp(oldBG, newBG, t);
+		//onBGTransition(oldBG, newBG, t);
+
+	}
+
+	public float timeSinceLastColorChange() {
+		return Time.time - lastColorChange;
+	}
+
+	public Color getBackgroundColor() {
+		return main.backgroundColor;
+	}
+		
 
 }
