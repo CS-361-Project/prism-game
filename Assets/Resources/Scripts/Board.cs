@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class Board : MonoBehaviour {
 	int width, height;
-	int exitX, exitY;
-	GameObject exitObj;
 	public Block[,] blocks;
 	List<Block> solidBlocks;
 	SpriteRenderer background;
@@ -13,6 +11,7 @@ public class Board : MonoBehaviour {
 	public bool bgTransitioning = false;
 	Color oldBG, newBG;
 	PlayerMovement player;
+	Exit exit;
 	float lastColorChange = -1.0f;
 	// Use this for initialization
 	public void init(int w, int h, SpriteRenderer bgRender) {
@@ -56,15 +55,8 @@ public class Board : MonoBehaviour {
 	}
 
 	public void initExit() {
-		exitX = width - 1;
-		exitY = 0;
-		exitObj = new GameObject();
-		exitObj.name = "Exit";
-		exitObj.transform.parent = transform;
-		SpriteRenderer rend = exitObj.AddComponent<SpriteRenderer>();
-		rend.sprite = Resources.Load<Sprite>("Sprites/Exit");
-		rend.sortingLayerName = "Foreground";
-		exitObj.transform.position = getBlockPosition(exitX, exitY);
+		exit = Instantiate(Resources.Load<GameObject>("Prefabs/Exit")).GetComponent<Exit>();
+		exit.init(this);
 	}
 
 	public void addLever(int x, int y, Color c) {
@@ -117,9 +109,7 @@ public class Board : MonoBehaviour {
 	}
 
 	public void moveExit(int x, int y) {
-		exitObj.transform.position = getBlockPosition(x, y);
-		exitX = x;
-		exitY = y;
+		exit.moveTo(x, y);
 	}
 
 	public Block getBlock(int x, int y) {

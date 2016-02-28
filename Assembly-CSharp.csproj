@@ -50,6 +50,7 @@
      <Compile Include="Assets\Resources\Scripts\Board.cs" />
      <Compile Include="Assets\Resources\Scripts\CustomColors.cs" />
      <Compile Include="Assets\Resources\Scripts\EmptyBlock.cs" />
+     <Compile Include="Assets\Resources\Scripts\Exit.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager.cs" />
      <Compile Include="Assets\Resources\Scripts\Generator.cs" />
      <Compile Include="Assets\Resources\Scripts\LevelButtonManager.cs" />
