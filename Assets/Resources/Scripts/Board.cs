@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Board : MonoBehaviour {
 	int width, height;
+	int exitX, exitY;
+	GameObject exitObj;
 	public Block[,] blocks;
 	List<Block> solidBlocks;
 	SpriteRenderer background;
@@ -45,11 +47,24 @@ public class Board : MonoBehaviour {
 			}
 		}
 		initPlayer();
+		initExit();
 	}
 
 	public void initPlayer() {
 		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<PlayerMovement>();
 		player.init(this);
+	}
+
+	public void initExit() {
+		exitX = width - 1;
+		exitY = 0;
+		exitObj = new GameObject();
+		exitObj.name = "Exit";
+		exitObj.transform.parent = transform;
+		SpriteRenderer rend = exitObj.AddComponent<SpriteRenderer>();
+		rend.sprite = Resources.Load<Sprite>("Sprites/Exit");
+		rend.sortingLayerName = "Foreground";
+		exitObj.transform.position = getBlockPosition(exitX, exitY);
 	}
 
 	public void addLever(int x, int y, Color c) {
@@ -99,6 +114,12 @@ public class Board : MonoBehaviour {
 			blocks[x, y] = obj.AddComponent<EmptyBlock>();
 			blocks[x, y].init(background.color, background.color, this, emptyBlockFolder.transform);
 		}
+	}
+
+	public void moveExit(int x, int y) {
+		exitObj.transform.position = getBlockPosition(x, y);
+		exitX = x;
+		exitY = y;
 	}
 
 	public Block getBlock(int x, int y) {
