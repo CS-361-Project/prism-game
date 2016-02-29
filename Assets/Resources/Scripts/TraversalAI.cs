@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour {
+public class TraversalAI : MonoBehaviour {
 	Board board;
 	int x, y, oldX,oldY, moveDirX,moveDirY;
-	float lastMovement = -1.0f;
+	Vector2 direction;
+
 	//animation variables
 	public float size = 0.7f;
 	public float blockSize = 1.0f;
@@ -12,74 +13,67 @@ public class PlayerMovement : MonoBehaviour {
 	public float targetExpand = 0.9f;
 	public float moveSquish = 0.6f;
 	public float moveStretch = 1.15f;
-	public bool animating = false;
 	public bool moving = false;
 
-	SpriteRenderer rend;
-	Color baseColor = Color.white;
-	Color greyColor = CustomColors.Grey;
 
 	// Use this for initialization
-	public void init(Board b) {
-		transform.parent = b.transform;
-		rend = GetComponent<SpriteRenderer>();
-		rend.color = baseColor;
-		board = b;
-		x = 0;
-		y = b.getHeight() - 1;
-		oldX = x;
-		oldY = y;
+	public void init (Board B) {
+		transform.parent = B.transform;
 
+
+
+		GetComponent<SpriteRenderer>().color = CustomColors.Traversal_AI;
+		board = B;
+		x = 1;
+		y = 0;
 		transform.position = board.getBlockPosition(x, y);
-		//updatePosition();
+		updatePosition ();
+
+		direction = Vector2.left;
+
+		//create a model object that deals with the graphics and call its init
+
 	}
 
-	public bool move(Vector2 direction) {
-		if (direction == Vector2.zero) {
-			return false;
-		}
-		bool moved;
-		animating = true;
+	void changeDirection(){
+		direction = (direction == Vector2.left) ? Vector2.right : Vector2.left;
+	}
+		
+	public void move() {
+		moving = true;
 		int dx = (int)direction.x;
 		int dy = (int)direction.y;
 		moveDirX = dx;
 		moveDirY = dy;
 		oldX = x;
 		oldY = y;
-		moving = false;
-		if ((moved = board.getBlockPassable(x + dx, y + dy))) {
+		if ((board.isPassableAfterTransition(x + dx, y + dy))) {
 			x = x + dx;
 			y = y + dy;
-			moving = true;
 			updatePosition();
-			if (board.checkIfKillPlayer()) {
-				board.killPlayer();
-			}
 		}
 		else {
-			lastMovement = Time.time;
-		}
-		return moved;
-	}
+			//go in other direction
+			changeDirection();
+			dx = (int)direction.x;
+			dy = (int)direction.y;
+			moveDirX = dx;
+			moveDirY = dy;
+			oldX = x;
+			oldY = y;
+			if ((board.getBlockPassable(x + dx, y + dy))) {
+				x = x + dx;
+				y = y + dy;
+				updatePosition();
+			}
 
-	public void onBackgroundTransition(Color oldBG, Color newBG, float progress) {
-		if (newBG == CustomColors.White) {
-			rend.color = Color.Lerp(baseColor, greyColor, progress);
-		}
-		else if (oldBG == CustomColors.White) {
-			rend.color = Color.Lerp(greyColor, baseColor, progress);
 		}
 	}
-
-	public int[] getPlayerDestination(){
-		int[] d = {x,y};
-		return d;
-	}
+		
 
 	public void whileMoving(float percentDone){
 		if (percentDone >= 1.0f) {
 			percentDone = 1.0f;
-			animating = false;
 			moving = false;
 		}
 		Vector3 target = board.getBlockPosition(x, y);
@@ -113,23 +107,23 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	public void updatePosition() {
+		//places player in center of new block
 		//transform.position = board.getBlockPosition(x, y);
-		if (board.getBlock(x, y).name == "Lever") {
-			LeverBlock lever = (LeverBlock)board.getBlock(x, y);
-			lever.toggle();
-		}
-		lastMovement = Time.time;
+
+		//tell block AI is on block
+		board.getBlock(oldX, oldY).setHasEnemy(false);
+		board.getBlock(x,y).setHasEnemy(true);
+
 	}
+
 
 	public void finishMovementImmedate() {
 		whileMoving(1.0f);
 	}
 
 	public bool finishedMovement() {
-		return !animating;
+		return !moving;
 	}
 
-	public float timeSinceLastMovement() {
-		return Time.time - lastMovement;
-	}
+
 }

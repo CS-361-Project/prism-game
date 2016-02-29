@@ -1,12 +1,18 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/menu.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/PlayerMovement.cs">
     <Files>
-      <File FileName="Assets/Resources/Scripts/menu.cs" Line="31" Column="13" />
+      <File FileName="Assets/Resources/Scripts/GameManager.cs" Line="101" Column="85" />
+      <File FileName="Assets/Resources/Scripts/PlayerMovement.cs" Line="53" Column="1" />
+      <File FileName="Assets/Resources/Scripts/TraversalAI.cs" Line="63" Column="4" />
+      <File FileName="Assets/Resources/Scripts/Board.cs" Line="69" Column="1" />
+      <File FileName="Assets/Resources/Scripts/MoveCounter.cs" Line="18" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/docglass/Light-Puzzle-Demo/Assets/Resources/Scripts/GameManager.cs" line="111" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

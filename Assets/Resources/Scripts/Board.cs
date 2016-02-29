@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Board : MonoBehaviour {
+	//AI specific changes
+	List<TraversalAI> Ai_List;
+	GameObject AIFolder;
+	//List<TrackerAI> Track_AI_List;
+
 	int width, height;
 	public Block[,] blocks;
 	List<Block> solidBlocks;
@@ -22,7 +27,7 @@ public class Board : MonoBehaviour {
 		newBG = background.color;
 		width = w;
 		height = h;
-		blocks = new Block[w,h];
+		blocks = new Block[w, h];
 
 		name = "Board";
 		emptyBlockFolder = new GameObject();
@@ -45,12 +50,53 @@ public class Board : MonoBehaviour {
 			}
 		}
 		initPlayer();
+		AIFolder = new GameObject();
+		AIFolder.name = "AI Folder";
+		Ai_List = new List<TraversalAI>();
+		//Track_AI_List = new List<TrackerAI> ();
+		addTraversalAI();
+		//addTrackerAI();
+
 	}
 
 	public void initPlayer() {
 		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<PlayerMovement>();
 		player.init(this);
 	}
+
+	public List<TraversalAI> get_TravAI() {
+
+		return Ai_List;
+	}
+
+
+
+	//AI specific functions
+	void addTraversalAI() {
+		TraversalAI enemy;
+		enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Traversal AI")).GetComponent<TraversalAI>();
+
+		enemy.transform.parent = AIFolder.transform;
+		//enemy.transform.position = new Vector3 (x, y, 0);
+
+		enemy.init(this);
+		Ai_List.Add(enemy);
+		enemy.name = "Traversal AI " + Ai_List.Count;
+
+	}
+
+	//	void addTrackerAI(){
+	//		TrackerAI enemy;
+	//		enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Tracker AI")).GetComponent<TrackerAI>();
+	//
+	//		enemy.transform.parent = AIFolder.transform;
+	//
+	//		enemy.init (board, player);
+	//
+	//		Track_AI_List.Add (enemy);
+	//		enemy.name = "Tracker AI " + Track_AI_List.Count;
+	//
+	//	}
 
 	public void addLever(int x, int y, Color c) {
 		LeverBlock b;
@@ -179,5 +225,41 @@ public class Board : MonoBehaviour {
 
 	public PlayerMovement getPlayer() {
 		return player;
+	}
+
+	public Color nextBGColor() {
+		return newBG;
+	}
+
+	bool passableWithBG(Color baseColor) {
+		return newBG == baseColor;
+	}
+
+	public bool isPassableAfterTransition(int x, int y) {
+		if (bgTransitioning) {
+			//move to board instead of block
+			Color baseColor = blocks[x,y].getBaseColor();
+			return passableWithBG(baseColor);
+		}
+		else {
+			return getBlockPassable(x, y);
+		}
+
+	}
+
+	//checks if the player has moved onto a block that has an AI and kills the player
+	public bool checkIfKillPlayer() {
+		//find out where the player is moving to
+		int x = player.getPlayerDestination()[0];
+		int y = player.getPlayerDestination()[1];
+
+		return blocks[x, y].hasEnemy;
+
+
+	}
+
+	public void killPlayer() {
+		
+		Destroy(player.gameObject);
 	}
 }
