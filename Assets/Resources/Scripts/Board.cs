@@ -17,6 +17,12 @@ public class Board : MonoBehaviour {
 	PlayerMovement player;
 	Exit exit;
 	float lastColorChange = -1.0f;
+
+	//Sound Effects
+	AudioSource audioSource;
+	public AudioClip deathSound;
+
+
 	// Use this for initialization
 	public void init(int w, int h, SpriteRenderer bgRender) {
 		Vector3 center = new Vector3((float)w / 2.0f - .5f, (float)h / 2.0f - .5f, 0);
@@ -28,6 +34,10 @@ public class Board : MonoBehaviour {
 		width = w;
 		height = h;
 		blocks = new Block[w, h];
+
+		//Initialize AudioSource
+		audioSource = gameObject.AddComponent<AudioSource>();
+		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
 
 		name = "Board";
 		emptyBlockFolder = new GameObject();
