@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Board : MonoBehaviour {
+	//AI specific changes
+	List<TraversalAI> Ai_List;
+	//List<TrackerAI> Track_AI_List;
+
 	int width, height;
 	public Block[,] blocks;
 	List<Block> solidBlocks;
 	SpriteRenderer background;
-	GameObject emptyBlockFolder, blockFolder, switchFolder;
+	GameObject emptyBlockFolder, blockFolder, switchFolder, enemyFolder;
 	public bool bgTransitioning = false;
 	Color oldBG, newBG;
 	PlayerMovement player;
@@ -29,7 +33,7 @@ public class Board : MonoBehaviour {
 		newBG = background.color;
 		width = w;
 		height = h;
-		blocks = new Block[w,h];
+		blocks = new Block[w, h];
 
 		//Initialize AudioSource
 		audioSource = gameObject.AddComponent<AudioSource>();
@@ -48,14 +52,21 @@ public class Board : MonoBehaviour {
 		switchFolder.name = "Switches";
 		switchFolder.transform.parent = transform;
 		switchFolder.transform.localPosition = new Vector3(0, 0, 0);
-		solidBlocks = new List<Block>();
+		enemyFolder = new GameObject();
+		enemyFolder.name = "AI Folder";
+		enemyFolder.transform.parent = transform;
 
+		solidBlocks = new List<Block>();
+		Ai_List = new List<TraversalAI>();
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				addEmptyBlock(x, y);
 			}
 		}
 		initPlayer();
+		//Track_AI_List = new List<TrackerAI> ();
+		addTraversalAI();
+		//addTrackerAI();
 		initExit();
 	}
 
@@ -63,6 +74,39 @@ public class Board : MonoBehaviour {
 		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<PlayerMovement>();
 		player.init(this);
 	}
+
+	public List<TraversalAI> get_TravAI() {
+
+		return Ai_List;
+	}
+
+
+
+	//AI specific functions
+	void addTraversalAI() {
+		TraversalAI enemy;
+		enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Traversal AI")).GetComponent<TraversalAI>();
+
+		enemy.transform.parent = enemyFolder.transform;
+
+		enemy.init(this);
+		Ai_List.Add(enemy);
+		enemy.name = "Traversal AI " + Ai_List.Count;
+
+	}
+
+	//	void addTrackerAI(){
+	//		TrackerAI enemy;
+	//		enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Tracker AI")).GetComponent<TrackerAI>();
+	//
+	//		enemy.transform.parent = AIFolder.transform;
+	//
+	//		enemy.init (board, player);
+	//
+	//		Track_AI_List.Add (enemy);
+	//		enemy.name = "Tracker AI " + Track_AI_List.Count;
+	//
+	//	}
 
 	public void initExit() {
 		exit = Instantiate(Resources.Load<GameObject>("Prefabs/Exit")).GetComponent<Exit>();
@@ -131,7 +175,7 @@ public class Board : MonoBehaviour {
 	}
 
 	public bool getBlockPassable(int x, int y) {
-		if (x >= 0 && x < width && y >= 0 && y < height) {
+		if (onBoard(x, y)) {
 			return blocks[x, y].isPassable();
 		}
 		else {
@@ -202,5 +246,47 @@ public class Board : MonoBehaviour {
 
 	public PlayerMovement getPlayer() {
 		return player;
+	}
+
+	public Color nextBGColor() {
+		return newBG;
+	}
+
+	bool passableWithNewBG(int x, int y) {
+		if (onBoard(x, y)) {
+			return blocks[x, y].passableWithBG(newBG);
+		}
+		else {
+			return false;
+		}
+	}
+
+	public bool onBoard(int x, int y) {
+		return (x >= 0 && x < width) && (y >= 0 && y < height);
+	}
+
+	public bool getBlockPassableAfterTransition(int x, int y) {
+		if (bgTransitioning) {
+			return passableWithNewBG(x, y);
+		}
+		else {
+			return getBlockPassable(x, y);
+		}
+
+	}
+
+	//checks if the player has moved onto a block that has an AI and kills the player
+	public bool checkIfKillPlayer() {
+		//find out where the player is moving to
+		int x = player.getPlayerDestination()[0];
+		int y = player.getPlayerDestination()[1];
+
+		return blocks[x, y].hasEnemy;
+
+
+	}
+
+	public void killPlayer() {
+		Destroy(player.gameObject);
 	}
 }

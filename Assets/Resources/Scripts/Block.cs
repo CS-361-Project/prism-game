@@ -4,6 +4,8 @@ using System.Collections;
 public class Block : MonoBehaviour {
 	protected BlockModel blockModel;
 	protected Color baseColor;
+	public bool hasEnemy;
+
 	public virtual void init(Color c, Color bgColor, Board b, Transform parent) {
 		transform.parent = parent;
 		blockModel = Instantiate(Resources.Load<GameObject>("Prefabs/Block")).GetComponent<BlockModel>();
@@ -11,6 +13,7 @@ public class Block : MonoBehaviour {
 		blockModel.init(transform, baseColor);
 		name = "Block";
 		onBackgroundChange(bgColor);
+		hasEnemy = false;
 	}
 
 	public virtual void onBackgroundChange(Color bgColor) {
@@ -22,6 +25,11 @@ public class Block : MonoBehaviour {
 		}
 	}
 
+	public void setHasEnemy(bool x) {
+		hasEnemy = x;
+
+	}
+
 	public virtual void onBGTransition(Color from, Color to, float progress) {
 		if (to == baseColor) {
 			if (progress >= 1) {
@@ -31,7 +39,8 @@ public class Block : MonoBehaviour {
 				blockModel.setTransitionColor(true, progress);
 			}
 		}
-		else if (from == baseColor) {
+		else
+		if (from == baseColor) {
 			if (progress >= 1) {
 				blockModel.setActive(true);
 			}
@@ -49,5 +58,13 @@ public class Block : MonoBehaviour {
 		baseColor = c;
 		blockModel.setColor(c);
 		onBackgroundChange(bgColor);
+	}
+
+	public virtual bool passableWithBG(Color newBGColor) {
+		return newBGColor == baseColor;
+	}
+
+	public Color getBaseColor(){
+		return baseColor;
 	}
 }
