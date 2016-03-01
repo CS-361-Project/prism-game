@@ -1,5 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/GameManager.cs">
     <Files>
       <File FileName="Assets/Resources/Scripts/StartMenu.cs" Line="177" Column="2" />
@@ -8,10 +9,23 @@
       <File FileName="Assets/Resources/Scripts/Block.cs" Line="23" Column="3" />
       <File FileName="Assets/Resources/Scripts/LeverBlock.cs" Line="32" Column="4" />
       <File FileName="Assets/Resources/Scripts/CustomColors.cs" Line="1" Column="1" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/Board.cs">
+    <Files>
+      <File FileName="Assets/Resources/Scripts/GameManager.cs" Line="149" Column="1" />
+      <File FileName="Assets/Resources/Scripts/PlayerMovement.cs" Line="76" Column="12" />
+      <File FileName="Assets/Resources/Scripts/TraversalAI.cs" Line="50" Column="8" />
+      <File FileName="Assets/Resources/Scripts/Board.cs" Line="234" Column="37" />
+      <File FileName="Assets/Resources/Scripts/MoveCounter.cs" Line="18" Column="1" />
+      <File FileName="Assets/Resources/Scripts/LeverBlock.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Block.cs" Line="68" Column="20" />
+>>>>>>> master
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/docglass/Light-Puzzle-Demo/Assets/Resources/Scripts/TraversalAI.cs" line="39" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

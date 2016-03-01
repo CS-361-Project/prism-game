@@ -12,6 +12,13 @@ public class GameManager : MonoBehaviour {
 	MoveCounter moveCounter;
 	GameObject levelSelection;
 	bool inLevel = false;
+	bool loadingLevel = false;
+	float timeSinceLevelLoad = 0.0f;
+	int currLevel = -1;
+
+	//Sound Effects
+	AudioSource audioSource;
+	public AudioClip deathSound;
 
 	public enum FileSymbols {
 		RedBlock = 'r',
@@ -20,24 +27,30 @@ public class GameManager : MonoBehaviour {
 		YellowBLock = 'y',
 		MagentaBlock = 'm',
 		CyanBlock = 'c',
-		WhiteBlock= 'w',
+		WhiteBlock = 'w',
 		EmptyBlock = 'e',
 		RedSwitch = 'R',
 		GreenSwitch = 'G',
-		BlueSwitch = 'B'
-	};
+		BlueSwitch = 'B'}
+
+	;
 
 	// Use this for initialization
-	void Start () {
+	void Start() {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		moveCounter.gameObject.SetActive(false);
 		levelSelection = GameObject.Find("Level Selection");
 		if (levelSelection == null) {
 			print("Unable to find level selection");
 		}
+
+		//Initialize AudioSource
+		audioSource = gameObject.AddComponent<AudioSource>();
+		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
 	}
 
 	public void loadLevel(int number) {
+		currLevel = number;
 		moveCounter.gameObject.SetActive(true);
 		string levelFile = "Assets/Resources/Levels/Level" + number + ".txt";
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
@@ -49,6 +62,8 @@ public class GameManager : MonoBehaviour {
 		board = boardObj.AddComponent<Board>();
 		loadLevelFromFile(levelFile, board);
 		inLevel = true;
+		timeSinceLevelLoad = 0.0f;
+		loadingLevel = true;
 	}
 
 	void goToLevelSelection() {
@@ -65,6 +80,7 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
+		bool moved = false;
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			if (inLevel) {
 				goToLevelSelection();
@@ -74,20 +90,50 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		if (inLevel) {
-			if (board.bgTransitioning || board.getPlayer().moving) {
+			if (board.getPlayer() == null) {
+				// player is dead
+				audioSource.PlayOneShot(deathSound);
+				restartLevel();
+			}
+			if (loadingLevel) {
+				timeSinceLevelLoad += Time.deltaTime;
+				whileLoading(timeSinceLevelLoad);
+			}
+			else if (board.checkIfKillPlayer()) {
+				board.killPlayer();
+			}
+			else if (board.bgTransitioning || board.getPlayer().animating) {
 				Vector2 dir = getKeyPressDirection();
-				if (board.getPlayer().moving) {
+				if (board.getPlayer().animating) {
 					if (dir != Vector2.zero) {
 						board.getPlayer().finishMovementImmedate();
+						//Added AI
+						List<TraversalAI> AI_list = board.get_TravAI();
+						if (board.getPlayer().moving) {
+							foreach (TraversalAI x in AI_list) {
+								x.finishMovementImmedate();
+							}
+						}
 						if (board.bgTransitioning) {
 							board.finishBGTransitionImmediate();
 						}
 						if (board.getPlayer().move(dir)) {
 							moveCounter.increment();
+							foreach (TraversalAI x in AI_list) {
+								x.move();
+							}
 						}
 					}
 					else {
-						board.getPlayer().whileMoving(board.getPlayer().timeSinceLastMovement() / transitionTime);
+						float t = board.getPlayer().timeSinceLastMovement() / transitionTime;
+						//Added AI
+						List<TraversalAI> AI_list = board.get_TravAI();
+						if (board.getPlayer().moving) {
+							foreach (TraversalAI x in AI_list) {
+								x.whileMoving(t);
+							}
+						}
+						board.getPlayer().whileMoving(t);
 					}
 				}
 				if (board.bgTransitioning) {
@@ -97,7 +143,7 @@ public class GameManager : MonoBehaviour {
 			else {
 				Vector2 dir1 = getKeyPressDirection();
 				if (dir1 != Vector2.zero) {
-					bool moved = board.getPlayer().move(dir1);
+					moved = board.getPlayer().move(dir1);
 					if (moved) {
 						moveCounter.increment();
 					}
@@ -106,14 +152,33 @@ public class GameManager : MonoBehaviour {
 					Vector2 dir2 = getKeyHoldDirection();
 					if (board.getPlayer().timeSinceLastMovement() >= holdMovementTime &&
 					    dir2 != Vector2.zero) {
-						bool moved = board.getPlayer().move(dir2);
+						moved = board.getPlayer().move(dir2);
 						if (moved) {
 							moveCounter.increment();
 						}
 					}
 				}
 			}
+			//Check if Player moved
+			if (moved) {
+				List<TraversalAI> AIList = board.get_TravAI();
+				for (int i=AIList.Count - 1; i>= 0; i--) {
+					TraversalAI x = AIList[i];
+					x.move();
+					if (x.markedForDeath) {
+						AIList.Remove(x);
+						Destroy(x.gameObject);
+					}
+				}
+			}
 		}
+	}
+
+	public void whileLoading(float t) {
+		if (t >= holdMovementTime) {
+			loadingLevel = false;
+		}
+		// TODO: Load level animation
 	}
 
 	public Vector2 getKeyPressDirection() {
@@ -156,43 +221,9 @@ public class GameManager : MonoBehaviour {
 		return result;
 	}
 
-	public bool moveFromKeyboardInput() {
-	bool moved = false;
-	if (board.getPlayer().finishedMovement()) {
-		if (Input.GetKeyDown(KeyCode.UpArrow)) {
-			moved = board.getPlayer().move(Vector2.up);
-		}
-		else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-			moved = board.getPlayer().move(Vector2.down);
-		}
-		else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-			moved = board.getPlayer().move(Vector2.left);
-		}
-		else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-			moved = board.getPlayer().move(Vector2.right);
-		}
-		else {
-			moved = false;
-		}
-	}
-		if (!moved && board.getPlayer().timeSinceLastMovement() >= holdMovementTime) {
-			if (Input.GetKey(KeyCode.UpArrow)) {
-				moved = board.getPlayer().move(Vector2.up);
-			}
-			else if (Input.GetKey(KeyCode.DownArrow)) {
-				moved = board.getPlayer().move(Vector2.down);
-			}
-			else if (Input.GetKey(KeyCode.LeftArrow)) {
-				moved = board.getPlayer().move(Vector2.left);
-			}
-			else if (Input.GetKey(KeyCode.RightArrow)) {
-				moved = board.getPlayer().move(Vector2.right);
-			}
-			else {
-				moved = false;
-			}
-		}
-		return moved;
+	public void restartLevel() {
+		loadLevel(currLevel);
+		loadingLevel = true;
 	}
 
 	public void loadLevelFromFile(string fileName, Board board) {

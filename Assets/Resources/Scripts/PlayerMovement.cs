@@ -5,6 +5,12 @@ public class PlayerMovement : MonoBehaviour {
 	Board board;
 	int x, y, oldX,oldY, moveDirX,moveDirY;
 	float lastMovement = -1.0f;
+	//Sound Effects
+	AudioSource audioSource;
+	public AudioClip moveSound;
+	public AudioClip squishSound;
+
+
 	//animation variables
 	public float size = 0.7f;
 	public float blockSize = 1.0f;
@@ -12,11 +18,13 @@ public class PlayerMovement : MonoBehaviour {
 	public float targetExpand = 0.9f;
 	public float moveSquish = 0.6f;
 	public float moveStretch = 1.15f;
+	public bool animating = false;
 	public bool moving = false;
 
 	SpriteRenderer rend;
 	Color baseColor = Color.white;
 	Color greyColor = CustomColors.Grey;
+
 	// Use this for initialization
 	public void init(Board b) {
 		transform.parent = b.transform;
@@ -25,8 +33,17 @@ public class PlayerMovement : MonoBehaviour {
 		board = b;
 		x = 0;
 		y = b.getHeight() - 1;
+		oldX = x;
+		oldY = y;
+
 		transform.position = board.getBlockPosition(x, y);
-		//updatePosition();
+
+		//Initialize AudioSource
+		audioSource = gameObject.AddComponent<AudioSource>();
+		moveSound = Resources.Load("Audio/ScrollUp", typeof(AudioClip)) as AudioClip;
+		squishSound = Resources.Load("Audio/ScrollDown", typeof(AudioClip)) as AudioClip;
+
+
 	}
 
 	public bool move(Vector2 direction) {
@@ -34,36 +51,69 @@ public class PlayerMovement : MonoBehaviour {
 			return false;
 		}
 		bool moved;
-		moving = true;
+		animating = true;
 		int dx = (int)direction.x;
 		int dy = (int)direction.y;
 		moveDirX = dx;
 		moveDirY = dy;
 		oldX = x;
 		oldY = y;
+		moving = false;
 		if ((moved = board.getBlockPassable(x + dx, y + dy))) {
 			x = x + dx;
 			y = y + dy;
+			moving = true;
+			float vol = determineVolume();
 			updatePosition();
+			if (board.checkIfKillPlayer()) {
+				board.killPlayer();
+			}
+			audioSource.PlayOneShot(moveSound, vol);
 		}
 		else {
+			audioSource.PlayOneShot(squishSound);
 			lastMovement = Time.time;
 		}
 		return moved;
 	}
 
+	float determineVolume(){
+		//I want it to return full volume quicker and I want to take longer to get min volume
+		float vol = (timeSinceLastMovement()*2)+0.3f;
+		vol = Mathf.Clamp(vol, .10f, 1.0f);
+
+		return vol;
+
+	}
+
 	public void onBackgroundTransition(Color oldBG, Color newBG, float progress) {
 		if (newBG == CustomColors.White) {
-			rend.color = Color.Lerp(baseColor, greyColor, progress);
+			if (progress >= 1) {
+				rend.color = greyColor;
+			}
+			else {
+				rend.color = Color.Lerp(baseColor, greyColor, progress);
+			}
 		}
 		else if (oldBG == CustomColors.White) {
-			rend.color = Color.Lerp(greyColor, baseColor, progress);
+			if (progress >= 1) {
+				rend.color = baseColor;
+			}
+			else {
+				rend.color = Color.Lerp(greyColor, baseColor, progress);
+			}
 		}
+	}
+
+	public int[] getPlayerDestination(){
+		int[] d = {x,y};
+		return d;
 	}
 
 	public void whileMoving(float percentDone){
 		if (percentDone >= 1.0f) {
 			percentDone = 1.0f;
+			animating = false;
 			moving = false;
 		}
 		Vector3 target = board.getBlockPosition(x, y);
@@ -93,6 +143,7 @@ public class PlayerMovement : MonoBehaviour {
 				transform.localScale = new Vector3((moveSquish - size) * Mathf.Sin (Mathf.PI * percentDone) + size,
 					(moveStretch - size) * Mathf.Sin (Mathf.PI * percentDone) + size,0);
 			}
+
 		}
 	}
 
@@ -110,7 +161,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	public bool finishedMovement() {
-		return !moving;
+		return !animating;
 	}
 
 	public float timeSinceLastMovement() {

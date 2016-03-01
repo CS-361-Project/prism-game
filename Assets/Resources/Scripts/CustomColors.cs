@@ -12,6 +12,7 @@ public static class CustomColors {
 	public static Color Black = HexToColor("464B63");
 	public static Color White = HexToColor("FFF8F4");
 	public static Color Grey = HexToColor("D0D7E5");
+	public static Color Traversal_AI = HexToColor("FF5300");
 
 	public static Color[] colors = {Black, Red, Green, Yellow, Blue, Magenta, Cyan, White};
 
