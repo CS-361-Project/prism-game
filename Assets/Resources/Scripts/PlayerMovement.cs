@@ -5,6 +5,11 @@ public class PlayerMovement : MonoBehaviour {
 	Board board;
 	int x, y, oldX,oldY, moveDirX,moveDirY;
 	float lastMovement = -1.0f;
+	//Sound Effects
+	AudioSource audioSource;
+	public AudioClip moveSound;
+
+
 	//animation variables
 	public float size = 0.7f;
 	public float blockSize = 1.0f;
@@ -26,7 +31,12 @@ public class PlayerMovement : MonoBehaviour {
 		x = 0;
 		y = b.getHeight() - 1;
 		transform.position = board.getBlockPosition(x, y);
-		//updatePosition();
+
+		//Initialize AudioSource
+		audioSource = gameObject.AddComponent<AudioSource>();
+		moveSound = Resources.Load("Audio/ScrollUp", typeof(AudioClip)) as AudioClip;
+
+
 	}
 
 	public bool move(Vector2 direction) {
@@ -44,12 +54,23 @@ public class PlayerMovement : MonoBehaviour {
 		if ((moved = board.getBlockPassable(x + dx, y + dy))) {
 			x = x + dx;
 			y = y + dy;
+			float vol = determineVolume();
 			updatePosition();
+			audioSource.PlayOneShot(moveSound, vol);
 		}
 		else {
 			lastMovement = Time.time;
 		}
 		return moved;
+	}
+
+	float determineVolume(){
+		//I want it to return full volume quicker and I want to take longer to get min volume
+		float vol = (timeSinceLastMovement()*2)+0.3f;
+		vol = Mathf.Clamp(vol, 0.5f, 1.0f);
+
+		return vol;
+
 	}
 
 	public void onBackgroundTransition(Color oldBG, Color newBG, float progress) {
