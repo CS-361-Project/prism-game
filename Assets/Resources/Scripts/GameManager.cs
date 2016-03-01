@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour {
 		if (number == 0) {
 			board.addTraversalAI();
 		}
+		loadingLevel = true;
 	}
 
 	void goToLevelSelection() {
@@ -101,6 +102,9 @@ public class GameManager : MonoBehaviour {
 			if (loadingLevel) {
 				timeSinceLevelLoad += Time.deltaTime;
 				whileLoading(timeSinceLevelLoad);
+			}
+			else if (board.checkLevelDone()) {
+				loadLevel(currLevel + 1);
 			}
 			else if (board.checkIfKillPlayer()) {
 				board.killPlayer();
@@ -225,7 +229,6 @@ public class GameManager : MonoBehaviour {
 
 	public void restartLevel() {
 		loadLevel(currLevel);
-		loadingLevel = true;
 	}
 
 	public void loadLevelFromFile(string fileName, Board board) {
