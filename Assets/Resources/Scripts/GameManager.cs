@@ -16,6 +16,10 @@ public class GameManager : MonoBehaviour {
 	float timeSinceLevelLoad = 0.0f;
 	int currLevel = -1;
 
+	//Sound Effects
+	AudioSource audioSource;
+	public AudioClip deathSound;
+
 	public enum FileSymbols {
 		RedBlock = 'r',
 		GreenBlock = 'g',
@@ -39,6 +43,10 @@ public class GameManager : MonoBehaviour {
 		if (levelSelection == null) {
 			print("Unable to find level selection");
 		}
+
+		//Initialize AudioSource
+		audioSource = gameObject.AddComponent<AudioSource>();
+		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
 	}
 
 	public void loadLevel(int number) {
@@ -84,6 +92,7 @@ public class GameManager : MonoBehaviour {
 		if (inLevel) {
 			if (board.getPlayer() == null) {
 				// player is dead
+				audioSource.PlayOneShot(deathSound);
 				restartLevel();
 			}
 			if (loadingLevel) {
