@@ -592,10 +592,7 @@ MonoBehaviour:
   background: {fileID: 0}
   transitionTime: 0.12
   holdMovementTime: 0.35
-<<<<<<< HEAD
   rgbDiagram: {fileID: 1389303821}
-=======
->>>>>>> master
   deathSound: {fileID: 0}
 --- !u!4 &1156624515
 Transform:
