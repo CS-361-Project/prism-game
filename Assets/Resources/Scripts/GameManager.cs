@@ -20,15 +20,16 @@ public class GameManager : MonoBehaviour {
 		YellowBLock = 'y',
 		MagentaBlock = 'm',
 		CyanBlock = 'c',
-		WhiteBlock= 'w',
+		WhiteBlock = 'w',
 		EmptyBlock = 'e',
 		RedSwitch = 'R',
 		GreenSwitch = 'G',
-		BlueSwitch = 'B'
-	};
+		BlueSwitch = 'B'}
+
+	;
 
 	// Use this for initialization
-	void Start () {
+	void Start() {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		moveCounter.gameObject.SetActive(false);
 		levelSelection = GameObject.Find("Level Selection");
@@ -83,17 +84,15 @@ public class GameManager : MonoBehaviour {
 					if (dir != Vector2.zero) {
 						board.getPlayer().finishMovementImmedate();
 						//Added AI
-						List<TraversalAI> AI_list = board.get_TravAI ();
-						if (board.getPlayer ().moving) {
+						List<TraversalAI> AI_list = board.get_TravAI();
+						if (board.getPlayer().moving) {
 							foreach (TraversalAI x in AI_list) {
-								x.finishMovementImmedate ();
+								x.finishMovementImmedate();
 							}
 						}
 						if (board.bgTransitioning) {
 							board.finishBGTransitionImmediate();
 						}
-						bool movedAgain = board.getPlayer ().move (dir);
-						if (movedAgain) {
 						if (board.bgTransitioning) {
 							board.finishBGTransitionImmediate();
 						}
@@ -101,17 +100,17 @@ public class GameManager : MonoBehaviour {
 						if (board.getPlayer().move(dir)) {
 							moveCounter.increment();
 							foreach (TraversalAI x in AI_list) {
-								x.move ();
+								x.move();
 							}
 						}
 					}
 					else {
 						board.getPlayer().whileMoving(board.getPlayer().timeSinceLastMovement() / transitionTime);
 						//Added AI
-						List<TraversalAI> AI_list = board.get_TravAI ();
-						if (board.getPlayer ().moving) {
+						List<TraversalAI> AI_list = board.get_TravAI();
+						if (board.getPlayer().moving) {
 							foreach (TraversalAI x in AI_list) {
-								x.whileMoving (board.getPlayer ().timeSinceLastMovement () / transitionTime);
+								x.whileMoving(board.getPlayer().timeSinceLastMovement() / transitionTime);
 							}
 						}
 					}
@@ -141,15 +140,12 @@ public class GameManager : MonoBehaviour {
 			}
 			//Check if Player moved
 			if (moved) {
-				List<TraversalAI> AI_list = board.get_TravAI ();
+				List<TraversalAI> AI_list = board.get_TravAI();
 				foreach (TraversalAI x in AI_list) {
-					x.move ();
+					x.move();
 				}
-
 			}
-
 		}
-
 	}
 
 	public Vector2 getKeyPressDirection() {
@@ -192,44 +188,44 @@ public class GameManager : MonoBehaviour {
 		return result;
 	}
 
-//	public bool moveFromKeyboardInput() {
-//	bool moved = false;
-//	if (board.getPlayer().finishedMovement()) {
-//		if (Input.GetKeyDown(KeyCode.UpArrow)) {
-//			moved = board.getPlayer().move(Vector2.up);
-//		}
-//		else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-//			moved = board.getPlayer().move(Vector2.down);
-//		}
-//		else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-//			moved = board.getPlayer().move(Vector2.left);
-//		}
-//		else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-//			moved = board.getPlayer().move(Vector2.right);
-//		}
-//		else {
-//			moved = false;
-//		}
-//	}
-//		if (!moved && board.getPlayer().timeSinceLastMovement() >= holdMovementTime) {
-//			if (Input.GetKey(KeyCode.UpArrow)) {
-//				moved = board.getPlayer().move(Vector2.up);
-//			}
-//			else if (Input.GetKey(KeyCode.DownArrow)) {
-//				moved = board.getPlayer().move(Vector2.down);
-//			}
-//			else if (Input.GetKey(KeyCode.LeftArrow)) {
-//				moved = board.getPlayer().move(Vector2.left);
-//			}
-//			else if (Input.GetKey(KeyCode.RightArrow)) {
-//				moved = board.getPlayer().move(Vector2.right);
-//			}
-//			else {
-//				moved = false;
-//			}
-//		}
-//		return moved;
-//	}
+	//	public bool moveFromKeyboardInput() {
+	//	bool moved = false;
+	//	if (board.getPlayer().finishedMovement()) {
+	//		if (Input.GetKeyDown(KeyCode.UpArrow)) {
+	//			moved = board.getPlayer().move(Vector2.up);
+	//		}
+	//		else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+	//			moved = board.getPlayer().move(Vector2.down);
+	//		}
+	//		else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+	//			moved = board.getPlayer().move(Vector2.left);
+	//		}
+	//		else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+	//			moved = board.getPlayer().move(Vector2.right);
+	//		}
+	//		else {
+	//			moved = false;
+	//		}
+	//	}
+	//		if (!moved && board.getPlayer().timeSinceLastMovement() >= holdMovementTime) {
+	//			if (Input.GetKey(KeyCode.UpArrow)) {
+	//				moved = board.getPlayer().move(Vector2.up);
+	//			}
+	//			else if (Input.GetKey(KeyCode.DownArrow)) {
+	//				moved = board.getPlayer().move(Vector2.down);
+	//			}
+	//			else if (Input.GetKey(KeyCode.LeftArrow)) {
+	//				moved = board.getPlayer().move(Vector2.left);
+	//			}
+	//			else if (Input.GetKey(KeyCode.RightArrow)) {
+	//				moved = board.getPlayer().move(Vector2.right);
+	//			}
+	//			else {
+	//				moved = false;
+	//			}
+	//		}
+	//		return moved;
+	//	}
 
 	public void loadLevelFromFile(string fileName, Board board) {
 		try {
