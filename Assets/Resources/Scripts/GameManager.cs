@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour {
 					}
 					else {
 						board.getPlayer().whileMoving(board.getPlayer().timeSinceLastMovement() / transitionTime);
+						print(board.getPlayer().timeSinceLastMovement());
 					}
 				}
 				if (board.bgTransitioning) {
