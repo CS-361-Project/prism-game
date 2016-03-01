@@ -93,13 +93,17 @@ public class TraversalAI : MonoBehaviour {
 		}
 	}
 
+	public void onKill() {
+		board.setHasEnemy(x, y, false);
+	}
+
 	public void updatePosition() {
 		//places player in center of new block
 		//transform.position = board.getBlockPosition(x, y);
 
 		//tell block AI is on block
-		board.getBlock(oldX, oldY).setHasEnemy(false);
-		board.getBlock(x, y).setHasEnemy(true);
+		board.setHasEnemy(oldX, oldY, false);
+		board.setHasEnemy(x, y, true);
 
 	}
 

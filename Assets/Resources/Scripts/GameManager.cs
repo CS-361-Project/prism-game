@@ -166,8 +166,7 @@ public class GameManager : MonoBehaviour {
 					TraversalAI x = AIList[i];
 					x.move();
 					if (x.markedForDeath) {
-						AIList.Remove(x);
-						Destroy(x.gameObject);
+						board.killEnemy(x);
 					}
 				}
 			}
