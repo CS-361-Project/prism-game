@@ -50,7 +50,6 @@ public class TraversalAI : MonoBehaviour {
 		}
 		else {
 			//go in other direction
-			print("Block " + (x+dx) + ", " + (y+dy) + " is not passable after transition");
 			changeDirection();
 			dx = (int)direction.x;
 			dy = (int)direction.y;
