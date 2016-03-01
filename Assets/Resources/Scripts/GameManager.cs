@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour {
 					if (dir != Vector2.zero) {
 						board.getPlayer().finishMovementImmedate();
 						//Added AI
-						List<TraversalAI> AI_list = board.get_TravAI();
+						List<TraversalAI> AI_list = board.getTraversalAIList();
 						if (board.getPlayer().moving) {
 							foreach (TraversalAI x in AI_list) {
 								x.finishMovementImmedate();
@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour {
 					else {
 						float t = board.getPlayer().timeSinceLastMovement() / transitionTime;
 						//Added AI
-						List<TraversalAI> AI_list = board.get_TravAI();
+						List<TraversalAI> AI_list = board.getTraversalAIList();
 						if (board.getPlayer().moving) {
 							foreach (TraversalAI x in AI_list) {
 								x.whileMoving(t);
@@ -161,7 +161,7 @@ public class GameManager : MonoBehaviour {
 			}
 			//Check if Player moved
 			if (moved) {
-				List<TraversalAI> AIList = board.get_TravAI();
+				List<TraversalAI> AIList = board.getTraversalAIList();
 				for (int i=AIList.Count - 1; i>= 0; i--) {
 					TraversalAI x = AIList[i];
 					x.move();
