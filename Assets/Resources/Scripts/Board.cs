@@ -287,6 +287,8 @@ public class Board : MonoBehaviour {
 	}
 
 	public void killPlayer() {
+		audioSource.PlayOneShot(deathSound);
 		Destroy(player.gameObject);
+
 	}
 }
