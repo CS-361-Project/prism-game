@@ -17,11 +17,13 @@ public class PlayerMovement : MonoBehaviour {
 	public float targetExpand = 0.9f;
 	public float moveSquish = 0.6f;
 	public float moveStretch = 1.15f;
+	public bool animating = false;
 	public bool moving = false;
 
 	SpriteRenderer rend;
 	Color baseColor = Color.white;
 	Color greyColor = CustomColors.Grey;
+
 	// Use this for initialization
 	public void init(Board b) {
 		transform.parent = b.transform;
@@ -30,6 +32,9 @@ public class PlayerMovement : MonoBehaviour {
 		board = b;
 		x = 0;
 		y = b.getHeight() - 1;
+		oldX = x;
+		oldY = y;
+
 		transform.position = board.getBlockPosition(x, y);
 
 		//Initialize AudioSource
@@ -44,18 +49,23 @@ public class PlayerMovement : MonoBehaviour {
 			return false;
 		}
 		bool moved;
-		moving = true;
+		animating = true;
 		int dx = (int)direction.x;
 		int dy = (int)direction.y;
 		moveDirX = dx;
 		moveDirY = dy;
 		oldX = x;
 		oldY = y;
+		moving = false;
 		if ((moved = board.getBlockPassable(x + dx, y + dy))) {
 			x = x + dx;
 			y = y + dy;
-			float vol = determineVolume();
+			moving = true;
 			updatePosition();
+			if (board.checkIfKillPlayer()) {
+				board.killPlayer();
+			}
+			float vol = determineVolume();
 			audioSource.PlayOneShot(moveSound, vol);
 		}
 		else {
@@ -92,9 +102,15 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 
+	public int[] getPlayerDestination(){
+		int[] d = {x,y};
+		return d;
+	}
+
 	public void whileMoving(float percentDone){
 		if (percentDone >= 1.0f) {
 			percentDone = 1.0f;
+			animating = false;
 			moving = false;
 		}
 		Vector3 target = board.getBlockPosition(x, y);
@@ -141,7 +157,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	public bool finishedMovement() {
-		return !moving;
+		return !animating;
 	}
 
 	public float timeSinceLastMovement() {

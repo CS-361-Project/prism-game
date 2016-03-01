@@ -59,6 +59,7 @@
      <Compile Include="Assets\Resources\Scripts\MoveCounter.cs" />
      <Compile Include="Assets\Resources\Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\Resources\Scripts\StartMenu.cs" />
+     <Compile Include="Assets\Resources\Scripts\TraversalAI.cs" />
      <None Include="Assets\Resources\Levels\Level9.txt" />
      <None Include="Assets\Resources\Levels\Level0.txt" />
      <None Include="Assets\Resources\Levels\Level4.txt" />

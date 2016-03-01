@@ -30,6 +30,10 @@ public class LeverBlock : Block {
 		return true;
 	}
 
+	public override bool passableWithBG(Color bgColor) {
+		return true;
+	}
+
 	public override void onBackgroundChange(Color bgColor) {
 		isToggled = CustomColors.contains(bgColor, leverColor);
 		blockModel.setActive(isToggled);

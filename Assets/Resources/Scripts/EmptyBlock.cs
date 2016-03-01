@@ -16,5 +16,9 @@ public class EmptyBlock : Block {
 
 	public override void onBGTransition(Color a, Color b, float t) {
 	}
+
+	public override bool passableWithBG(Color bgColor) {
+		return true;
+	}
 }
 
