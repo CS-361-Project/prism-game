@@ -125,14 +125,15 @@ public class GameManager : MonoBehaviour {
 						}
 					}
 					else {
-						board.getPlayer().whileMoving(board.getPlayer().timeSinceLastMovement() / transitionTime);
+						float t = board.getPlayer().timeSinceLastMovement() / transitionTime;
 						//Added AI
 						List<TraversalAI> AI_list = board.get_TravAI();
 						if (board.getPlayer().moving) {
 							foreach (TraversalAI x in AI_list) {
-								x.whileMoving(board.getPlayer().timeSinceLastMovement() / transitionTime);
+								x.whileMoving(t);
 							}
 						}
+						board.getPlayer().whileMoving(t);
 					}
 				}
 				if (board.bgTransitioning) {
@@ -160,9 +161,14 @@ public class GameManager : MonoBehaviour {
 			}
 			//Check if Player moved
 			if (moved) {
-				List<TraversalAI> AI_list = board.get_TravAI();
-				foreach (TraversalAI x in AI_list) {
+				List<TraversalAI> AIList = board.get_TravAI();
+				for (int i=AIList.Count - 1; i>= 0; i--) {
+					TraversalAI x = AIList[i];
 					x.move();
+					if (x.markedForDeath) {
+						AIList.Remove(x);
+						Destroy(x.gameObject);
+					}
 				}
 			}
 		}

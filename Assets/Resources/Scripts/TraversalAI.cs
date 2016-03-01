@@ -4,7 +4,6 @@ using System.Collections;
 public class TraversalAI : MonoBehaviour {
 	Board board;
 	int x, y, oldX, oldY, moveDirX, moveDirY;
-	Vector2 direction;
 
 	//animation variables
 	public float size = 0.7f;
@@ -14,6 +13,7 @@ public class TraversalAI : MonoBehaviour {
 	public float moveSquish = 0.6f;
 	public float moveStretch = 1.15f;
 	public bool moving = false;
+	public bool markedForDeath = false;
 
 
 	// Use this for initialization
@@ -23,54 +23,45 @@ public class TraversalAI : MonoBehaviour {
 		x = 1;
 		y = 0;
 		transform.position = board.getBlockPosition(x, y);
+		transform.localScale = new Vector3(size, size, 1);
+		moveDirX = -1;
+		moveDirY = 0;
 		updatePosition();
-
-		direction = Vector2.left;
-
-		//create a model object that deals with the graphics and call its init
-
 	}
 
 	void changeDirection() {
-		direction = (direction == Vector2.left) ? Vector2.right : Vector2.left;
+		moveDirX *= -1;
+		moveDirY *= -1;
 	}
 
 	public void move() {
 		moving = true;
-		int dx = (int)direction.x;
-		int dy = (int)direction.y;
-		moveDirX = dx;
-		moveDirY = dy;
 		oldX = x;
 		oldY = y;
-		if (board.getBlockPassableAfterTransition(x + dx, y + dy)) {
-			x = x + dx;
-			y = y + dy;
+		if (board.getBlockPassable(x, y) && !board.getBlockPassableAfterTransition(x, y)) {
+			markedForDeath = true;
+		}
+		if (board.getBlockPassableAfterTransition(x + moveDirX, y + moveDirY)) {
+			x = x + moveDirX;
+			y = y + moveDirY;
 			updatePosition();
 		}
 		else {
 			//go in other direction
 			changeDirection();
-			dx = (int)direction.x;
-			dy = (int)direction.y;
-			moveDirX = dx;
-			moveDirY = dy;
-			oldX = x;
-			oldY = y;
-			if ((board.getBlockPassable(x + dx, y + dy))) {
-				x = x + dx;
-				y = y + dy;
+			if ((board.getBlockPassableAfterTransition(x + moveDirX, y + moveDirY))) {
+				x = x + moveDirX;
+				y = y + moveDirY;
 				updatePosition();
 			}
-
 		}
 	}
-
 
 	public void whileMoving(float percentDone) {
 		if (percentDone >= 1.0f) {
 			percentDone = 1.0f;
 			moving = false;
+			print("Finished animation");
 		}
 		Vector3 target = board.getBlockPosition(x, y);
 		Vector3 old = board.getBlockPosition(oldX, oldY);

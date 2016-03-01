@@ -73,8 +73,6 @@ public class Board : MonoBehaviour {
 		return Ai_List;
 	}
 
-
-
 	//AI specific functions
 	void addTraversalAI() {
 		TraversalAI enemy;
