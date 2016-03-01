@@ -45,20 +45,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Resources\Scripts\Block.cs" />
-     <Compile Include="Assets\Resources\Scripts\BlockModel.cs" />
+     <Compile Include="Assets\Resources\Scripts\Blocks\Block.cs" />
+     <Compile Include="Assets\Resources\Scripts\Blocks\EmptyBlock.cs" />
+     <Compile Include="Assets\Resources\Scripts\Blocks\LeverBlock.cs" />
      <Compile Include="Assets\Resources\Scripts\Board.cs" />
      <Compile Include="Assets\Resources\Scripts\CustomColors.cs" />
-     <Compile Include="Assets\Resources\Scripts\EmptyBlock.cs" />
      <Compile Include="Assets\Resources\Scripts\Exit.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager.cs" />
      <Compile Include="Assets\Resources\Scripts\Generator.cs" />
      <Compile Include="Assets\Resources\Scripts\LevelButtonManager.cs" />
-     <Compile Include="Assets\Resources\Scripts\LeverBlock.cs" />
-     <Compile Include="Assets\Resources\Scripts\LeverModel.cs" />
+     <Compile Include="Assets\Resources\Scripts\Models\BlockModel.cs" />
+     <Compile Include="Assets\Resources\Scripts\Models\LeverModel.cs" />
      <Compile Include="Assets\Resources\Scripts\MoveCounter.cs" />
      <Compile Include="Assets\Resources\Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\Resources\Scripts\StartMenu.cs" />
+     <Compile Include="Assets\Resources\Scripts\TraversalAI.cs" />
      <None Include="Assets\Resources\Levels\Level9.txt" />
      <None Include="Assets\Resources\Levels\Level0.txt" />
      <None Include="Assets\Resources\Levels\Level4.txt" />

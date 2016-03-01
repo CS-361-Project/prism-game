@@ -28,11 +28,11 @@ public class StartMenu : MonoBehaviour {
 	public Image quitScreen;
 
 	// Use this for initialization
-	void Awake () {
+	void Awake() {
 
-		exitMenu = exitMenu.GetComponent<Canvas> ();
+		exitMenu = exitMenu.GetComponent<Canvas>();
 
-		quitScreen = quitScreen.GetComponent<Image> ();
+		quitScreen = quitScreen.GetComponent<Image>();
 		quitScreen.color = CustomColors.White;
 
 		main = main.GetComponent<Camera>();
@@ -41,55 +41,55 @@ public class StartMenu : MonoBehaviour {
 		oldBG = main.backgroundColor;
 
 		//Buttons 
-		startButton = startButton.GetComponent<Button> ();
+		startButton = startButton.GetComponent<Button>();
 		ColorBlock startCol = startButton.colors;
 		startCol.normalColor = CustomColors.Yellow;
 		startCol.highlightedColor = Color.Lerp(CustomColors.Yellow, CustomColors.White, .5F);
 		startButton.colors = startCol;
 
-		exitButton = exitButton.GetComponent<Button> ();
+		exitButton = exitButton.GetComponent<Button>();
 		ColorBlock exitCol = exitButton.colors;
 		exitCol.normalColor = CustomColors.Cyan;
-		exitCol.highlightedColor = Color.Lerp(CustomColors.Cyan,CustomColors.White,.5F);
+		exitCol.highlightedColor = Color.Lerp(CustomColors.Cyan, CustomColors.White, .5F);
 		exitButton.colors = exitCol;
 
-		howTo = howTo.GetComponent<Button> ();
+		howTo = howTo.GetComponent<Button>();
 		ColorBlock howToCol = howTo.colors;
 		howToCol.normalColor = CustomColors.Magenta;
-		howToCol.highlightedColor = Color.Lerp(CustomColors.Magenta,CustomColors.White,.5F);
+		howToCol.highlightedColor = Color.Lerp(CustomColors.Magenta, CustomColors.White, .5F);
 		howTo.colors = howToCol;
 
-		yesQuit = yesQuit.GetComponent<Button> ();
+		yesQuit = yesQuit.GetComponent<Button>();
 		ColorBlock yesCol = yesQuit.colors;
 		yesCol.normalColor = CustomColors.Green;
 		yesCol.highlightedColor = Color.Lerp(CustomColors.Green, CustomColors.White, .5F);
 		yesQuit.colors = yesCol;
 
-		noQuit = noQuit.GetComponent<Button> ();
+		noQuit = noQuit.GetComponent<Button>();
 		ColorBlock noCol = noQuit.colors;
 		noCol.normalColor = CustomColors.Red;
-		noCol.highlightedColor = Color.Lerp(CustomColors.Red,CustomColors.White,.5F);
+		noCol.highlightedColor = Color.Lerp(CustomColors.Red, CustomColors.White, .5F);
 		noQuit.colors = noCol;
 
 		//Text
 
-		exitMessage = exitMessage.GetComponent<Text> ();
+		exitMessage = exitMessage.GetComponent<Text>();
 		exitMessage.color = CustomColors.Blue;
 
-		rTitle = rTitle.GetComponent<Text> ();
+		rTitle = rTitle.GetComponent<Text>();
 		rTitle.color = CustomColors.Red;
 
-		gTitle = gTitle.GetComponent<Text> ();
+		gTitle = gTitle.GetComponent<Text>();
 		gTitle.color = CustomColors.Green;
 
-		bTitle = bTitle.GetComponent<Text> ();
+		bTitle = bTitle.GetComponent<Text>();
 		bTitle.color = CustomColors.Blue;
 
 
 		exitMenu.enabled = false;
 	}
 
-	void Update(){
+	void Update() {
 		if (bgTransitioning) {
 			
 			whileBGTransitioning(timeSinceLastColorChange() / transitionTime);
@@ -97,26 +97,27 @@ public class StartMenu : MonoBehaviour {
 	}
 
 
-	public void ExitPressed(){
+	public void ExitPressed() {
 		exitMenu.enabled = true;
 		startButton.enabled = false;
 		exitButton.enabled = false;
 		howTo.enabled = false;
 	}
 
-	public void NoPressed(){
+	public void NoPressed() {
 		exitMenu.enabled = false;
 		startButton.enabled = true;
 		exitButton.enabled = true;
 		howTo.enabled = true;
 	}
 
-	public void StartGame(){
-		SceneManager.LoadScene ("scene");
+	public void StartGame() {
+		finishBGTransitionImmediate();
+		SceneManager.LoadScene("scene");
 	}
 
-	public void QuitGame(){
-		Application.Quit ();
+	public void QuitGame() {
+		Application.Quit();
 	}
 
 	static Color HexToColor(string hex) {
@@ -126,53 +127,53 @@ public class StartMenu : MonoBehaviour {
 		return new Color32(r, g, b, 255);
 	}
 
-	public void BackgroundChangeRed(){
+	public void BackgroundChangeRed() {
 		if (bgTransitioning) {
-			finishBGTransitionImmediate ();
+			finishBGTransitionImmediate();
 		}
-		startBGTransition (CustomColors.Red);
+		startBGTransition(CustomColors.Red);
 	}
 
-	public void BackgroundChangeGreen(){
+	public void BackgroundChangeGreen() {
 		if (bgTransitioning) {
-			finishBGTransitionImmediate ();
+			finishBGTransitionImmediate();
 		}
 		startBGTransition(CustomColors.Green);
 	}
 
-	public void BackgroundChangeBlue(){
+	public void BackgroundChangeBlue() {
 		if (bgTransitioning) {
-			finishBGTransitionImmediate ();
+			finishBGTransitionImmediate();
 		}
 		startBGTransition(CustomColors.Blue);
 	}
 
-	public void BackgroundChangeYellow(){
+	public void BackgroundChangeYellow() {
 		if (bgTransitioning) {
-			finishBGTransitionImmediate ();
+			finishBGTransitionImmediate();
 		}
 		startBGTransition(CustomColors.Yellow);
 	}
 
-	public void BackgroundChangeCyan(){
+	public void BackgroundChangeCyan() {
 		if (bgTransitioning) {
-			finishBGTransitionImmediate ();
+			finishBGTransitionImmediate();
 		}
 		startBGTransition(CustomColors.Cyan);
 	}
 
-	public void BackgroundChangeMagenta(){
+	public void BackgroundChangeMagenta() {
 		if (bgTransitioning) {
-			finishBGTransitionImmediate ();
+			finishBGTransitionImmediate();
 		}
 		startBGTransition(CustomColors.Magenta);
 	}
 
-	public void BackgroundReset(){
+	public void BackgroundReset() {
 		if (bgTransitioning) {
-			finishBGTransitionImmediate ();
+			finishBGTransitionImmediate();
 		}
-		startBGTransition (CustomColors.White);
+		startBGTransition(CustomColors.White);
 	}
 
 
@@ -194,7 +195,6 @@ public class StartMenu : MonoBehaviour {
 			bgTransitioning = false;
 		}
 		main.backgroundColor = Color.Lerp(oldBG, newBG, t);
-		//onBGTransition(oldBG, newBG, t);
 
 	}
 
