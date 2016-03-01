@@ -57,8 +57,12 @@ public class GameManager : MonoBehaviour {
 	public void loadLevel(int number) {
 		currLevel = number;
 		moveCounter.gameObject.SetActive(true);
+<<<<<<< HEAD
 		rgbDiagram.gameObject.SetActive (true);
 		string levelFile = "Assets/Resources/Levels/Level" + number + ".txt";
+=======
+		string levelFile = "Assets/Resources/Levels/level" + number + ".txt";
+>>>>>>> master
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
 		if (board != null) {
@@ -70,6 +74,9 @@ public class GameManager : MonoBehaviour {
 		inLevel = true;
 		timeSinceLevelLoad = 0.0f;
 		loadingLevel = true;
+		if (number == 0) {
+			board.addTraversalAI();
+		}
 	}
 
 	void goToLevelSelection() {
@@ -172,8 +179,7 @@ public class GameManager : MonoBehaviour {
 					TraversalAI x = AIList[i];
 					x.move();
 					if (x.markedForDeath) {
-						AIList.Remove(x);
-						Destroy(x.gameObject);
+						board.killEnemy(x);
 					}
 				}
 			}

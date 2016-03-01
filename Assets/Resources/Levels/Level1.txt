@@ -1,7 +1,6 @@
-﻿5 5
+4 4
 0
-e e e G e
-y e w w e
-e b R B e
-e e w e y
-B R e y e
+e R y e 
+B w w e 
+G r e e 
+c e g e 

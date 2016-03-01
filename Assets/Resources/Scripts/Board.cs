@@ -58,7 +58,7 @@ public class Board : MonoBehaviour {
 		}
 		initPlayer();
 		//Track_AI_List = new List<TrackerAI> ();
-		addTraversalAI();
+//		addTraversalAI();
 		//addTrackerAI();
 		initExit();
 	}
@@ -69,12 +69,11 @@ public class Board : MonoBehaviour {
 	}
 
 	public List<TraversalAI> getTraversalAIList() {
-
 		return TraversalAIList;
 	}
 
 	//AI specific functions
-	void addTraversalAI() {
+	public void addTraversalAI() {
 		TraversalAI enemy;
 		enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Traversal AI")).GetComponent<TraversalAI>();
 
@@ -84,6 +83,12 @@ public class Board : MonoBehaviour {
 		TraversalAIList.Add(enemy);
 		enemy.name = "Traversal AI " + TraversalAIList.Count;
 
+	}
+
+	public void killEnemy(TraversalAI enemy) {
+		TraversalAIList.Remove(enemy);
+		enemy.onKill();
+		Destroy(enemy.gameObject);
 	}
 
 	//	void addTrackerAI(){
@@ -158,7 +163,18 @@ public class Board : MonoBehaviour {
 	}
 
 	public Block getBlock(int x, int y) {
-		return blocks[x, y];
+		if (onBoard(x, y)) {
+			return blocks[x, y];
+		}
+		else {
+			return null;
+		}
+	}
+
+	public void setHasEnemy(int x, int y, bool hasEnemy) {
+		if (onBoard(x, y)) {
+			blocks[x, y].setHasEnemy(hasEnemy);
+		}
 	}
 
 	public Vector3 getBlockPosition(int x, int y) {

@@ -39,7 +39,7 @@ public class LevelButtonManager : MonoBehaviour {
 		DirectoryInfo d = new DirectoryInfo("Assets/Resources/Levels");
 		FileInfo[] fis = d.GetFiles();
 		foreach (FileInfo fi in fis) {
-			if (fi.Name.StartsWith("Level") && fi.Extension.Equals(".txt")) {
+			if (fi.Name.StartsWith("level") && fi.Extension.Equals(".txt")) {
 				i++;
 			}
 		}
