@@ -21,7 +21,7 @@ public class LevelButtonManager : MonoBehaviour {
 			buttons[i].gameObject.GetComponentInChildren<Text>().text = i.ToString();
 			int d = i;
 			buttons[i].onClick.AddListener(() => OnSelect(d));
-			setPositionForButton(i);
+//			setPositionForButton(i);
 		}
 	}
 
@@ -46,12 +46,12 @@ public class LevelButtonManager : MonoBehaviour {
 		return i;
 	}
 
-	public void setPositionForButton(int i) {
-		RectTransform panelTransform = levelPanel.GetComponent<RectTransform>();
-		RectTransform buttonTransform = buttons[i].GetComponent<RectTransform>();
-		float x = -panelTransform.rect.width / 2 + 35 * (i % 6) + 10;
-		float y = panelTransform.rect.height / 2 - 35 * (1 + (Mathf.Floor(i / 6) % 6)) - 10;
-		buttonTransform.offsetMin = new Vector2(x, y);
-		buttonTransform.offsetMax = new Vector2(x + 35, y + 35);
-	}
+//	public void setPositionForButton(int i) {
+//		RectTransform panelTransform = levelPanel.GetComponent<RectTransform>();
+//		RectTransform buttonTransform = buttons[i].GetComponent<RectTransform>();
+//		float x = -panelTransform.rect.width / 2 + 35 * (i % 6) + 10;
+//		float y = panelTransform.rect.height / 2 - 35 * (1 + (Mathf.Floor(i / 6) % 6)) - 10;
+//		buttonTransform.offsetMin = new Vector2(x, y);
+//		buttonTransform.offsetMax = new Vector2(x + 35, y + 35);
+//	}
 }
