@@ -64,10 +64,20 @@ public class PlayerMovement : MonoBehaviour {
 
 	public void onBackgroundTransition(Color oldBG, Color newBG, float progress) {
 		if (newBG == CustomColors.White) {
-			rend.color = Color.Lerp(baseColor, greyColor, progress);
+			if (progress >= 1) {
+				rend.color = greyColor;
+			}
+			else {
+				rend.color = Color.Lerp(baseColor, greyColor, progress);
+			}
 		}
 		else if (oldBG == CustomColors.White) {
-			rend.color = Color.Lerp(greyColor, baseColor, progress);
+			if (progress >= 1) {
+				rend.color = baseColor;
+			}
+			else {
+				rend.color = Color.Lerp(greyColor, baseColor, progress);
+			}
 		}
 	}
 

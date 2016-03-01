@@ -89,12 +89,16 @@ public class GameManager : MonoBehaviour {
 								x.finishMovementImmedate ();
 							}
 						}
-						/////////////////
 						if (board.bgTransitioning) {
 							board.finishBGTransitionImmediate();
 						}
 						bool movedAgain = board.getPlayer ().move (dir);
 						if (movedAgain) {
+						if (board.bgTransitioning) {
+							board.finishBGTransitionImmediate();
+						}
+						board.getPlayer().finishMovementImmedate();
+						if (board.getPlayer().move(dir)) {
 							moveCounter.increment();
 							foreach (TraversalAI x in AI_list) {
 								x.move ();
@@ -110,7 +114,6 @@ public class GameManager : MonoBehaviour {
 								x.whileMoving (board.getPlayer ().timeSinceLastMovement () / transitionTime);
 							}
 						}
-						/////////////////
 					}
 				}
 				if (board.bgTransitioning) {

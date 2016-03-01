@@ -50,6 +50,7 @@
      <Compile Include="Assets\Resources\Scripts\Board.cs" />
      <Compile Include="Assets\Resources\Scripts\CustomColors.cs" />
      <Compile Include="Assets\Resources\Scripts\EmptyBlock.cs" />
+     <Compile Include="Assets\Resources\Scripts\Exit.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager.cs" />
      <Compile Include="Assets\Resources\Scripts\Generator.cs" />
      <Compile Include="Assets\Resources\Scripts\LevelButtonManager.cs" />
@@ -58,13 +59,15 @@
      <Compile Include="Assets\Resources\Scripts\MoveCounter.cs" />
      <Compile Include="Assets\Resources\Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\Resources\Scripts\TraversalAI.cs" />
-     <Compile Include="Assets\Resources\Scripts\menu.cs" />
+     <Compile Include="Assets\Resources\Scripts\StartMenu.cs" />
+     <None Include="Assets\Resources\Levels\Level9.txt" />
      <None Include="Assets\Resources\Levels\Level0.txt" />
      <None Include="Assets\Resources\Levels\Level4.txt" />
      <None Include="Assets\Resources\Levels\Level3.txt" />
      <None Include="Assets\Resources\Levels\Level5.txt" />
      <None Include="Assets\Resources\Levels\Level1.txt" />
      <None Include="Assets\Resources\Levels\Level2.txt" />
+     <None Include="Assets\Resources\Levels\Level8.txt" />
      <None Include="Assets\Resources\Levels\Level7.txt" />
      <None Include="Assets\Resources\Levels\Level6.txt" />
  <Reference Include="UnityEngine.Networking">

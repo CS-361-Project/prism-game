@@ -16,6 +16,7 @@ public class Board : MonoBehaviour {
 	public bool bgTransitioning = false;
 	Color oldBG, newBG;
 	PlayerMovement player;
+	Exit exit;
 	float lastColorChange = -1.0f;
 	// Use this for initialization
 	public void init(int w, int h, SpriteRenderer bgRender) {
@@ -56,7 +57,7 @@ public class Board : MonoBehaviour {
 		//Track_AI_List = new List<TrackerAI> ();
 		addTraversalAI();
 		//addTrackerAI();
-
+		initExit();
 	}
 
 	public void initPlayer() {
@@ -97,6 +98,11 @@ public class Board : MonoBehaviour {
 	//		enemy.name = "Tracker AI " + Track_AI_List.Count;
 	//
 	//	}
+
+	public void initExit() {
+		exit = Instantiate(Resources.Load<GameObject>("Prefabs/Exit")).GetComponent<Exit>();
+		exit.init(this);
+	}
 
 	public void addLever(int x, int y, Color c) {
 		LeverBlock b;
@@ -147,6 +153,10 @@ public class Board : MonoBehaviour {
 		}
 	}
 
+	public void moveExit(int x, int y) {
+		exit.moveTo(x, y);
+	}
+
 	public Block getBlock(int x, int y) {
 		return blocks[x, y];
 	}
@@ -193,18 +203,20 @@ public class Board : MonoBehaviour {
 	public void whileBGTransitioning(float t) {
 		if (t >= 1) {
 			background.color = newBG;
-			oldBG = newBG;
-			bgTransitioning = false;
+			player.onBackgroundTransition(oldBG, newBG, t);
 			foreach (Block b in blocks) {
 				b.onBackgroundChange(newBG);
 			}
+			oldBG = newBG;
+			bgTransitioning = false;
+		}
+		else {
+			background.color = Color.Lerp(oldBG, newBG, t);
+			foreach (Block b in solidBlocks) {
+				b.onBGTransition(oldBG, newBG, t);
+			}
 			player.onBackgroundTransition(oldBG, newBG, t);
 		}
-		background.color = Color.Lerp(oldBG, newBG, t);
-		foreach (Block b in solidBlocks) {
-			b.onBGTransition(oldBG, newBG, t);
-		}
-		player.onBackgroundTransition(oldBG, newBG, t);
 	}
 
 	public float timeSinceLastColorChange() {
