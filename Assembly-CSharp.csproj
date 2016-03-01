@@ -66,7 +66,7 @@
      <None Include="Assets\Resources\Levels\level125.txt" />
      <None Include="Assets\Resources\Levels\level132.txt" />
      <None Include="Assets\Resources\Levels\level122.txt" />
-     <None Include="Assets\Resources\Levels\level9.txt" />
+     <None Include="Assets\Resources\Levels\Level9.txt" />
      <None Include="Assets\Resources\Levels\level129.txt" />
      <None Include="Assets\Resources\Levels\level83.txt" />
      <None Include="Assets\Resources\Levels\Level0.txt" />
@@ -77,7 +77,7 @@
      <None Include="Assets\Resources\Levels\level55.txt" />
      <None Include="Assets\Resources\Levels\level96.txt" />
      <None Include="Assets\Resources\Levels\level111.txt" />
-     <None Include="Assets\Resources\Levels\level4.txt" />
+     <None Include="Assets\Resources\Levels\Level4.txt" />
      <None Include="Assets\Resources\Levels\level54.txt" />
      <None Include="Assets\Resources\Levels\level24.txt" />
      <None Include="Assets\Resources\Levels\level64.txt" />
@@ -142,9 +142,9 @@
      <None Include="Assets\Resources\Levels\level69.txt" />
      <None Include="Assets\Resources\Levels\level10.txt" />
      <None Include="Assets\Resources\Levels\level124.txt" />
-     <None Include="Assets\Resources\Levels\level3.txt" />
+     <None Include="Assets\Resources\Levels\Level3.txt" />
      <None Include="Assets\Resources\Levels\level89.txt" />
-     <None Include="Assets\Resources\Levels\level5.txt" />
+     <None Include="Assets\Resources\Levels\Level5.txt" />
      <None Include="Assets\Resources\Levels\level123.txt" />
      <None Include="Assets\Resources\Levels\level25.txt" />
      <None Include="Assets\Resources\Levels\level34.txt" />
@@ -164,10 +164,10 @@
      <None Include="Assets\Resources\Levels\level37.txt" />
      <None Include="Assets\Resources\Levels\level130.txt" />
      <None Include="Assets\Resources\Levels\level88.txt" />
-     <None Include="Assets\Resources\Levels\level1.txt" />
+     <None Include="Assets\Resources\Levels\Level1.txt" />
      <None Include="Assets\Resources\Levels\level57.txt" />
      <None Include="Assets\Resources\Levels\level14.txt" />
-     <None Include="Assets\Resources\Levels\level2.txt" />
+     <None Include="Assets\Resources\Levels\Level2.txt" />
      <None Include="Assets\Resources\Levels\level105.txt" />
      <None Include="Assets\Resources\Levels\level42.txt" />
      <None Include="Assets\Resources\Levels\level23.txt" />
@@ -181,9 +181,9 @@
      <None Include="Assets\Resources\Levels\level98.txt" />
      <None Include="Assets\Resources\Levels\level61.txt" />
      <None Include="Assets\Resources\Levels\level92.txt" />
-     <None Include="Assets\Resources\Levels\level8.txt" />
+     <None Include="Assets\Resources\Levels\Level8.txt" />
      <None Include="Assets\Resources\Levels\level138.txt" />
-     <None Include="Assets\Resources\Levels\level7.txt" />
+     <None Include="Assets\Resources\Levels\Level7.txt" />
      <None Include="Assets\Resources\Levels\level107.txt" />
      <None Include="Assets\Resources\Levels\level77.txt" />
      <None Include="Assets\Resources\Levels\level119.txt" />
@@ -197,7 +197,7 @@
      <None Include="Assets\Resources\Levels\level97.txt" />
      <None Include="Assets\Resources\Levels\level114.txt" />
      <None Include="Assets\Resources\Levels\level35.txt" />
-     <None Include="Assets\Resources\Levels\level6.txt" />
+     <None Include="Assets\Resources\Levels\Level6.txt" />
      <None Include="Assets\Resources\Levels\level58.txt" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
