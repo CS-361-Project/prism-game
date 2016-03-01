@@ -73,7 +73,12 @@ public class Board : MonoBehaviour {
 	}
 
 	public bool checkLevelDone() {
-		return (exit.x == player.x && exit.y == player.y && !player.moving);
+		if (player.moving) {
+			return (exit.x == player.oldX && exit.y == player.oldY);
+		}
+		else {
+			return (exit.x == player.x && exit.y == player.y);
+		}
 	}
 
 	//AI specific functions
