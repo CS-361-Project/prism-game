@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TraversalAI : MonoBehaviour {
 	Board board;
-	int x, y, oldX,oldY, moveDirX,moveDirY;
+	int x, y, oldX, oldY, moveDirX, moveDirY;
 	Vector2 direction;
 
 	//animation variables
@@ -17,17 +17,14 @@ public class TraversalAI : MonoBehaviour {
 
 
 	// Use this for initialization
-	public void init (Board B) {
+	public void init(Board B) {
 		transform.parent = B.transform;
-
-
-
 		GetComponent<SpriteRenderer>().color = CustomColors.Traversal_AI;
 		board = B;
 		x = 1;
 		y = 0;
 		transform.position = board.getBlockPosition(x, y);
-		updatePosition ();
+		updatePosition();
 
 		direction = Vector2.left;
 
@@ -35,10 +32,10 @@ public class TraversalAI : MonoBehaviour {
 
 	}
 
-	void changeDirection(){
+	void changeDirection() {
 		direction = (direction == Vector2.left) ? Vector2.right : Vector2.left;
 	}
-		
+
 	public void move() {
 		moving = true;
 		int dx = (int)direction.x;
@@ -69,9 +66,9 @@ public class TraversalAI : MonoBehaviour {
 
 		}
 	}
-		
 
-	public void whileMoving(float percentDone){
+
+	public void whileMoving(float percentDone) {
 		if (percentDone >= 1.0f) {
 			percentDone = 1.0f;
 			moving = false;
@@ -80,28 +77,29 @@ public class TraversalAI : MonoBehaviour {
 		Vector3 old = board.getBlockPosition(oldX, oldY);
 		if (oldX == x && oldY == y) {
 			if (moveDirX != 0) {
-				target = new Vector3 (old.x + moveDirX * (blockSize - targetSquish) / 2.0f, old.y, 0);
-				transform.position = Vector3.Lerp (old, target, Mathf.Sin (Mathf.PI * percentDone));
-				transform.localScale = new Vector3 (
-					Mathf.Sin (Mathf.PI * percentDone) * (targetSquish - size) + size,
-					Mathf.Sin (Mathf.PI * percentDone) * (targetExpand - size) + size, 0);
-			} 
+				target = new Vector3(old.x + moveDirX * (blockSize - targetSquish) / 2.0f, old.y, 0);
+				transform.position = Vector3.Lerp(old, target, Mathf.Sin(Mathf.PI * percentDone));
+				transform.localScale = new Vector3(
+					Mathf.Sin(Mathf.PI * percentDone) * (targetSquish - size) + size,
+					Mathf.Sin(Mathf.PI * percentDone) * (targetExpand - size) + size, 0);
+			}
 			else if (moveDirY != 0) {
-				target = new Vector3 (old.x, old.y + moveDirY * (blockSize - targetSquish) / 2.0f, 0);
-				transform.position = Vector3.Lerp (old, target, Mathf.Sin (Mathf.PI * percentDone));
-				transform.localScale = new Vector3 (
-					Mathf.Sin (Mathf.PI * percentDone) * (targetExpand - size) + size,
-					Mathf.Sin (Mathf.PI * percentDone) * (targetSquish - size) + size, 0);
+				target = new Vector3(old.x, old.y + moveDirY * (blockSize - targetSquish) / 2.0f, 0);
+				transform.position = Vector3.Lerp(old, target, Mathf.Sin(Mathf.PI * percentDone));
+				transform.localScale = new Vector3(
+					Mathf.Sin(Mathf.PI * percentDone) * (targetExpand - size) + size,
+					Mathf.Sin(Mathf.PI * percentDone) * (targetSquish - size) + size, 0);
 			} 
-		} else {
-			transform.position = Vector3.Lerp (old, target, percentDone);
+		}
+		else {
+			transform.position = Vector3.Lerp(old, target, percentDone);
 			if (oldX != x) {
-				transform.localScale = new Vector3((moveStretch - size) * Mathf.Sin (Mathf.PI * percentDone) + size,
-					(moveSquish - size) * Mathf.Sin (Mathf.PI * percentDone) + size, 0);
+				transform.localScale = new Vector3((moveStretch - size) * Mathf.Sin(Mathf.PI * percentDone) + size,
+					(moveSquish - size) * Mathf.Sin(Mathf.PI * percentDone) + size, 0);
 			}
 			if (oldY != y) {
-				transform.localScale = new Vector3((moveSquish - size) * Mathf.Sin (Mathf.PI * percentDone) + size,
-					(moveStretch - size) * Mathf.Sin (Mathf.PI * percentDone) + size,0);
+				transform.localScale = new Vector3((moveSquish - size) * Mathf.Sin(Mathf.PI * percentDone) + size,
+					(moveStretch - size) * Mathf.Sin(Mathf.PI * percentDone) + size, 0);
 			}
 		}
 	}
@@ -112,7 +110,7 @@ public class TraversalAI : MonoBehaviour {
 
 		//tell block AI is on block
 		board.getBlock(oldX, oldY).setHasEnemy(false);
-		board.getBlock(x,y).setHasEnemy(true);
+		board.getBlock(x, y).setHasEnemy(true);
 
 	}
 
