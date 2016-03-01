@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour {
 	public float holdMovementTime = 0.35f;
 	MoveCounter moveCounter;
 	GameObject levelSelection;
+	public Image rgbDiagram;
 	bool inLevel = false;
 	bool loadingLevel = false;
 	float timeSinceLevelLoad = 0.0f;
@@ -39,6 +41,9 @@ public class GameManager : MonoBehaviour {
 	void Start() {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		moveCounter.gameObject.SetActive(false);
+		rgbDiagram = rgbDiagram.GetComponent<Image> ();
+		rgbDiagram.gameObject.SetActive (false);
+
 		levelSelection = GameObject.Find("Level Selection");
 		if (levelSelection == null) {
 			print("Unable to find level selection");
@@ -52,6 +57,7 @@ public class GameManager : MonoBehaviour {
 	public void loadLevel(int number) {
 		currLevel = number;
 		moveCounter.gameObject.SetActive(true);
+		rgbDiagram.gameObject.SetActive (true);
 		string levelFile = "Assets/Resources/Levels/Level" + number + ".txt";
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
