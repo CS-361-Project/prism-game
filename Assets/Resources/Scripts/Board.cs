@@ -58,7 +58,7 @@ public class Board : MonoBehaviour {
 		}
 		initPlayer();
 		//Track_AI_List = new List<TrackerAI> ();
-		addTraversalAI();
+//		addTraversalAI();
 		//addTrackerAI();
 		initExit();
 	}

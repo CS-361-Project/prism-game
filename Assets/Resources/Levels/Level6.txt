@@ -1,12 +1,6 @@
-10 10
+4 4
 0
-e e e B e e e g e e
-e R e e r e e c e e
-m m e r e y b e e e
-e R g y e e m c e e
-B e g R g b e b g e
-b r e B m c e c B e 
-e c y g B e c B r e 
-r e B e r c e m e y 
-e e e e e m G e y e 
-e e e e e g B e y e 
+e R y e 
+e c e e 
+G c e e 
+r e w e 
