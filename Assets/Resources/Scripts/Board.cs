@@ -72,6 +72,15 @@ public class Board : MonoBehaviour {
 		return TraversalAIList;
 	}
 
+	public bool checkLevelDone() {
+		if (player.moving) {
+			return (exit.x == player.oldX && exit.y == player.oldY);
+		}
+		else {
+			return (exit.x == player.x && exit.y == player.y);
+		}
+	}
+
 	//AI specific functions
 	public void addTraversalAI() {
 		TraversalAI enemy;
