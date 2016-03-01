@@ -18,7 +18,7 @@ public class TraversalAI : MonoBehaviour {
 
 	// Use this for initialization
 	public void init(Board B) {
-		GetComponent<SpriteRenderer>().color = CustomColors.Traversal_AI;
+		GetComponent<SpriteRenderer>().color = CustomColors.TraversalAI;
 		board = B;
 		x = 1;
 		y = 0;
@@ -61,7 +61,6 @@ public class TraversalAI : MonoBehaviour {
 		if (percentDone >= 1.0f) {
 			percentDone = 1.0f;
 			moving = false;
-			print("Finished animation");
 		}
 		Vector3 target = board.getBlockPosition(x, y);
 		Vector3 old = board.getBlockPosition(oldX, oldY);

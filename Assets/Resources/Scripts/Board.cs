@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Board : MonoBehaviour {
 	//AI specific changes
-	List<TraversalAI> Ai_List;
+	List<TraversalAI> TraversalAIList;
 	//List<TrackerAI> Track_AI_List;
 
 	int width, height;
@@ -57,7 +57,7 @@ public class Board : MonoBehaviour {
 		enemyFolder.transform.parent = transform;
 
 		solidBlocks = new List<Block>();
-		Ai_List = new List<TraversalAI>();
+		TraversalAIList = new List<TraversalAI>();
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				addEmptyBlock(x, y);
@@ -75,9 +75,9 @@ public class Board : MonoBehaviour {
 		player.init(this);
 	}
 
-	public List<TraversalAI> get_TravAI() {
+	public List<TraversalAI> getTraversalAIList() {
 
-		return Ai_List;
+		return TraversalAIList;
 	}
 
 	//AI specific functions
@@ -88,8 +88,8 @@ public class Board : MonoBehaviour {
 		enemy.transform.parent = enemyFolder.transform;
 
 		enemy.init(this);
-		Ai_List.Add(enemy);
-		enemy.name = "Traversal AI " + Ai_List.Count;
+		TraversalAIList.Add(enemy);
+		enemy.name = "Traversal AI " + TraversalAIList.Count;
 
 	}
 
@@ -209,8 +209,10 @@ public class Board : MonoBehaviour {
 
 	public void whileBGTransitioning(float t) {
 		if (t >= 1) {
-			background.color = newBG;
+			t = 1.0f;
 			player.onBackgroundTransition(oldBG, newBG, t);
+			exit.onBackgroundTransition(oldBG, newBG, t);
+			background.color = newBG;
 			foreach (Block b in blocks) {
 				b.onBackgroundChange(newBG);
 			}
@@ -223,6 +225,7 @@ public class Board : MonoBehaviour {
 				b.onBGTransition(oldBG, newBG, t);
 			}
 			player.onBackgroundTransition(oldBG, newBG, t);
+			exit.onBackgroundTransition(oldBG, newBG, t);
 		}
 	}
 
