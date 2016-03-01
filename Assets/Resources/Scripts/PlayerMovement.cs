@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour {
 	//Sound Effects
 	AudioSource audioSource;
 	public AudioClip moveSound;
+	public AudioClip squishSound;
 
 
 	//animation variables
@@ -40,6 +41,7 @@ public class PlayerMovement : MonoBehaviour {
 		//Initialize AudioSource
 		audioSource = gameObject.AddComponent<AudioSource>();
 		moveSound = Resources.Load("Audio/ScrollUp", typeof(AudioClip)) as AudioClip;
+		squishSound = Resources.Load("Audio/ScrollDown", typeof(AudioClip)) as AudioClip;
 
 
 	}
@@ -61,14 +63,15 @@ public class PlayerMovement : MonoBehaviour {
 			x = x + dx;
 			y = y + dy;
 			moving = true;
+			float vol = determineVolume();
 			updatePosition();
 			if (board.checkIfKillPlayer()) {
 				board.killPlayer();
 			}
-			float vol = determineVolume();
 			audioSource.PlayOneShot(moveSound, vol);
 		}
 		else {
+			audioSource.PlayOneShot(squishSound);
 			lastMovement = Time.time;
 		}
 		return moved;
@@ -76,7 +79,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	float determineVolume(){
 		//I want it to return full volume quicker and I want to take longer to get min volume
-		float vol = (timeSinceLastMovement());
+		float vol = (timeSinceLastMovement()*2)+0.3f;
 		vol = Mathf.Clamp(vol, .10f, 1.0f);
 
 		return vol;
@@ -140,6 +143,7 @@ public class PlayerMovement : MonoBehaviour {
 				transform.localScale = new Vector3((moveSquish - size) * Mathf.Sin (Mathf.PI * percentDone) + size,
 					(moveStretch - size) * Mathf.Sin (Mathf.PI * percentDone) + size,0);
 			}
+
 		}
 	}
 
