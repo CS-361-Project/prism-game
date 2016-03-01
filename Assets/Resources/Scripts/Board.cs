@@ -5,14 +5,13 @@ using System.Collections.Generic;
 public class Board : MonoBehaviour {
 	//AI specific changes
 	List<TraversalAI> Ai_List;
-	GameObject AIFolder;
 	//List<TrackerAI> Track_AI_List;
 
 	int width, height;
 	public Block[,] blocks;
 	List<Block> solidBlocks;
 	SpriteRenderer background;
-	GameObject emptyBlockFolder, blockFolder, switchFolder;
+	GameObject emptyBlockFolder, blockFolder, switchFolder, enemyFolder;
 	public bool bgTransitioning = false;
 	Color oldBG, newBG;
 	PlayerMovement player;
@@ -43,17 +42,18 @@ public class Board : MonoBehaviour {
 		switchFolder.name = "Switches";
 		switchFolder.transform.parent = transform;
 		switchFolder.transform.localPosition = new Vector3(0, 0, 0);
-		solidBlocks = new List<Block>();
+		enemyFolder = new GameObject();
+		enemyFolder.name = "AI Folder";
+		enemyFolder.transform.parent = transform;
 
+		solidBlocks = new List<Block>();
+		Ai_List = new List<TraversalAI>();
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				addEmptyBlock(x, y);
 			}
 		}
 		initPlayer();
-		AIFolder = new GameObject();
-		AIFolder.name = "AI Folder";
-		Ai_List = new List<TraversalAI>();
 		//Track_AI_List = new List<TrackerAI> ();
 		addTraversalAI();
 		//addTrackerAI();
@@ -77,8 +77,7 @@ public class Board : MonoBehaviour {
 		TraversalAI enemy;
 		enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Traversal AI")).GetComponent<TraversalAI>();
 
-		enemy.transform.parent = AIFolder.transform;
-		//enemy.transform.position = new Vector3 (x, y, 0);
+		enemy.transform.parent = enemyFolder.transform;
 
 		enemy.init(this);
 		Ai_List.Add(enemy);
@@ -166,7 +165,7 @@ public class Board : MonoBehaviour {
 	}
 
 	public bool getBlockPassable(int x, int y) {
-		if (x >= 0 && x < width && y >= 0 && y < height) {
+		if (onBoard(x, y)) {
 			return blocks[x, y].isPassable();
 		}
 		else {
@@ -243,15 +242,22 @@ public class Board : MonoBehaviour {
 		return newBG;
 	}
 
-	bool passableWithBG(Color baseColor) {
-		return newBG == baseColor;
+	bool passableWithNewBG(int x, int y) {
+		if (onBoard(x, y)) {
+			return blocks[x, y].passableWithBG(newBG);
+		}
+		else {
+			return false;
+		}
 	}
 
-	public bool isPassableAfterTransition(int x, int y) {
+	public bool onBoard(int x, int y) {
+		return (x >= 0 && x < width) && (y >= 0 && y < height);
+	}
+
+	public bool getBlockPassableAfterTransition(int x, int y) {
 		if (bgTransitioning) {
-			//move to board instead of block
-			Color baseColor = blocks[x,y].getBaseColor();
-			return passableWithBG(baseColor);
+			return passableWithNewBG(x, y);
 		}
 		else {
 			return getBlockPassable(x, y);
@@ -271,7 +277,6 @@ public class Board : MonoBehaviour {
 	}
 
 	public void killPlayer() {
-		
 		Destroy(player.gameObject);
 	}
 }

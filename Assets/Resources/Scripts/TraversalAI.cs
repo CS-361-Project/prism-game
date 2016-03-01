@@ -18,7 +18,6 @@ public class TraversalAI : MonoBehaviour {
 
 	// Use this for initialization
 	public void init(Board B) {
-		transform.parent = B.transform;
 		GetComponent<SpriteRenderer>().color = CustomColors.Traversal_AI;
 		board = B;
 		x = 1;
@@ -44,13 +43,14 @@ public class TraversalAI : MonoBehaviour {
 		moveDirY = dy;
 		oldX = x;
 		oldY = y;
-		if ((board.isPassableAfterTransition(x + dx, y + dy))) {
+		if (board.getBlockPassableAfterTransition(x + dx, y + dy)) {
 			x = x + dx;
 			y = y + dy;
 			updatePosition();
 		}
 		else {
 			//go in other direction
+			print("Block " + (x+dx) + ", " + (y+dy) + " is not passable after transition");
 			changeDirection();
 			dx = (int)direction.x;
 			dy = (int)direction.y;

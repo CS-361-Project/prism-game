@@ -20,6 +20,10 @@ public class LeverBlock : Block {
 		return true;
 	}
 
+	public override bool passableWithBG(Color bgColor) {
+		return true;
+	}
+
 	public override void onBackgroundChange(Color bgColor) {
 		state = CustomColors.contains(bgColor, leverColor);
 		blockModel.setActive(state);

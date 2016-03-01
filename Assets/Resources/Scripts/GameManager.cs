@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour {
 	MoveCounter moveCounter;
 	GameObject levelSelection;
 	bool inLevel = false;
+	bool loadingLevel = false;
+	float timeSinceLevelLoad = 0.0f;
+	int currLevel = -1;
 
 	public enum FileSymbols {
 		RedBlock = 'r',
@@ -39,6 +42,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void loadLevel(int number) {
+		currLevel = number;
 		moveCounter.gameObject.SetActive(true);
 		string levelFile = "Assets/Resources/Levels/Level" + number + ".txt";
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
@@ -50,6 +54,8 @@ public class GameManager : MonoBehaviour {
 		board = boardObj.AddComponent<Board>();
 		loadLevelFromFile(levelFile, board);
 		inLevel = true;
+		timeSinceLevelLoad = 0.0f;
+		loadingLevel = true;
 	}
 
 	void goToLevelSelection() {
@@ -66,8 +72,6 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		//TODO figure out best place to do this
-
 		bool moved = false;
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			if (inLevel) {
@@ -78,7 +82,18 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		if (inLevel) {
-			if (board.bgTransitioning || board.getPlayer().animating) {
+			if (board.getPlayer() == null) {
+				// player is dead
+				restartLevel();
+			}
+			if (loadingLevel) {
+				timeSinceLevelLoad += Time.deltaTime;
+				whileLoading(timeSinceLevelLoad);
+			}
+			else if (board.checkIfKillPlayer()) {
+				board.killPlayer();
+			}
+			else if (board.bgTransitioning || board.getPlayer().animating) {
 				Vector2 dir = getKeyPressDirection();
 				if (board.getPlayer().animating) {
 					if (dir != Vector2.zero) {
@@ -93,10 +108,6 @@ public class GameManager : MonoBehaviour {
 						if (board.bgTransitioning) {
 							board.finishBGTransitionImmediate();
 						}
-						if (board.bgTransitioning) {
-							board.finishBGTransitionImmediate();
-						}
-						board.getPlayer().finishMovementImmedate();
 						if (board.getPlayer().move(dir)) {
 							moveCounter.increment();
 							foreach (TraversalAI x in AI_list) {
@@ -148,6 +159,13 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public void whileLoading(float t) {
+		if (t >= holdMovementTime) {
+			loadingLevel = false;
+		}
+		// TODO: Load level animation
+	}
+
 	public Vector2 getKeyPressDirection() {
 		Vector2 result;
 		if (Input.GetKeyDown(KeyCode.UpArrow)) {
@@ -188,44 +206,10 @@ public class GameManager : MonoBehaviour {
 		return result;
 	}
 
-	//	public bool moveFromKeyboardInput() {
-	//	bool moved = false;
-	//	if (board.getPlayer().finishedMovement()) {
-	//		if (Input.GetKeyDown(KeyCode.UpArrow)) {
-	//			moved = board.getPlayer().move(Vector2.up);
-	//		}
-	//		else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-	//			moved = board.getPlayer().move(Vector2.down);
-	//		}
-	//		else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-	//			moved = board.getPlayer().move(Vector2.left);
-	//		}
-	//		else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-	//			moved = board.getPlayer().move(Vector2.right);
-	//		}
-	//		else {
-	//			moved = false;
-	//		}
-	//	}
-	//		if (!moved && board.getPlayer().timeSinceLastMovement() >= holdMovementTime) {
-	//			if (Input.GetKey(KeyCode.UpArrow)) {
-	//				moved = board.getPlayer().move(Vector2.up);
-	//			}
-	//			else if (Input.GetKey(KeyCode.DownArrow)) {
-	//				moved = board.getPlayer().move(Vector2.down);
-	//			}
-	//			else if (Input.GetKey(KeyCode.LeftArrow)) {
-	//				moved = board.getPlayer().move(Vector2.left);
-	//			}
-	//			else if (Input.GetKey(KeyCode.RightArrow)) {
-	//				moved = board.getPlayer().move(Vector2.right);
-	//			}
-	//			else {
-	//				moved = false;
-	//			}
-	//		}
-	//		return moved;
-	//	}
+	public void restartLevel() {
+		loadLevel(currLevel);
+		loadingLevel = true;
+	}
 
 	public void loadLevelFromFile(string fileName, Board board) {
 		try {

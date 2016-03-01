@@ -60,7 +60,7 @@ public class Block : MonoBehaviour {
 		onBackgroundChange(bgColor);
 	}
 
-	public bool passableWithBG(Color newBGColor) {
+	public virtual bool passableWithBG(Color newBGColor) {
 		return newBGColor == baseColor;
 	}
 
