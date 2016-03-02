@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour {
 		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
 	}
 
-	public void loadLevel(String levelPack, int number) {
+	public bool loadLevel(String levelPack, int number) {
 		this.levelPack = levelPack;
 		currLevel = number;
 		moveCounter.gameObject.SetActive(true);
@@ -63,14 +63,22 @@ public class GameManager : MonoBehaviour {
 		}
 		GameObject boardObj = new GameObject();
 		board = boardObj.AddComponent<Board>();
-		loadLevelFromFile(levelFile, board);
-		exitLevelSelection();
-		timeSinceLevelLoad = 0.0f;
-		loadingLevel = true;
-		if (number == 0) {
-			board.addTraversalAI();
+		if (loadLevelFromFile(levelFile, board)) {
+			exitLevelSelection();
+			timeSinceLevelLoad = 0.0f;
+			loadingLevel = true;
+			if (number == 0) {
+				board.addTraversalAI();
+			}
+			loadingLevel = true;
+			return true;
 		}
-		loadingLevel = true;
+		else {
+			goToLevelSelection();
+			Destroy(boardObj);
+			Destroy(background);
+			return false;
+		}
 	}
 
 	void goToLevelSelection() {
@@ -240,7 +248,7 @@ public class GameManager : MonoBehaviour {
 		loadLevel(levelPack, currLevel + 1);
 	}
 
-	public void loadLevelFromFile(string fileName, Board board) {
+	public bool loadLevelFromFile(string fileName, Board board) {
 		try {
 			StreamReader file = new StreamReader(fileName);
 			int lineNumber = 0;
@@ -260,6 +268,7 @@ public class GameManager : MonoBehaviour {
 							}
 							else {
 								print("Error reading file.");
+								return false;
 							}
 						}
 						else if (lineNumber == 1) {
@@ -277,6 +286,7 @@ public class GameManager : MonoBehaviour {
 							}
 							else {
 								print("Error reading file...");
+								return false;
 							}
 						}
 						lineNumber++;
@@ -290,7 +300,9 @@ public class GameManager : MonoBehaviour {
 		catch (Exception e) {
 			print("Error reading file: " + e.ToString());
 			print(e.StackTrace);
+			return false;
 		}
+		return true;
 	}
 
 	void addBlock(int y, int x, char c) {
