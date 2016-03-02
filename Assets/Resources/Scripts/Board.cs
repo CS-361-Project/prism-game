@@ -14,6 +14,7 @@ public class Board : MonoBehaviour {
 	GameObject emptyBlockFolder, blockFolder, switchFolder, enemyFolder;
 	public bool bgTransitioning = false;
 	Color oldBG, newBG;
+	Vector3 bgSize;
 	PlayerMovement player;
 	Exit exit;
 	float lastColorChange = -1.0f;
@@ -22,14 +23,18 @@ public class Board : MonoBehaviour {
 	// Use this for initialization
 	public void init(int w, int h, SpriteRenderer bgRender) {
 		Vector3 center = new Vector3((float)w / 2.0f - .5f, (float)h / 2.0f - .5f, 0);
-		transform.position = -center;
-		background = bgRender;
-		bgRender.transform.parent = transform;
-		oldBG = background.color;
-		newBG = background.color;
+		transform.localPosition = -center;
+
 		width = w;
 		height = h;
 		blocks = new Block[w, h];
+
+		background = bgRender;
+		bgSize = new Vector3((float)width / 4f, (float)height / 4f, 1);
+		background.transform.localScale = new Vector3(bgSize.x, bgSize.y, bgSize.z);
+		background.transform.parent = transform;
+		oldBG = background.color;
+		newBG = background.color;
 
 
 		name = "Board";
@@ -210,6 +215,7 @@ public class Board : MonoBehaviour {
 	public void setBackground(Color bgColor) {
 		background.color = bgColor;
 		oldBG = bgColor;
+		newBG = bgColor;
 		lastColorChange = Time.time;
 		onBackgroundChange();
 
@@ -223,6 +229,12 @@ public class Board : MonoBehaviour {
 
 	public void finishBGTransitionImmediate() {
 		whileBGTransitioning(1.0f);
+	}
+
+	public void setBackgroundCosmetic(Color bgColor) {
+		background.color = bgColor;
+		oldBG = bgColor;
+		newBG = bgColor;
 	}
 
 	public void whileBGTransitioning(float t) {
@@ -245,6 +257,33 @@ public class Board : MonoBehaviour {
 			player.onBackgroundTransition(oldBG, newBG, t);
 			exit.onBackgroundTransition(oldBG, newBG, t);
 		}
+	}
+
+	public void scaleComponents(float t) {
+		foreach (Block b in blocks) {
+			b.transform.localScale = new Vector3(t, t, 1);
+		}
+		player.transform.localScale = new Vector3(player.size * t, player.size * t, 1);
+		foreach (TraversalAI ai in TraversalAIList) {
+			ai.transform.localScale = new Vector3(ai.size * t, ai.size * t, 1);
+		}
+		exit.transform.localScale = new Vector3(exit.size * t, exit.size * t, 1);
+	}
+
+	// Scale around origin
+	public void scaleBackground(float t) {
+		background.transform.localScale = Vector3.Lerp(Vector3.zero, bgSize, t);
+	}
+
+	public void whileLoading(float t) {
+		scaleBackground(t);
+		scaleComponents(t);
+	}
+
+	public void whileUnloading(float t) {
+		float progress = 1 - t;
+		scaleComponents(progress);
+		scaleBackground(progress);
 	}
 
 	public float timeSinceLastColorChange() {

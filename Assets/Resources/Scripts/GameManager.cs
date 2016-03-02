@@ -5,7 +5,7 @@ using System.IO;
 using System;
 
 public class GameManager : MonoBehaviour {
-	Board board;
+	Board board, lastBoard;
 	public SpriteRenderer background;
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
@@ -51,26 +51,33 @@ public class GameManager : MonoBehaviour {
 		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
 	}
 
-	public void loadLevel(String levelPack, int number) {
+	public bool loadLevel(String levelPack, int number) {
 		this.levelPack = levelPack;
 		currLevel = number;
 		moveCounter.gameObject.SetActive(true);
 		string levelFile = "Assets/Resources/Levels/" + levelPack + "/level" + number + ".txt";
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
-		if (board != null) {
-			DestroyImmediate(board.gameObject);
-		}
+		lastBoard = board;
 		GameObject boardObj = new GameObject();
 		board = boardObj.AddComponent<Board>();
-		loadLevelFromFile(levelFile, board);
-		exitLevelSelection();
-		timeSinceLevelLoad = 0.0f;
-		loadingLevel = true;
-		if (number == 0) {
-			board.addTraversalAI();
+		if (loadLevelFromFile(levelFile, board)) {
+			exitLevelSelection();
+			timeSinceLevelLoad = 0.0f;
+			if (number == 0) {
+				board.addTraversalAI();
+			}
+			loadingLevel = true;
+			board.scaleComponents(0);
+			board.scaleBackground(0);
+			return true;
 		}
-		loadingLevel = true;
+		else {
+			goToLevelSelection();
+			Destroy(boardObj);
+			Destroy(background);
+			return false;
+		}
 	}
 
 	void goToLevelSelection() {
@@ -107,6 +114,9 @@ public class GameManager : MonoBehaviour {
 			if (loadingLevel) {
 				timeSinceLevelLoad += Time.deltaTime;
 				whileLoading(timeSinceLevelLoad);
+			}
+			else if (Input.GetKeyDown("r")) {
+				restartLevel();
 			}
 			else if (board.checkLevelDone()) {
 				nextLevel();
@@ -186,10 +196,29 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void whileLoading(float t) {
-		if (t >= holdMovementTime) {
+		if (lastBoard == null) {
+			if (t < transitionTime) {
+				board.whileLoading(t / transitionTime);
+			}
+			else {
+				board.whileLoading(1);
+				loadingLevel = false;
+			}
+		}
+		else if (t < transitionTime) {
+			lastBoard.whileUnloading(t / transitionTime);
+		}
+		else if (t < 2 * transitionTime) {
+			float progress = (t - transitionTime) / transitionTime;
+			board.whileLoading(progress);
+		}
+		else {
+			if (lastBoard != null) {
+				Destroy(lastBoard.gameObject);
+			}
+			board.whileLoading(1);
 			loadingLevel = false;
 		}
-		// TODO: Load level animation
 	}
 
 	public Vector2 getKeyPressDirection() {
@@ -240,7 +269,7 @@ public class GameManager : MonoBehaviour {
 		loadLevel(levelPack, currLevel + 1);
 	}
 
-	public void loadLevelFromFile(string fileName, Board board) {
+	public bool loadLevelFromFile(string fileName, Board board) {
 		try {
 			StreamReader file = new StreamReader(fileName);
 			int lineNumber = 0;
@@ -260,6 +289,7 @@ public class GameManager : MonoBehaviour {
 							}
 							else {
 								print("Error reading file.");
+								return false;
 							}
 						}
 						else if (lineNumber == 1) {
@@ -277,12 +307,12 @@ public class GameManager : MonoBehaviour {
 							}
 							else {
 								print("Error reading file...");
+								return false;
 							}
 						}
 						lineNumber++;
 					}
 				}
-				background.transform.localScale = new Vector3((float)width / 4f, (float)height / 4f, 1);
 				board.setBackground(bgColor);
 				moveCounter.reset();
 			}
@@ -290,7 +320,9 @@ public class GameManager : MonoBehaviour {
 		catch (Exception e) {
 			print("Error reading file: " + e.ToString());
 			print(e.StackTrace);
+			return false;
 		}
+		return true;
 	}
 
 	void addBlock(int y, int x, char c) {
