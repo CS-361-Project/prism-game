@@ -105,6 +105,7 @@
      <None Include="Assets\Resources\Levels\Peter Pack 1\level81.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level63.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level28.txt" />
+     <None Include="Assets\Resources\Levels\LevelPacks.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level22.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level99.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level21.txt" />
@@ -154,7 +155,6 @@
      <None Include="Assets\Resources\Levels\Peter Pack 1\level60.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level36.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level44.txt" />
-     <None Include="Assets\Resources\Levels\Peter Pack 2\level7.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level116.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level52.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level108.txt" />

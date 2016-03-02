@@ -14,17 +14,14 @@ public class LevelPackManager : MonoBehaviour {
 	}
 
 	void initLevelPacks() {
-		string[] directories = Directory.GetDirectories("Assets/Resources/Levels/");
-		DirectoryInfo[] dis = new DirectoryInfo[directories.Length];
-		for (int i=0; i<directories.Length; i++) {
-			dis[i] = new DirectoryInfo("Assets/Resources/Levels/" + directories[i]);
-		}
-		foreach (DirectoryInfo di in dis) {
+		TextAsset packFile = Resources.Load<TextAsset>("Levels/LevelPacks");
+		string[] directories = packFile.text.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.None);
+		foreach (string pack in directories) {
 			GameObject g = Instantiate(Resources.Load<GameObject>("Prefabs/LevelPanel"));
 			g.SetActive(false);
 			g.transform.SetParent(packPanel.transform.parent, false);
-			g.GetComponent<LevelButtonManager>().init(di.Name);
-			addLevelPack(g, di.Name);
+			g.GetComponent<LevelButtonManager>().init(pack);
+			addLevelPack(g, pack);
 		}
 	}
 

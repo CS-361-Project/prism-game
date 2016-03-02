@@ -60,11 +60,11 @@ public class PlayerMovement : MonoBehaviour {
 		oldX = x;
 		oldY = y;
 		moving = false;
+		float vol = determineVolume();
 		if ((moved = board.getBlockPassable(x + dx, y + dy))) {
 			x = x + dx;
 			y = y + dy;
 			moving = true;
-			float vol = determineVolume();
 			updatePosition();
 			if (board.checkIfKillPlayer()) {
 				board.killPlayer();
@@ -72,7 +72,7 @@ public class PlayerMovement : MonoBehaviour {
 			audioSource.PlayOneShot(moveSound, vol);
 		}
 		else {
-			audioSource.PlayOneShot(squishSound);
+			audioSource.PlayOneShot(squishSound, vol);
 			lastMovement = Time.time;
 		}
 		return moved;
@@ -80,9 +80,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	float determineVolume(){
 		//I want it to return full volume quicker and I want to take longer to get min volume
-		float vol = (timeSinceLastMovement()*2)+0.3f;
-		vol = Mathf.Clamp(vol, .10f, 1.0f);
-
+		float vol = (timeSinceLastMovement()*2 + 0.3f);
+		vol = Mathf.Clamp(vol, .3f, 1.0f);
 		return vol;
 
 	}
