@@ -14,19 +14,19 @@ Platform assembly: C:\Users\Simon\Documents\Dev Projects\Light Puzzle Demo\Light
 Loading C:\Users\Simon\Documents\Dev Projects\Light Puzzle Demo\LightPuzzle_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: C:\Users\Simon\Documents\Dev Projects\Light Puzzle Demo\LightPuzzle_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading C:\Users\Simon\Documents\Dev Projects\Light Puzzle Demo\LightPuzzle_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.546 seconds
+- Completed reload, in  0.533 seconds
 Platform assembly: C:\Users\Simon\Documents\Dev Projects\Light Puzzle Demo\LightPuzzle_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Simon\Documents\Dev Projects\Light Puzzle Demo\LightPuzzle_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 2.059879 ms
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 18.338102 ms
+UnloadTime: 1.827830 ms
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 19.630880 ms
 
-Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 209.
-Total: 0.559148 ms (FindLiveObjects: 0.049533 ms CreateObjectMapping: 0.034807 ms MarkObjects: 0.461866 ms  DeleteObjects: 0.011156 ms)
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 202.
+Total: 0.587708 ms (FindLiveObjects: 0.058458 ms CreateObjectMapping: 0.036592 ms MarkObjects: 0.479270 ms  DeleteObjects: 0.012048 ms)
 
 Setting up 1 worker threads for Enlighten.
-  Thread -> id: 3670 -> priority: 1 
+  Thread -> id: 2cf4 -> priority: 1 

@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour {
 		this.levelPack = levelPack;
 		currLevel = number;
 		moveCounter.gameObject.SetActive(true);
-		string levelFile = "Assets/Resources/Levels/" + levelPack + "/level" + number + ".txt";
+		string levelFile = "Levels/" + levelPack + "/level" + number;
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
 		lastBoard = board;
@@ -73,9 +73,10 @@ public class GameManager : MonoBehaviour {
 			return true;
 		}
 		else {
-			goToLevelSelection();
+			Destroy(background.gameObject);
 			Destroy(boardObj);
-			Destroy(background);
+			Destroy(lastBoard.gameObject);
+			goToLevelSelection();
 			return false;
 		}
 	}
@@ -184,7 +185,7 @@ public class GameManager : MonoBehaviour {
 			//Check if Player moved
 			if (moved) {
 				List<TraversalAI> AIList = board.getTraversalAIList();
-				for (int i=AIList.Count - 1; i>= 0; i--) {
+				for (int i = AIList.Count - 1; i >= 0; i--) {
 					TraversalAI x = AIList[i];
 					x.move();
 					if (x.markedForDeath) {
@@ -271,47 +272,45 @@ public class GameManager : MonoBehaviour {
 
 	public bool loadLevelFromFile(string fileName, Board board) {
 		try {
-			StreamReader file = new StreamReader(fileName);
+			TextAsset file = Resources.Load<TextAsset>(fileName);
+			string[] lines = file.text.Split("\n"[0]);
 			int lineNumber = 0;
 			int width = 0;
 			int height = 0;
 			Color bgColor = Color.black;
-			using (file) {
-				string line;
-				while ((line = file.ReadLine()) != null) {
-					string[] words = line.Split(' ');
-					if (words.Length > 0) {
-						if (lineNumber == 0) {
-							if (words.Length >= 2) {
-								width = int.Parse(words[0]);
-								height = int.Parse(words[1]);
-								board.init(width, height, background);
-							}
-							else {
-								print("Error reading file.");
-								return false;
-							}
+			foreach (string line in lines) {
+				string[] words = line.Split(' ');
+				if (words.Length > 0) {
+					if (lineNumber == 0) {
+						if (words.Length >= 2) {
+							width = int.Parse(words[0]);
+							height = int.Parse(words[1]);
+							board.init(width, height, background);
 						}
-						else if (lineNumber == 1) {
-							int colorNumber = int.Parse(words[0]);
-							bgColor = CustomColors.colors[colorNumber];
+						else {
+							print("Error reading file.");
+							return false;
 						}
-						else if (lineNumber < height + 2) {
-							if (words.Length >= width) {
-								for (int i = 0; i < width; i++) {
-									int x = (height - 1) - (lineNumber - 2);
-									int y = i;
-									char c = words[i].ToCharArray()[0];
-									addBlock(x, y, c);
-								}
-							}
-							else {
-								print("Error reading file...");
-								return false;
-							}
-						}
-						lineNumber++;
 					}
+					else if (lineNumber == 1) {
+						int colorNumber = int.Parse(words[0]);
+						bgColor = CustomColors.colors[colorNumber];
+					}
+					else if (lineNumber < height + 2) {
+						if (words.Length >= width) {
+							for (int i = 0; i < width; i++) {
+								int x = (height - 1) - (lineNumber - 2);
+								int y = i;
+								char c = words[i].ToCharArray()[0];
+								addBlock(x, y, c);
+							}
+						}
+						else {
+							print("Error reading file...");
+							return false;
+						}
+					}
+					lineNumber++;
 				}
 				board.setBackground(bgColor);
 				moveCounter.reset();

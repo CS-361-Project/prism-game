@@ -82,7 +82,6 @@ public class PlayerMovement : MonoBehaviour {
 		//I want it to return full volume quicker and I want to take longer to get min volume
 		float vol = (timeSinceLastMovement()*2 + 0.3f);
 		vol = Mathf.Clamp(vol, .3f, 1.0f);
-		print("Volume: " + vol);
 		return vol;
 
 	}
