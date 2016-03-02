@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
 	Board board;
-	int x, y, oldX,oldY, moveDirX,moveDirY;
+	public int x, y, oldX, oldY;
+	int moveDirX,moveDirY;
 	float lastMovement = -1.0f;
 	//Sound Effects
 	AudioSource audioSource;

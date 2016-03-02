@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Exit : MonoBehaviour {
 	Board board;
-	int x, y;
+	public int x, y;
 	SpriteRenderer rend;
 	Color baseColor = CustomColors.White;
 	Color greyColor = CustomColors.Grey;

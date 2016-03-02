@@ -58,7 +58,7 @@ public class Board : MonoBehaviour {
 		}
 		initPlayer();
 		//Track_AI_List = new List<TrackerAI> ();
-		addTraversalAI();
+//		addTraversalAI();
 		//addTrackerAI();
 		initExit();
 	}
@@ -70,6 +70,15 @@ public class Board : MonoBehaviour {
 
 	public List<TraversalAI> getTraversalAIList() {
 		return TraversalAIList;
+	}
+
+	public bool checkLevelDone() {
+		if (player.moving) {
+			return (exit.x == player.oldX && exit.y == player.oldY);
+		}
+		else {
+			return (exit.x == player.x && exit.y == player.y);
+		}
 	}
 
 	//AI specific functions

@@ -7,12 +7,14 @@ public class LevelButtonManager : MonoBehaviour {
 	Button[] buttons;
 	GameObject levelPanel;
 	int numLevels;
+	string packName;
 	// assign in the editor
 
-	void Start() {
+	public void init(string levelPackName) {
+		packName = levelPackName;
+		levelPanel = gameObject;
 		numLevels = levelCount();
 		buttons = new Button[numLevels];
-		levelPanel = GameObject.Find("LevelPanel");
 		for (int i = 0; i < numLevels; i++) {
 			GameObject button = Instantiate(Resources.Load<GameObject>("Prefabs/Button"));
 			button.transform.SetParent(levelPanel.transform, false);
@@ -30,28 +32,19 @@ public class LevelButtonManager : MonoBehaviour {
 		GameObject levelSelectUI = GameObject.Find("Level Selection");
 		levelSelectUI.SetActive(false);
 		int level = int.Parse(buttons[i].GetComponentInChildren<Text>().text);
-		gm.loadLevel(level);
+		gm.loadLevel(packName, level);
 	}
 
 	int levelCount() {
 		int i = 0;
 		// Add file sizes.
-		DirectoryInfo d = new DirectoryInfo("Assets/Resources/Levels");
+		DirectoryInfo d = new DirectoryInfo("Assets/Resources/Levels/" + packName);
 		FileInfo[] fis = d.GetFiles();
 		foreach (FileInfo fi in fis) {
-			if (fi.Name.StartsWith("Level") && fi.Extension.Equals(".txt")) {
+			if (fi.Name.StartsWith("level") && fi.Extension.Equals(".txt")) {
 				i++;
 			}
 		}
 		return i;
 	}
-
-//	public void setPositionForButton(int i) {
-//		RectTransform panelTransform = levelPanel.GetComponent<RectTransform>();
-//		RectTransform buttonTransform = buttons[i].GetComponent<RectTransform>();
-//		float x = -panelTransform.rect.width / 2 + 35 * (i % 6) + 10;
-//		float y = panelTransform.rect.height / 2 - 35 * (1 + (Mathf.Floor(i / 6) % 6)) - 10;
-//		buttonTransform.offsetMin = new Vector2(x, y);
-//		buttonTransform.offsetMax = new Vector2(x + 35, y + 35);
-//	}
 }

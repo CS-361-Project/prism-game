@@ -10,11 +10,13 @@ public class GameManager : MonoBehaviour {
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
 	MoveCounter moveCounter;
-	GameObject levelSelection;
+	GameObject levelSelection, packSelection;
 	bool inLevel = false;
+	bool inLevelSelection = false;
 	bool loadingLevel = false;
 	float timeSinceLevelLoad = 0.0f;
 	int currLevel = -1;
+	string levelPack = "";
 
 	//Sound Effects
 	AudioSource audioSource;
@@ -49,10 +51,11 @@ public class GameManager : MonoBehaviour {
 		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
 	}
 
-	public void loadLevel(int number) {
+	public void loadLevel(String levelPack, int number) {
+		this.levelPack = levelPack;
 		currLevel = number;
 		moveCounter.gameObject.SetActive(true);
-		string levelFile = "Assets/Resources/Levels/Level" + number + ".txt";
+		string levelFile = "Assets/Resources/Levels/" + levelPack + "/level" + number + ".txt";
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
 		if (board != null) {
@@ -61,19 +64,25 @@ public class GameManager : MonoBehaviour {
 		GameObject boardObj = new GameObject();
 		board = boardObj.AddComponent<Board>();
 		loadLevelFromFile(levelFile, board);
-		inLevel = true;
+		exitLevelSelection();
 		timeSinceLevelLoad = 0.0f;
+		loadingLevel = true;
+		if (number == 0) {
+			board.addTraversalAI();
+		}
 		loadingLevel = true;
 	}
 
 	void goToLevelSelection() {
 		inLevel = false;
+		inLevelSelection = true;
 		levelSelection.SetActive(true);
 		moveCounter.gameObject.SetActive(false);
 	}
 
 	void exitLevelSelection() {
 		inLevel = true;
+		inLevelSelection = false;
 		levelSelection.SetActive(false);
 		moveCounter.gameObject.SetActive(true);
 	}
@@ -98,6 +107,9 @@ public class GameManager : MonoBehaviour {
 			if (loadingLevel) {
 				timeSinceLevelLoad += Time.deltaTime;
 				whileLoading(timeSinceLevelLoad);
+			}
+			else if (board.checkLevelDone()) {
+				nextLevel();
 			}
 			else if (board.checkIfKillPlayer()) {
 				board.killPlayer();
@@ -221,8 +233,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void restartLevel() {
-		loadLevel(currLevel);
-		loadingLevel = true;
+		loadLevel(levelPack, currLevel);
+	}
+
+	public void nextLevel() {
+		loadLevel(levelPack, currLevel + 1);
 	}
 
 	public void loadLevelFromFile(string fileName, Board board) {
