@@ -33,7 +33,9 @@ public class GameManager : MonoBehaviour {
 		EmptyBlock = 'e',
 		RedSwitch = 'R',
 		GreenSwitch = 'G',
-		BlueSwitch = 'B'}
+		BlueSwitch = 'B',
+		HorizontalEnemy = 'h',
+		VerticalEnemy = 'v'}
 
 	;
 
@@ -64,9 +66,6 @@ public class GameManager : MonoBehaviour {
 		if (loadLevelFromFile(levelFile, board)) {
 			exitLevelSelection();
 			timeSinceLevelLoad = 0.0f;
-			if (number == 0) {
-				board.addTraversalAI();
-			}
 			loadingLevel = true;
 			board.scaleComponents(0);
 			board.scaleBackground(0);
@@ -358,6 +357,14 @@ public class GameManager : MonoBehaviour {
 				break;
 			case (char)FileSymbols.BlueSwitch:
 				board.addLever(x, y, CustomColors.Blue);
+				break;
+			case (char)FileSymbols.HorizontalEnemy:
+				board.addEmptyBlock(x, y);
+				board.addTraversalAI(x, y, 1, 0);
+				break;
+			case (char)FileSymbols.VerticalEnemy:
+				board.addEmptyBlock(x, y);
+				board.addTraversalAI(x, y, 0, 1);
 				break;
 		}
 	}

@@ -87,13 +87,13 @@ public class Board : MonoBehaviour {
 	}
 
 	//AI specific functions
-	public void addTraversalAI() {
+	public void addTraversalAI(int x, int y, int dx, int dy) {
 		TraversalAI enemy;
 		enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Traversal AI")).GetComponent<TraversalAI>();
 
 		enemy.transform.parent = enemyFolder.transform;
 
-		enemy.init(this);
+		enemy.init(this, x, y, dx, dy);
 		TraversalAIList.Add(enemy);
 		enemy.name = "Traversal AI " + TraversalAIList.Count;
 
@@ -263,7 +263,9 @@ public class Board : MonoBehaviour {
 		foreach (Block b in blocks) {
 			b.transform.localScale = new Vector3(t, t, 1);
 		}
-		player.transform.localScale = new Vector3(player.size * t, player.size * t, 1);
+		if (player != null) {
+			player.transform.localScale = new Vector3(player.size * t, player.size * t, 1);
+		}
 		foreach (TraversalAI ai in TraversalAIList) {
 			ai.transform.localScale = new Vector3(ai.size * t, ai.size * t, 1);
 		}
