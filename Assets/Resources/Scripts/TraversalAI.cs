@@ -17,15 +17,15 @@ public class TraversalAI : MonoBehaviour {
 
 
 	// Use this for initialization
-	public void init(Board B) {
+	public void init(Board B, int xPos, int yPos, int xDirection, int yDirection) {
 		GetComponent<SpriteRenderer>().color = CustomColors.TraversalAI;
 		board = B;
-		x = 1;
-		y = 0;
+		x = xPos;
+		y = yPos;
 		transform.position = board.getBlockPosition(x, y);
 		transform.localScale = new Vector3(size, size, 1);
-		moveDirX = -1;
-		moveDirY = 0;
+		moveDirX = xDirection;
+		moveDirY = yDirection;
 		updatePosition();
 	}
 
