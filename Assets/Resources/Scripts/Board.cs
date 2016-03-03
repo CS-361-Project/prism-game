@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 public class Board : MonoBehaviour {
 	//AI specific changes
-	List<TraversalAI> TraversalAIList;
-	//List<TrackerAI> Track_AI_List;
+	List<Enemy> enemyList;
 
 	int width, height;
 	public Block[,] blocks;
@@ -15,7 +14,7 @@ public class Board : MonoBehaviour {
 	public bool bgTransitioning = false;
 	Color oldBG, newBG;
 	Vector3 bgSize;
-	PlayerMovement player;
+	Player player;
 	Exit exit;
 	float lastColorChange = -1.0f;
 
@@ -55,7 +54,7 @@ public class Board : MonoBehaviour {
 		enemyFolder.transform.parent = transform;
 
 		solidBlocks = new List<Block>();
-		TraversalAIList = new List<TraversalAI>();
+		enemyList = new List<Enemy>();
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				addEmptyBlock(x, y);
@@ -69,53 +68,49 @@ public class Board : MonoBehaviour {
 	}
 
 	public void initPlayer() {
-		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<PlayerMovement>();
+		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<Player>();
 		player.init(this);
 	}
 
-	public List<TraversalAI> getTraversalAIList() {
-		return TraversalAIList;
+	public List<Enemy> getEnemyList() {
+		return enemyList;
 	}
 
 	public bool checkLevelDone() {
+		int x, y, oldX, oldY;
+		x = player.getPos()[0];
+		y = player.getPos()[1];
+		oldX = player.getOldPos()[0];
+		oldY = player.getOldPos()[1];
 		if (player.moving) {
-			return (exit.x == player.oldX && exit.y == player.oldY);
+			return (exit.x == oldX && exit.y == oldY);
 		}
 		else {
-			return (exit.x == player.x && exit.y == player.y);
+			return (exit.x == x && exit.y == y);
 		}
 	}
 
-	//AI specific functions
-	public void addTraversalAI(int x, int y, int dx, int dy) {
-		TraversalAI enemy;
-		enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Traversal AI")).GetComponent<TraversalAI>();
-
+	public void addHorizontalEnemy(int x, int y) {
+		HorizontalEnemy enemy = Instantiate(Resources.Load<GameObject>("Prefabs/HorizontalEnemy")).GetComponent<HorizontalEnemy>();
 		enemy.transform.parent = enemyFolder.transform;
-
-		enemy.init(this, x, y, dx, dy);
-		TraversalAIList.Add(enemy);
-		enemy.name = "Traversal AI " + TraversalAIList.Count;
-
+		enemy.init(this, x, y);
+		enemyList.Add(enemy);
+		enemy.name = "Enemy" + enemyList.Count;
 	}
 
-	public void killEnemy(TraversalAI enemy) {
-		TraversalAIList.Remove(enemy);
+	public void addVerticalEnemy(int x, int y) {
+		VerticalEnemy enemy = Instantiate(Resources.Load<GameObject>("Prefabs/HorizontalEnemy")).GetComponent<VerticalEnemy>();
+		enemy.transform.parent = enemyFolder.transform;
+		enemy.init(this, x, y);
+		enemyList.Add(enemy);
+		enemy.name = "Enemy" + enemyList.Count;
+	}
+
+	public void killEnemy(Enemy enemy) {
+		enemyList.Remove(enemy);
 		enemy.onKill();
 		Destroy(enemy.gameObject);
 	}
-
-	//	void addTrackerAI(){
-	//		TrackerAI enemy;
-	//		enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Tracker AI")).GetComponent<TrackerAI>();
-	//
-	//		enemy.transform.parent = AIFolder.transform;
-	//
-	//		enemy.init (board, player);
-	//
-	//		Track_AI_List.Add (enemy);
-	//		enemy.name = "Tracker AI " + Track_AI_List.Count;
-	//
 	//	}
 
 	public void initExit() {
@@ -266,7 +261,7 @@ public class Board : MonoBehaviour {
 		if (player != null) {
 			player.transform.localScale = new Vector3(player.size * t, player.size * t, 1);
 		}
-		foreach (TraversalAI ai in TraversalAIList) {
+		foreach (Enemy ai in enemyList) {
 			ai.transform.localScale = new Vector3(ai.size * t, ai.size * t, 1);
 		}
 		exit.transform.localScale = new Vector3(exit.size * t, exit.size * t, 1);
@@ -304,7 +299,7 @@ public class Board : MonoBehaviour {
 		return height;
 	}
 
-	public PlayerMovement getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 
@@ -338,8 +333,8 @@ public class Board : MonoBehaviour {
 	//checks if the player has moved onto a block that has an AI and kills the player
 	public bool checkIfKillPlayer() {
 		//find out where the player is moving to
-		int x = player.getPlayerDestination()[0];
-		int y = player.getPlayerDestination()[1];
+		int x = player.getPos()[0];
+		int y = player.getPos()[1];
 
 		return blocks[x, y].hasEnemy;
 
