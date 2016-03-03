@@ -497,7 +497,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-<<<<<<< HEAD
 --- !u!1 &1174636679
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,8 +608,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1389303819}
-=======
->>>>>>> master
 --- !u!1 &1522190327
 GameObject:
   m_ObjectHideFlags: 0

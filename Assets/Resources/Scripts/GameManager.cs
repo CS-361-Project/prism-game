@@ -11,12 +11,9 @@ public class GameManager : MonoBehaviour {
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
 	MoveCounter moveCounter;
-<<<<<<< HEAD
 	GameObject levelSelection;
 	public Image rgbDiagram;
-=======
 	GameObject levelSelection, packSelection;
->>>>>>> master
 	bool inLevel = false;
 	bool inLevelSelection = false;
 	bool loadingLevel = false;
@@ -66,12 +63,9 @@ public class GameManager : MonoBehaviour {
 		this.levelPack = levelPack;
 		currLevel = number;
 		moveCounter.gameObject.SetActive(true);
-<<<<<<< HEAD
 		//rgbDiagram.gameObject.SetActive (true);
 		string levelFile = "Assets/Resources/Levels/Level" + number + ".txt";
-=======
 		string levelFile = "Levels/" + levelPack + "/level" + number;
->>>>>>> master
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
 		lastBoard = board;
