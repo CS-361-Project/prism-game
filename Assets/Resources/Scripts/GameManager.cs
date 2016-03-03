@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour {
 	public void loadLevel(int number) {
 		currLevel = number;
 		moveCounter.gameObject.SetActive(true);
-		rgbDiagram.gameObject.SetActive (true);
+		//rgbDiagram.gameObject.SetActive (true);
 		string levelFile = "Assets/Resources/Levels/Level" + number + ".txt";
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
