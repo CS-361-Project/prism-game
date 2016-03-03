@@ -6,17 +6,23 @@ using System.IO;
 using System;
 
 public class GameManager : MonoBehaviour {
-	Board board;
+	Board board, lastBoard;
 	public SpriteRenderer background;
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
 	MoveCounter moveCounter;
+<<<<<<< HEAD
 	GameObject levelSelection;
 	public Image rgbDiagram;
+=======
+	GameObject levelSelection, packSelection;
+>>>>>>> master
 	bool inLevel = false;
+	bool inLevelSelection = false;
 	bool loadingLevel = false;
 	float timeSinceLevelLoad = 0.0f;
 	int currLevel = -1;
+	string levelPack = "";
 
 	//Sound Effects
 	AudioSource audioSource;
@@ -33,7 +39,9 @@ public class GameManager : MonoBehaviour {
 		EmptyBlock = 'e',
 		RedSwitch = 'R',
 		GreenSwitch = 'G',
-		BlueSwitch = 'B'}
+		BlueSwitch = 'B',
+		HorizontalEnemy = 'h',
+		VerticalEnemy = 'v'}
 
 	;
 
@@ -54,36 +62,48 @@ public class GameManager : MonoBehaviour {
 		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
 	}
 
-	public void loadLevel(int number) {
+	public bool loadLevel(String levelPack, int number) {
+		this.levelPack = levelPack;
 		currLevel = number;
 		moveCounter.gameObject.SetActive(true);
+<<<<<<< HEAD
 		//rgbDiagram.gameObject.SetActive (true);
 		string levelFile = "Assets/Resources/Levels/Level" + number + ".txt";
+=======
+		string levelFile = "Levels/" + levelPack + "/level" + number;
+>>>>>>> master
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
-		if (board != null) {
-			DestroyImmediate(board.gameObject);
-		}
+		lastBoard = board;
 		GameObject boardObj = new GameObject();
 		board = boardObj.AddComponent<Board>();
-		loadLevelFromFile(levelFile, board);
-		inLevel = true;
-		timeSinceLevelLoad = 0.0f;
-		loadingLevel = true;
-		if (number == 0) {
-			board.addTraversalAI();
+		if (loadLevelFromFile(levelFile, board)) {
+			exitLevelSelection();
+			timeSinceLevelLoad = 0.0f;
+			loadingLevel = true;
+			board.scaleComponents(0);
+			board.scaleBackground(0);
+			return true;
 		}
-		loadingLevel = true;
+		else {
+			Destroy(background.gameObject);
+			Destroy(boardObj);
+			Destroy(lastBoard.gameObject);
+			goToLevelSelection();
+			return false;
+		}
 	}
 
 	void goToLevelSelection() {
 		inLevel = false;
+		inLevelSelection = true;
 		levelSelection.SetActive(true);
 		moveCounter.gameObject.SetActive(false);
 	}
 
 	void exitLevelSelection() {
 		inLevel = true;
+		inLevelSelection = false;
 		levelSelection.SetActive(false);
 		moveCounter.gameObject.SetActive(true);
 	}
@@ -109,8 +129,11 @@ public class GameManager : MonoBehaviour {
 				timeSinceLevelLoad += Time.deltaTime;
 				whileLoading(timeSinceLevelLoad);
 			}
+			else if (Input.GetKeyDown("r")) {
+				restartLevel();
+			}
 			else if (board.checkLevelDone()) {
-				loadLevel(currLevel + 1);
+				nextLevel();
 			}
 			else if (board.checkIfKillPlayer()) {
 				board.killPlayer();
@@ -121,9 +144,9 @@ public class GameManager : MonoBehaviour {
 					if (dir != Vector2.zero) {
 						board.getPlayer().finishMovementImmedate();
 						//Added AI
-						List<TraversalAI> AI_list = board.getTraversalAIList();
+						List<Enemy> EnemyList = board.getEnemyList();
 						if (board.getPlayer().moving) {
-							foreach (TraversalAI x in AI_list) {
+							foreach (Enemy x in EnemyList) {
 								x.finishMovementImmedate();
 							}
 						}
@@ -132,21 +155,23 @@ public class GameManager : MonoBehaviour {
 						}
 						if (board.getPlayer().move(dir)) {
 							moveCounter.increment();
-							foreach (TraversalAI x in AI_list) {
-								x.move();
+							foreach (Enemy x in EnemyList) {
+								x.move(board.getPlayer().lastMovementTime());
 							}
 						}
 					}
 					else {
-						float t = board.getPlayer().timeSinceLastMovement() / transitionTime;
+//						float t = board.getPlayer().timeSinceLastMovement() / transitionTime;
 						//Added AI
-						List<TraversalAI> AI_list = board.getTraversalAIList();
-						if (board.getPlayer().moving) {
-							foreach (TraversalAI x in AI_list) {
-								x.whileMoving(t);
+						List<Enemy> EnemyList = board.getEnemyList();
+						foreach (Enemy x in EnemyList) {
+							if (x.moving) {
+								float enemyProgress = x.timeSinceLastMovement() / transitionTime;
+								x.whileMoving(enemyProgress);
 							}
 						}
-						board.getPlayer().whileMoving(t);
+						float playerProgress = board.getPlayer().timeSinceLastMovement() / transitionTime;
+						board.getPlayer().whileMoving(playerProgress);
 					}
 				}
 				if (board.bgTransitioning) {
@@ -174,10 +199,10 @@ public class GameManager : MonoBehaviour {
 			}
 			//Check if Player moved
 			if (moved) {
-				List<TraversalAI> AIList = board.getTraversalAIList();
-				for (int i=AIList.Count - 1; i>= 0; i--) {
-					TraversalAI x = AIList[i];
-					x.move();
+				List<Enemy> EnemyList = board.getEnemyList();
+				for (int i = EnemyList.Count - 1; i >= 0; i--) {
+					Enemy x = EnemyList[i];
+					x.move(board.getPlayer().lastMovementTime());
 					if (x.markedForDeath) {
 						board.killEnemy(x);
 					}
@@ -187,10 +212,29 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void whileLoading(float t) {
-		if (t >= holdMovementTime) {
+		if (lastBoard == null) {
+			if (t < transitionTime) {
+				board.whileLoading(t / transitionTime);
+			}
+			else {
+				board.whileLoading(1);
+				loadingLevel = false;
+			}
+		}
+		else if (t < transitionTime) {
+			lastBoard.whileUnloading(t / transitionTime);
+		}
+		else if (t < 2 * transitionTime) {
+			float progress = (t - transitionTime) / transitionTime;
+			board.whileLoading(progress);
+		}
+		else {
+			if (lastBoard != null) {
+				Destroy(lastBoard.gameObject);
+			}
+			board.whileLoading(1);
 			loadingLevel = false;
 		}
-		// TODO: Load level animation
 	}
 
 	public Vector2 getKeyPressDirection() {
@@ -234,52 +278,55 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void restartLevel() {
-		loadLevel(currLevel);
+		loadLevel(levelPack, currLevel);
 	}
 
-	public void loadLevelFromFile(string fileName, Board board) {
+	public void nextLevel() {
+		loadLevel(levelPack, currLevel + 1);
+	}
+
+	public bool loadLevelFromFile(string fileName, Board board) {
 		try {
-			StreamReader file = new StreamReader(fileName);
+			TextAsset file = Resources.Load<TextAsset>(fileName);
+			string[] lines = file.text.Split("\n"[0]);
 			int lineNumber = 0;
 			int width = 0;
 			int height = 0;
 			Color bgColor = Color.black;
-			using (file) {
-				string line;
-				while ((line = file.ReadLine()) != null) {
-					string[] words = line.Split(' ');
-					if (words.Length > 0) {
-						if (lineNumber == 0) {
-							if (words.Length >= 2) {
-								width = int.Parse(words[0]);
-								height = int.Parse(words[1]);
-								board.init(width, height, background);
-							}
-							else {
-								print("Error reading file.");
-							}
+			foreach (string line in lines) {
+				string[] words = line.Split(' ');
+				if (words.Length > 0) {
+					if (lineNumber == 0) {
+						if (words.Length >= 2) {
+							width = int.Parse(words[0]);
+							height = int.Parse(words[1]);
+							board.init(width, height, background);
 						}
-						else if (lineNumber == 1) {
-							int colorNumber = int.Parse(words[0]);
-							bgColor = CustomColors.colors[colorNumber];
+						else {
+							print("Error reading file.");
+							return false;
 						}
-						else if (lineNumber < height + 2) {
-							if (words.Length >= width) {
-								for (int i = 0; i < width; i++) {
-									int x = (height - 1) - (lineNumber - 2);
-									int y = i;
-									char c = words[i].ToCharArray()[0];
-									addBlock(x, y, c);
-								}
-							}
-							else {
-								print("Error reading file...");
-							}
-						}
-						lineNumber++;
 					}
+					else if (lineNumber == 1) {
+						int colorNumber = int.Parse(words[0]);
+						bgColor = CustomColors.colors[colorNumber];
+					}
+					else if (lineNumber < height + 2) {
+						if (words.Length >= width) {
+							for (int i = 0; i < width; i++) {
+								int x = (height - 1) - (lineNumber - 2);
+								int y = i;
+								char c = words[i].ToCharArray()[0];
+								addBlock(x, y, c);
+							}
+						}
+						else {
+							print("Error reading file...");
+							return false;
+						}
+					}
+					lineNumber++;
 				}
-				background.transform.localScale = new Vector3((float)width / 4f, (float)height / 4f, 1);
 				board.setBackground(bgColor);
 				moveCounter.reset();
 			}
@@ -287,7 +334,9 @@ public class GameManager : MonoBehaviour {
 		catch (Exception e) {
 			print("Error reading file: " + e.ToString());
 			print(e.StackTrace);
+			return false;
 		}
+		return true;
 	}
 
 	void addBlock(int y, int x, char c) {
@@ -324,6 +373,14 @@ public class GameManager : MonoBehaviour {
 				break;
 			case (char)FileSymbols.BlueSwitch:
 				board.addLever(x, y, CustomColors.Blue);
+				break;
+			case (char)FileSymbols.HorizontalEnemy:
+				board.addEmptyBlock(x, y);
+				board.addHorizontalEnemy(x, y);
+				break;
+			case (char)FileSymbols.VerticalEnemy:
+				board.addEmptyBlock(x, y);
+				board.addVerticalEnemy(x, y);
 				break;
 		}
 	}

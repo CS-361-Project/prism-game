@@ -4,6 +4,7 @@ using System.Collections;
 public class Exit : MonoBehaviour {
 	Board board;
 	public int x, y;
+	public float size = 1.0f;
 	SpriteRenderer rend;
 	Color baseColor = CustomColors.White;
 	Color greyColor = CustomColors.Grey;

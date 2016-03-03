@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 public class Board : MonoBehaviour {
 	//AI specific changes
-	List<TraversalAI> TraversalAIList;
-	//List<TrackerAI> Track_AI_List;
+	List<Enemy> enemyList;
 
 	int width, height;
 	public Block[,] blocks;
@@ -14,7 +13,8 @@ public class Board : MonoBehaviour {
 	GameObject emptyBlockFolder, blockFolder, switchFolder, enemyFolder;
 	public bool bgTransitioning = false;
 	Color oldBG, newBG;
-	PlayerMovement player;
+	Vector3 bgSize;
+	Player player;
 	Exit exit;
 	float lastColorChange = -1.0f;
 
@@ -22,14 +22,18 @@ public class Board : MonoBehaviour {
 	// Use this for initialization
 	public void init(int w, int h, SpriteRenderer bgRender) {
 		Vector3 center = new Vector3((float)w / 2.0f - .5f, (float)h / 2.0f - .5f, 0);
-		transform.position = -center;
-		background = bgRender;
-		bgRender.transform.parent = transform;
-		oldBG = background.color;
-		newBG = background.color;
+		transform.localPosition = -center;
+
 		width = w;
 		height = h;
 		blocks = new Block[w, h];
+
+		background = bgRender;
+		bgSize = new Vector3((float)width / 4f, (float)height / 4f, 1);
+		background.transform.localScale = new Vector3(bgSize.x, bgSize.y, bgSize.z);
+		background.transform.parent = transform;
+		oldBG = background.color;
+		newBG = background.color;
 
 
 		name = "Board";
@@ -50,7 +54,7 @@ public class Board : MonoBehaviour {
 		enemyFolder.transform.parent = transform;
 
 		solidBlocks = new List<Block>();
-		TraversalAIList = new List<TraversalAI>();
+		enemyList = new List<Enemy>();
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				addEmptyBlock(x, y);
@@ -64,53 +68,49 @@ public class Board : MonoBehaviour {
 	}
 
 	public void initPlayer() {
-		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<PlayerMovement>();
+		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<Player>();
 		player.init(this);
 	}
 
-	public List<TraversalAI> getTraversalAIList() {
-		return TraversalAIList;
+	public List<Enemy> getEnemyList() {
+		return enemyList;
 	}
 
 	public bool checkLevelDone() {
+		int x, y, oldX, oldY;
+		x = player.getPos()[0];
+		y = player.getPos()[1];
+		oldX = player.getOldPos()[0];
+		oldY = player.getOldPos()[1];
 		if (player.moving) {
-			return (exit.x == player.oldX && exit.y == player.oldY);
+			return (exit.x == oldX && exit.y == oldY);
 		}
 		else {
-			return (exit.x == player.x && exit.y == player.y);
+			return (exit.x == x && exit.y == y);
 		}
 	}
 
-	//AI specific functions
-	public void addTraversalAI() {
-		TraversalAI enemy;
-		enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Traversal AI")).GetComponent<TraversalAI>();
-
+	public void addHorizontalEnemy(int x, int y) {
+		HorizontalEnemy enemy = Instantiate(Resources.Load<GameObject>("Prefabs/HorizontalEnemy")).GetComponent<HorizontalEnemy>();
 		enemy.transform.parent = enemyFolder.transform;
-
-		enemy.init(this);
-		TraversalAIList.Add(enemy);
-		enemy.name = "Traversal AI " + TraversalAIList.Count;
-
+		enemy.init(this, x, y);
+		enemyList.Add(enemy);
+		enemy.name = "Enemy" + enemyList.Count;
 	}
 
-	public void killEnemy(TraversalAI enemy) {
-		TraversalAIList.Remove(enemy);
+	public void addVerticalEnemy(int x, int y) {
+		VerticalEnemy enemy = Instantiate(Resources.Load<GameObject>("Prefabs/HorizontalEnemy")).GetComponent<VerticalEnemy>();
+		enemy.transform.parent = enemyFolder.transform;
+		enemy.init(this, x, y);
+		enemyList.Add(enemy);
+		enemy.name = "Enemy" + enemyList.Count;
+	}
+
+	public void killEnemy(Enemy enemy) {
+		enemyList.Remove(enemy);
 		enemy.onKill();
 		Destroy(enemy.gameObject);
 	}
-
-	//	void addTrackerAI(){
-	//		TrackerAI enemy;
-	//		enemy = Instantiate(Resources.Load<GameObject>("Prefabs/Tracker AI")).GetComponent<TrackerAI>();
-	//
-	//		enemy.transform.parent = AIFolder.transform;
-	//
-	//		enemy.init (board, player);
-	//
-	//		Track_AI_List.Add (enemy);
-	//		enemy.name = "Tracker AI " + Track_AI_List.Count;
-	//
 	//	}
 
 	public void initExit() {
@@ -210,6 +210,7 @@ public class Board : MonoBehaviour {
 	public void setBackground(Color bgColor) {
 		background.color = bgColor;
 		oldBG = bgColor;
+		newBG = bgColor;
 		lastColorChange = Time.time;
 		onBackgroundChange();
 
@@ -223,6 +224,12 @@ public class Board : MonoBehaviour {
 
 	public void finishBGTransitionImmediate() {
 		whileBGTransitioning(1.0f);
+	}
+
+	public void setBackgroundCosmetic(Color bgColor) {
+		background.color = bgColor;
+		oldBG = bgColor;
+		newBG = bgColor;
 	}
 
 	public void whileBGTransitioning(float t) {
@@ -247,6 +254,35 @@ public class Board : MonoBehaviour {
 		}
 	}
 
+	public void scaleComponents(float t) {
+		foreach (Block b in blocks) {
+			b.transform.localScale = new Vector3(t, t, 1);
+		}
+		if (player != null) {
+			player.transform.localScale = new Vector3(player.size * t, player.size * t, 1);
+		}
+		foreach (Enemy ai in enemyList) {
+			ai.transform.localScale = new Vector3(ai.size * t, ai.size * t, 1);
+		}
+		exit.transform.localScale = new Vector3(exit.size * t, exit.size * t, 1);
+	}
+
+	// Scale around origin
+	public void scaleBackground(float t) {
+		background.transform.localScale = Vector3.Lerp(Vector3.zero, bgSize, t);
+	}
+
+	public void whileLoading(float t) {
+		scaleBackground(t);
+		scaleComponents(t);
+	}
+
+	public void whileUnloading(float t) {
+		float progress = 1 - t;
+		scaleComponents(progress);
+		scaleBackground(progress);
+	}
+
 	public float timeSinceLastColorChange() {
 		return Time.time - lastColorChange;
 	}
@@ -263,7 +299,7 @@ public class Board : MonoBehaviour {
 		return height;
 	}
 
-	public PlayerMovement getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 
@@ -297,8 +333,8 @@ public class Board : MonoBehaviour {
 	//checks if the player has moved onto a block that has an AI and kills the player
 	public bool checkIfKillPlayer() {
 		//find out where the player is moving to
-		int x = player.getPlayerDestination()[0];
-		int y = player.getPlayerDestination()[1];
+		int x = player.getPos()[0];
+		int y = player.getPos()[1];
 
 		return blocks[x, y].hasEnemy;
 
