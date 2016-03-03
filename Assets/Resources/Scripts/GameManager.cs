@@ -130,9 +130,9 @@ public class GameManager : MonoBehaviour {
 					if (dir != Vector2.zero) {
 						board.getPlayer().finishMovementImmedate();
 						//Added AI
-						List<TraversalAI> AI_list = board.getTraversalAIList();
+						List<Enemy> EnemyList = board.getEnemyList();
 						if (board.getPlayer().moving) {
-							foreach (TraversalAI x in AI_list) {
+							foreach (Enemy x in EnemyList) {
 								x.finishMovementImmedate();
 							}
 						}
@@ -141,21 +141,23 @@ public class GameManager : MonoBehaviour {
 						}
 						if (board.getPlayer().move(dir)) {
 							moveCounter.increment();
-							foreach (TraversalAI x in AI_list) {
-								x.move();
+							foreach (Enemy x in EnemyList) {
+								x.move(board.getPlayer().lastMovementTime());
 							}
 						}
 					}
 					else {
-						float t = board.getPlayer().timeSinceLastMovement() / transitionTime;
+//						float t = board.getPlayer().timeSinceLastMovement() / transitionTime;
 						//Added AI
-						List<TraversalAI> AI_list = board.getTraversalAIList();
-						if (board.getPlayer().moving) {
-							foreach (TraversalAI x in AI_list) {
-								x.whileMoving(t);
+						List<Enemy> EnemyList = board.getEnemyList();
+						foreach (Enemy x in EnemyList) {
+							if (x.moving) {
+								float enemyProgress = x.timeSinceLastMovement() / transitionTime;
+								x.whileMoving(enemyProgress);
 							}
 						}
-						board.getPlayer().whileMoving(t);
+						float playerProgress = board.getPlayer().timeSinceLastMovement() / transitionTime;
+						board.getPlayer().whileMoving(playerProgress);
 					}
 				}
 				if (board.bgTransitioning) {
@@ -183,10 +185,10 @@ public class GameManager : MonoBehaviour {
 			}
 			//Check if Player moved
 			if (moved) {
-				List<TraversalAI> AIList = board.getTraversalAIList();
-				for (int i = AIList.Count - 1; i >= 0; i--) {
-					TraversalAI x = AIList[i];
-					x.move();
+				List<Enemy> EnemyList = board.getEnemyList();
+				for (int i = EnemyList.Count - 1; i >= 0; i--) {
+					Enemy x = EnemyList[i];
+					x.move(board.getPlayer().lastMovementTime());
 					if (x.markedForDeath) {
 						board.killEnemy(x);
 					}
@@ -360,11 +362,11 @@ public class GameManager : MonoBehaviour {
 				break;
 			case (char)FileSymbols.HorizontalEnemy:
 				board.addEmptyBlock(x, y);
-				board.addTraversalAI(x, y, 1, 0);
+				board.addHorizontalEnemy(x, y);
 				break;
 			case (char)FileSymbols.VerticalEnemy:
 				board.addEmptyBlock(x, y);
-				board.addTraversalAI(x, y, 0, 1);
+				board.addVerticalEnemy(x, y);
 				break;
 		}
 	}

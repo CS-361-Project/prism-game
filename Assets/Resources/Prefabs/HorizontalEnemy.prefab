@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21269060}
   - 114: {fileID: 11447010}
   m_Layer: 0
-  m_Name: Traversal AI
+  m_Name: HorizontalEnemy
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,9 +37,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 197146}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e680a038f3e24e8a9eb8c2b5def714d, type: 3}
+  m_Script: {fileID: 11500000, guid: 620766f151e4d7b4e829eae4dee58bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  size: 0.7
+  blockSize: 1
+  targetSquish: 0.5
+  targetExpand: 0.9
+  moveSquish: 0.6
+  moveStretch: 1.15
+  animating: 0
+  moving: 0
+  markedForDeath: 0
 --- !u!212 &21269060
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -88,6 +97,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Color.b
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Name
+      value: HorizontalEnemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

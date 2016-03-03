@@ -1,66 +1,64 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TraversalAI : MonoBehaviour {
-	Board board;
-	int x, y, oldX, oldY, moveDirX, moveDirY;
+public class Movable : MonoBehaviour {
+	protected Board board;
 
-	//animation variables
+	protected int x, y, oldX, oldY, moveDirX, moveDirY;
+	protected float lastMovement = 0.0f;
+
 	public float size = 0.7f;
 	public float blockSize = 1.0f;
 	public float targetSquish = 0.5f;
 	public float targetExpand = 0.9f;
 	public float moveSquish = 0.6f;
 	public float moveStretch = 1.15f;
+	public bool animating = false;
 	public bool moving = false;
-	public bool markedForDeath = false;
 
-
-	// Use this for initialization
-	public void init(Board B, int xPos, int yPos, int xDirection, int yDirection) {
-		GetComponent<SpriteRenderer>().color = CustomColors.TraversalAI;
-		board = B;
+	public virtual void init(Board b, int xPos, int yPos) {
+		transform.parent = b.transform;
+		board = b;
 		x = xPos;
 		y = yPos;
-		transform.position = board.getBlockPosition(x, y);
-		transform.localScale = new Vector3(size, size, 1);
-		moveDirX = xDirection;
-		moveDirY = yDirection;
-		updatePosition();
-	}
-
-	void changeDirection() {
-		moveDirX *= -1;
-		moveDirY *= -1;
-	}
-
-	public void move() {
-		moving = true;
 		oldX = x;
 		oldY = y;
-		if (board.getBlockPassable(x, y) && !board.getBlockPassableAfterTransition(x, y)) {
-			markedForDeath = true;
+		transform.localScale = new Vector3(size, size, 1);
+		transform.position = board.getBlockPosition(x, y);
+	}
+
+	public virtual bool move(Vector2 direction) {
+		if (direction == Vector2.zero) {
+			return false;
 		}
-		if (board.getBlockPassableAfterTransition(x + moveDirX, y + moveDirY)) {
-			x = x + moveDirX;
-			y = y + moveDirY;
-			updatePosition();
+		bool moved;
+		animating = true;
+		int dx = (int)direction.x;
+		int dy = (int)direction.y;
+		moveDirX = dx;
+		moveDirY = dy;
+		oldX = x;
+		oldY = y;
+		moving = false;
+		moved = canPassThrough(x + dx, y + dy);
+		if (moved) {
+			x = x + dx;
+			y = y + dy;
+			moving = true;
 		}
-		else {
-			//go in other direction
-			changeDirection();
-			if ((board.getBlockPassableAfterTransition(x + moveDirX, y + moveDirY))) {
-				x = x + moveDirX;
-				y = y + moveDirY;
-				updatePosition();
-			}
-		}
+		onMovementStart();
+		return moved;
+	}
+
+	public virtual bool canPassThrough(int x, int y) {
+		return board.getBlockPassable(x, y);
 	}
 
 	public void whileMoving(float percentDone) {
 		if (percentDone >= 1.0f) {
 			percentDone = 1.0f;
 			moving = false;
+			animating = false;
 		}
 		Vector3 target = board.getBlockPosition(x, y);
 		Vector3 old = board.getBlockPosition(oldX, oldY);
@@ -93,28 +91,34 @@ public class TraversalAI : MonoBehaviour {
 		}
 	}
 
-	public void onKill() {
-		board.setHasEnemy(x, y, false);
+	public virtual void onMovementStart() {
+		lastMovement = Time.time;
 	}
-
-	public void updatePosition() {
-		//places player in center of new block
-		//transform.position = board.getBlockPosition(x, y);
-
-		//tell block AI is on block
-		board.setHasEnemy(oldX, oldY, false);
-		board.setHasEnemy(x, y, true);
-
-	}
-
 
 	public void finishMovementImmedate() {
 		whileMoving(1.0f);
 	}
 
 	public bool finishedMovement() {
-		return !moving;
+		return !animating;
 	}
 
+	public float timeSinceLastMovement() {
+		return Time.time - lastMovement;
+	}
 
+	public float lastMovementTime() {
+		return lastMovement;
+	}
+
+	public int[] getPos(){
+		int[] d = {x,y};
+		return d;
+	}
+
+	public int[] getOldPos() {
+		int[] d = {oldX, oldY};
+		return d;
+	}
 }
+
