@@ -1,5 +1,15 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+<<<<<<< HEAD
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/GameManager.cs">
+    <Files>
+      <File FileName="Assets/Resources/Scripts/StartMenu.cs" Line="177" Column="2" />
+      <File FileName="Assets/Resources/Scripts/Board.cs" Line="21" Column="3" />
+      <File FileName="Assets/Resources/Scripts/GameManager.cs" Line="10" Column="2" />
+      <File FileName="Assets/Resources/Scripts/Block.cs" Line="23" Column="3" />
+      <File FileName="Assets/Resources/Scripts/LeverBlock.cs" Line="32" Column="4" />
+      <File FileName="Assets/Resources/Scripts/CustomColors.cs" Line="1" Column="1" />
+=======
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/Board.cs">
     <Files>
       <File FileName="Assets/Resources/Scripts/GameManager.cs" Line="149" Column="1" />
@@ -9,6 +19,7 @@
       <File FileName="Assets/Resources/Scripts/MoveCounter.cs" Line="18" Column="1" />
       <File FileName="Assets/Resources/Scripts/LeverBlock.cs" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/Block.cs" Line="68" Column="20" />
+>>>>>>> master
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
