@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour {
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
 	MoveCounter moveCounter;
-	public Image rgbDiagram;
 	GameObject levelSelection, packSelection;
 	bool inLevel = false;
 	bool inLevelSelection = false;
@@ -45,8 +44,6 @@ public class GameManager : MonoBehaviour {
 	void Start() {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		moveCounter.gameObject.SetActive(false);
-		rgbDiagram = rgbDiagram.GetComponent<Image> ();
-		rgbDiagram.gameObject.SetActive (false);
 
 		levelSelection = GameObject.Find("Level Selection");
 		if (levelSelection == null) {
