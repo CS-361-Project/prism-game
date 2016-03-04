@@ -17,12 +17,17 @@ public class Board : MonoBehaviour {
 	Player player;
 	Exit exit;
 	float lastColorChange = -1.0f;
+	float boardSize = 2.0f;
 
 
 	// Use this for initialization
 	public void init(int w, int h, SpriteRenderer bgRender) {
-		Vector3 center = new Vector3((float)w / 2.0f - .5f, (float)h / 2.0f - .5f, 0);
+		int maxDimension = Mathf.Max(w, h);
+		float cameraSize = Camera.main.orthographicSize * 2;
+		boardSize = cameraSize / (float)maxDimension;
+		Vector3 center = new Vector3((float)w / 2.0f - .5f, (float)h / 2.0f - .5f, 0) * boardSize;
 		transform.localPosition = -center;
+		transform.localScale = new Vector3(boardSize, boardSize, 1);
 
 		width = w;
 		height = h;
@@ -41,17 +46,21 @@ public class Board : MonoBehaviour {
 		emptyBlockFolder.name = "Empty Blocks";
 		emptyBlockFolder.transform.parent = transform;
 		emptyBlockFolder.transform.localPosition = new Vector3(0, 0, 0);
+		emptyBlockFolder.transform.localScale = new Vector3(1, 1, 1);
 		blockFolder = new GameObject();
 		blockFolder.name = "Blocks";
 		blockFolder.transform.parent = transform;
 		blockFolder.transform.localPosition = new Vector3(0, 0, 0);
+		blockFolder.transform.localScale = new Vector3(1, 1, 1);
 		switchFolder = new GameObject();
 		switchFolder.name = "Switches";
 		switchFolder.transform.parent = transform;
 		switchFolder.transform.localPosition = new Vector3(0, 0, 0);
+		switchFolder.transform.localScale = new Vector3(1, 1, 1);
 		enemyFolder = new GameObject();
-		enemyFolder.name = "AI Folder";
+		enemyFolder.name = "Enemy Folder";
 		enemyFolder.transform.parent = transform;
+		enemyFolder.transform.localScale = new Vector3(1, 1, 1);
 
 		solidBlocks = new List<Block>();
 		enemyList = new List<Enemy>();

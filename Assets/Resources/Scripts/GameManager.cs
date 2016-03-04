@@ -45,8 +45,6 @@ public class GameManager : MonoBehaviour {
 	void Start() {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		moveCounter.gameObject.SetActive(false);
-		rgbDiagram = rgbDiagram.GetComponent<Image> ();
-		rgbDiagram.gameObject.SetActive (false);
 
 		levelSelection = GameObject.Find("Level Selection");
 		if (levelSelection == null) {
