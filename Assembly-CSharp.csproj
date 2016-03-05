@@ -63,7 +63,10 @@
      <Compile Include="Assets\Resources\Scripts\Movable.cs" />
      <Compile Include="Assets\Resources\Scripts\MoveCounter.cs" />
      <Compile Include="Assets\Resources\Scripts\Player.cs" />
-     <Compile Include="Assets\Resources\Scripts\StartMenu.cs" />
+     <Compile Include="Assets\Resources\Scripts\Start Menu\FloatingBlock.cs" />
+     <Compile Include="Assets\Resources\Scripts\Start Menu\FloatingBlockManager.cs" />
+     <Compile Include="Assets\Resources\Scripts\Start Menu\FloatingBlockModel.cs" />
+     <Compile Include="Assets\Resources\Scripts\Start Menu\StartMenu.cs" />
      <Compile Include="Assets\Resources\Scripts\VerticalEnemy.cs" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level40.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level100.txt" />

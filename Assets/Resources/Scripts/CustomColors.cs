@@ -17,7 +17,7 @@ public static class CustomColors {
 	public static Color[] colors = {Black, Red, Green, Yellow, Blue, Magenta, Cyan, White};
 
 	public static Color randomColor() {
-		return colors[UnityEngine.Random.Range(0, Mathf.Min(6, colors.Length))];
+		return colors[UnityEngine.Random.Range(0, colors.Length)];
 	}
 
 	public static Color addColor(Color a, Color b) {

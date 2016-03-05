@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 477720}
   - 212: {fileID: 21226878}
   - 114: {fileID: 11402934}
+  - 114: {fileID: 11451822}
   m_Layer: 0
   m_Name: Block
   m_TagString: Platform
@@ -43,6 +44,22 @@ MonoBehaviour:
   activeSprite: {fileID: 21300000, guid: 3c2c25d89f213294c94734b1f44df999, type: 3}
   inactiveSprite: {fileID: 21300000, guid: 3c2c25d89f213294c94734b1f44df999, type: 3}
   baseColor: {r: 1, g: 0, b: 0, a: 1}
+  inactiveColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &11451822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4cb2219a8efa4631995792954d01433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeSprite: {fileID: 21300000, guid: 3c2c25d89f213294c94734b1f44df999, type: 3}
+  inactiveSprite: {fileID: 21300000, guid: 3c2c25d89f213294c94734b1f44df999, type: 3}
+  baseColor: {r: 1, g: 0, b: 0, a: 0}
+  inactiveColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!212 &21226878
 SpriteRenderer:
   m_ObjectHideFlags: 1
