@@ -797,7 +797,6 @@ MonoBehaviour:
   background: {fileID: 0}
   transitionTime: 0.12
   holdMovementTime: 0.35
-  rgbDiagram: {fileID: 0}
   deathSound: {fileID: 0}
 --- !u!4 &1156624515
 Transform:
@@ -1281,7 +1280,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1782025774
 RectTransform:
   m_ObjectHideFlags: 0
