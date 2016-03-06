@@ -63,15 +63,16 @@ public class Movable : MonoBehaviour {
 		Vector3 target = board.getBlockPosition(x, y);
 		Vector3 old = board.getBlockPosition(oldX, oldY);
 		if (oldX == x && oldY == y) {
+			float blockDistance = board.getDistanceBetweenBlocks();
 			if (moveDirX != 0) {
-				target = new Vector3(old.x + moveDirX * (blockSize - targetSquish) / 2.0f, old.y, 0);
+				target = new Vector3(old.x + moveDirX * blockDistance * (blockSize - targetSquish) / 2.0f, old.y, 0);
 				transform.position = Vector3.Lerp(old, target, Mathf.Sin(Mathf.PI * percentDone));
 				transform.localScale = new Vector3(
 					Mathf.Sin(Mathf.PI * percentDone) * (targetSquish - size) + size,
 					Mathf.Sin(Mathf.PI * percentDone) * (targetExpand - size) + size, 0);
 			}
 			else if (moveDirY != 0) {
-				target = new Vector3(old.x, old.y + moveDirY * (blockSize - targetSquish) / 2.0f, 0);
+				target = new Vector3(old.x, old.y + moveDirY * blockDistance * (blockSize - targetSquish) / 2.0f, 0);
 				transform.position = Vector3.Lerp(old, target, Mathf.Sin(Mathf.PI * percentDone));
 				transform.localScale = new Vector3(
 					Mathf.Sin(Mathf.PI * percentDone) * (targetExpand - size) + size,
