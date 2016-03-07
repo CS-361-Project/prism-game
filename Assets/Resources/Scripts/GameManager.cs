@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
 	MoveCounter moveCounter;
-	GameObject levelSelection, packSelection;
+	GameObject levelSelection, packSelection, pauseMenu;
 	bool inLevel = false;
 	bool inLevelSelection = false;
 	bool loadingLevel = false;
@@ -44,10 +44,16 @@ public class GameManager : MonoBehaviour {
 	void Start() {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		moveCounter.gameObject.SetActive(false);
-
+		pauseMenu = GameObject.Find("PauseMenu");
 		levelSelection = GameObject.Find("Level Selection");
 		if (levelSelection == null) {
 			print("Unable to find level selection");
+		}
+		if (pauseMenu == null) {
+			print("Unable to find pause menu");
+		}
+		else {
+			pauseMenu.SetActive(false);
 		}
 
 		//Initialize AudioSource
@@ -84,18 +90,28 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	void goToLevelSelection() {
+	public void goToLevelSelection() {
 		inLevel = false;
 		inLevelSelection = true;
 		levelSelection.SetActive(true);
 		moveCounter.gameObject.SetActive(false);
 	}
 
-	void exitLevelSelection() {
+	public void exitLevelSelection() {
 		inLevel = true;
 		inLevelSelection = false;
 		levelSelection.SetActive(false);
 		moveCounter.gameObject.SetActive(true);
+	}
+
+	public void openPauseMenu() {
+		inLevel = false;
+		pauseMenu.SetActive(true);
+	}
+
+	public void exitPauseMenu() {
+		inLevel = true;
+		pauseMenu.SetActive(false);
 	}
 
 	// Update is called once per frame
@@ -103,10 +119,10 @@ public class GameManager : MonoBehaviour {
 		bool moved = false;
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			if (inLevel) {
-				goToLevelSelection();
+				openPauseMenu();
 			}
 			else if (board != null) {
-				exitLevelSelection();
+				exitPauseMenu();
 			}
 		}
 		if (inLevel) {
