@@ -28,7 +28,7 @@ public class FloatingBlock : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		borders (5);
+		borders (Camera.main.orthographicSize);
 		if (direction) {
 			transform.Translate (speed, 0, 0);
 		} else {
@@ -37,7 +37,7 @@ public class FloatingBlock : MonoBehaviour {
 
 	
 	}
-	void borders(int size){
+	void borders(float size){
 		if (transform.localPosition.x > size || transform.localPosition.x < -size) {
 			if (transform.localPosition.x > size) {
 				transform.localPosition = new Vector3 (transform.localPosition.x-(size*2),transform.localPosition.y,0);
