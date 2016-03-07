@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Resources\Scripts\AudioControl.cs" />
      <Compile Include="Assets\Resources\Scripts\Blocks\Block.cs" />
      <Compile Include="Assets\Resources\Scripts\Blocks\EmptyBlock.cs" />
      <Compile Include="Assets\Resources\Scripts\Blocks\LeverBlock.cs" />

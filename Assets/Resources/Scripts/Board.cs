@@ -354,4 +354,8 @@ public class Board : MonoBehaviour {
 		Destroy(player.gameObject);
 
 	}
+
+	public float getDistanceBetweenBlocks() {
+		return transform.localScale.x;
+	}
 }
