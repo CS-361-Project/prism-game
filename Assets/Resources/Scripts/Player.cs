@@ -40,9 +40,10 @@ public class Player : Movable {
 
 	float determineVolume(){
 		//I want it to return full volume quicker and I want to take longer to get min volume
-		float vol = (timeSinceLastMovement()*2 + 0.3f);
-		vol = Mathf.Clamp(vol, .3f, 1.0f);
-		return vol;
+//		float vol = (timeSinceLastMovement()*2 + 0.3f);
+//		vol = Mathf.Clamp(vol, .3f, 1.0f);
+//		return vol;
+		return 1.0f;
 	}
 
 	public void onBackgroundTransition(Color oldBG, Color newBG, float progress) {

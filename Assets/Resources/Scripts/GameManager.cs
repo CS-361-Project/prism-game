@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
 
 	//Sound Effects
 	AudioSource audioSource;
-	public AudioClip deathSound;
+	public AudioClip deathSound, endLevelSound;
 
 	public enum FileSymbols {
 		RedBlock = 'r',
@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour {
 		//Initialize AudioSource
 		audioSource = gameObject.AddComponent<AudioSource>();
 		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
+		endLevelSound = Resources.Load<AudioClip>("Audio/Home2");
 	}
 
 	public bool loadLevel(String levelPack, int number) {
@@ -139,6 +140,7 @@ public class GameManager : MonoBehaviour {
 				restartLevel();
 			}
 			else if (board.checkLevelDone()) {
+				audioSource.PlayOneShot(endLevelSound, .05f);
 				nextLevel();
 			}
 			else if (board.checkIfKillPlayer()) {
