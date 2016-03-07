@@ -5,11 +5,14 @@ using System.Collections;
 
 public class LevelPackManager : MonoBehaviour {
 	GameObject packPanel;
+	GameObject levelPanel;
 	GameObject activePack;
 	
 	// Use this for initialization
 	void Start() {
 		packPanel = GameObject.Find("LevelPackPanel");
+		levelPanel = GameObject.Find("Level Selection");
+		levelPanel.SetActive(false);
 		initLevelPacks();
 	}
 
@@ -19,7 +22,7 @@ public class LevelPackManager : MonoBehaviour {
 		foreach (string pack in directories) {
 			GameObject g = Instantiate(Resources.Load<GameObject>("Prefabs/LevelPanel"));
 			g.SetActive(false);
-			g.transform.SetParent(packPanel.transform.parent, false);
+			g.transform.SetParent(levelPanel.transform, false);
 			g.GetComponent<LevelButtonManager>().init(pack);
 			addLevelPack(g, pack);
 		}
@@ -39,6 +42,7 @@ public class LevelPackManager : MonoBehaviour {
 		}
 		else {
 			packPanel.SetActive(false);
+			levelPanel.SetActive(true);
 		}
 		obj.SetActive(true);
 		activePack = obj;
@@ -47,6 +51,7 @@ public class LevelPackManager : MonoBehaviour {
 	public void showPackSelection() {
 		if (activePack != null) {
 			activePack.SetActive(false);
+			levelPanel.SetActive(false);
 			activePack = null;
 		}
 		packPanel.SetActive(true);
