@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
 	MoveCounter moveCounter;
+	SwipeDetector swipeDetector;
 	GameObject levelSelection, packSelection, pauseMenu;
 	bool inLevel = false;
 	bool inLevelSelection = false;
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour {
 	void Start() {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		moveCounter.gameObject.SetActive(false);
+		swipeDetector = new GameObject().AddComponent<SwipeDetector>();
 		pauseMenu = GameObject.Find("PauseMenu");
 		levelSelection = GameObject.Find("Level Selection");
 		if (levelSelection == null) {
@@ -147,7 +149,10 @@ public class GameManager : MonoBehaviour {
 				board.killPlayer();
 			}
 			else if (board.bgTransitioning || board.getPlayer().animating) {
-				Vector2 dir = getKeyPressDirection();
+				Vector2 dir = swipeDetector.getSwipeDirection();
+				if (dir == Vector2.zero) {
+					dir = getKeyPressDirection();
+				}
 				if (board.getPlayer().animating) {
 					if (dir != Vector2.zero) {
 						board.getPlayer().finishMovementImmedate();
@@ -246,7 +251,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public Vector2 getKeyPressDirection() {
-		Vector2 result;
+		Vector2 result = Vector2.zero;
 		if (Input.GetKeyDown(KeyCode.UpArrow)) {
 			result = Vector2.up;
 		}
@@ -258,9 +263,6 @@ public class GameManager : MonoBehaviour {
 		}
 		else if (Input.GetKeyDown(KeyCode.RightArrow)) {
 			result = Vector2.right;
-		}
-		else {
-			result = Vector2.zero;
 		}
 		return result;
 	}
