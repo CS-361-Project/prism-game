@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
 
 	//Sound Effects
 	AudioSource audioSource;
-	public AudioClip deathSound, endLevelSound;
+	public AudioClip deathSound, endLevelSound, soundtrack;
 
 	public enum FileSymbols {
 		RedBlock = 'r',
