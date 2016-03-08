@@ -28,7 +28,9 @@ public class FloatingBlock : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		borders (Camera.main.orthographicSize);
+		Vector3 screen = Camera.main.ScreenToWorldPoint (new Vector3 (Screen.width, Screen.height, 0));
+		borders (screen.x, screen.y);
+
 		if (direction) {
 			transform.Translate (speed, 0, 0);
 		} else {
@@ -37,19 +39,19 @@ public class FloatingBlock : MonoBehaviour {
 
 	
 	}
-	void borders(float size){
-		if (transform.localPosition.x > size || transform.localPosition.x < -size) {
-			if (transform.localPosition.x > size) {
-				transform.localPosition = new Vector3 (transform.localPosition.x-(size*2),transform.localPosition.y,0);
+	void borders(float xsize, float ysize){
+		if (transform.localPosition.x > xsize || transform.localPosition.x < -xsize) {
+			if (transform.localPosition.x > xsize) {
+				transform.localPosition = new Vector3 (transform.localPosition.x-(xsize*2),transform.localPosition.y,0);
 			} else {
-				transform.localPosition = new Vector3 (transform.localPosition.x+(size*2),transform.localPosition.y,0);
+				transform.localPosition = new Vector3 (transform.localPosition.x+(xsize*2),transform.localPosition.y,0);
 			} 
 		}
-		if (transform.localPosition.y > size || transform.localPosition.y < -size) {
-			if (transform.localPosition.y > size) {
-				transform.localPosition = new Vector3 (transform.localPosition.x,transform.localPosition.y-(size*2),0);
+		if (transform.localPosition.y > ysize || transform.localPosition.y < -ysize) {
+			if (transform.localPosition.y > ysize) {
+				transform.localPosition = new Vector3 (transform.localPosition.x,transform.localPosition.y-(ysize*2),0);
 			} else {
-				transform.localPosition = new Vector3 (transform.localPosition.x,transform.localPosition.y+(size*2),0);
+				transform.localPosition = new Vector3 (transform.localPosition.x,transform.localPosition.y+(ysize*2),0);
 			} 
 		}
 	}
