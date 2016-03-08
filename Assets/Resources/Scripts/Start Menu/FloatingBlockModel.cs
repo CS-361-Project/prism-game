@@ -17,6 +17,6 @@ public class FloatingBlockModel : MonoBehaviour {
 		this.baseColor = baseColor;
 		inactiveColor = baseColor - new Color(.1f, .1f, .1f, 0.36f);
 		rend.color = new Color(baseColor.r,baseColor.b,baseColor.g, .75F);
-		rend.sortingLayerName = "Foreground";
+		rend.sortingLayerName = "Background";
 	}
 }
