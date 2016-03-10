@@ -43,9 +43,9 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start() {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
-		moveCounter.gameObject.SetActive(false);
 		swipeDetector = new GameObject().AddComponent<SwipeDetector>();
 		menuManager = GameObject.Find ("Menu Manager").GetComponent<MenuManager>();
+		menuManager.closeMenu((int)MenuManager.menus.ingameUI);
 
 		//Initialize AudioSource
 		audioSource = gameObject.AddComponent<AudioSource>();
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour {
 	public bool loadLevel(String levelPack, int number) {
 		this.levelPack = levelPack;
 		currLevel = number;
-		moveCounter.gameObject.SetActive(true);
+		menuManager.openMenu((int)MenuManager.menus.ingameUI);
 		string levelFile = "Levels/" + levelPack + "/level" + number;
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
