@@ -146,6 +146,7 @@ public class Board : MonoBehaviour {
 			blocks[x, y] = obj.AddComponent<LeverBlock>();
 			blocks[x, y].init(c, background.color, this, switchFolder.transform);
 		}
+
 	}
 
 	public void addBlock(int x, int y, Color c) {

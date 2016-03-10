@@ -7,18 +7,21 @@ using System.Collections.Generic;
 
 public class MenuManager : MonoBehaviour {
 
-	public enum menus {levelSelect, pauseMenu, startMenu, packMenu, ingameUI}
-	GameObject[] menusArray = new GameObject[Enum.GetNames(typeof(menus)).Length];
-	public bool inLevel = false;
+	public enum menus {levelSelect, pauseMenu, packMenu, ingameUI}
+	GameObject[] menusArray; 
+	//public bool inLevel = false;
 
 	GameObject levelSelection, packSelection, pauseMenu, ingameUI;
 
 	// Use this for initialization
 	void Start () {
+		menusArray = new GameObject[Enum.GetNames(typeof(menus)).Length];
 		levelSelection = GameObject.Find ("Level Selection");
 		pauseMenu = GameObject.Find ("PauseMenu");
 		packSelection = GameObject.Find("LevelPackPanel");
 		ingameUI = GameObject.Find("IngameUI");
+
+
 		menusArray [(int)menus.levelSelect] = levelSelection;
 		menusArray [(int)menus.pauseMenu] = pauseMenu;
 		menusArray [(int)menus.packMenu] = packSelection;
@@ -42,15 +45,24 @@ public class MenuManager : MonoBehaviour {
 	public bool menuOpen (int menu){
 		return menusArray [menu].activeSelf;
 	}
-
-	public void closeMenu (int m){
-		inLevel = true;
-		menusArray[m].SetActive(false);
+		
+	public bool inLevel (){
+		for (int i = 0; i < menusArray.Length - 1; i++) {
+			if (menusArray [i].activeSelf) {
+				return false;
+			}
+		}
+		return true;
 	}
 
-	public void openMenu (int m){
-		inLevel = false;
-		menusArray[m].SetActive(true);
+	public void closeMenu (int menu){
+		//inLevel = true;
+		menusArray [menu].SetActive (false);
+	}
+
+	public void openMenu (int menu){
+		//inLevel = false;
+		menusArray [menu].SetActive (true);
 	}
 
 	public void returnToStart(){
