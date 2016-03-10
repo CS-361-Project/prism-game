@@ -9,7 +9,7 @@ public class MenuManager : MonoBehaviour {
 
 	public enum menus {levelSelect, pauseMenu, startMenu, packMenu}
 	GameObject[] menusArray = new GameObject[Enum.GetNames(typeof(menus)).Length];
-	public bool inLevel = false;
+	//public bool inLevel = false;
 
 	GameObject levelSelection, packSelection, pauseMenu;
 
@@ -37,23 +37,26 @@ public class MenuManager : MonoBehaviour {
 		}
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	public bool menuOpen (int menu){
 		return menusArray [menu].activeSelf;
 	}
 
+	public bool inLevel (){
+		for (int i = 0; i < menusArray.Length - 1; i++) {
+			if (menusArray [i].activeSelf) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void closeMenu (int menu){
-		inLevel = true;
+		//inLevel = true;
 		menusArray [menu].SetActive (false);
 	}
 
 	public void openMenu (int menu){
-		inLevel = false;
+		//inLevel = false;
 		menusArray [menu].SetActive (true);
 	}
 

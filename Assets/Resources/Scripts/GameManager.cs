@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour {
 
 	;
 
+
 	// Use this for initialization
 	void Start() {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour {
 		audioSource = gameObject.AddComponent<AudioSource>();
 		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
 		endLevelSound = Resources.Load<AudioClip>("Audio/Home2");
+
 	}
 
 	public bool loadLevel(String levelPack, int number) {
@@ -111,14 +113,14 @@ public class GameManager : MonoBehaviour {
 	void Update() {
 		bool moved = false;
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			if (menuManager.inLevel) {
+			if (menuManager.inLevel()) {
 				openPauseMenu();
 			}
 			else if (board != null) {
 				exitPauseMenu();
 			}
 		}
-		if (menuManager.inLevel) {
+		if (menuManager.inLevel()) {
 			if (board.getPlayer() == null) {
 				// player is dead
 				audioSource.PlayOneShot(deathSound);

@@ -11,6 +11,8 @@ public class LeverBlock : Block {
 	public AudioClip toggleOnSound;
 	public AudioClip toggleOffSound;
 
+	public ColorModel colorModel;
+
 	public override void init(Color c, Color bgColor, Board b, Transform parent) {
 		blockModel = Instantiate(Resources.Load<GameObject>("Prefabs/Lever")).GetComponent<LeverModel>();
 		blockModel.init(this.transform, c);
@@ -19,6 +21,8 @@ public class LeverBlock : Block {
 		board = b;
 		leverColor = c;
 		isToggled = false;
+
+		colorModel = GameObject.Find ("RGB Diagram").GetComponent<ColorModel> ();
 
 		//Initialize AudioSource
 		audioSource = gameObject.AddComponent<AudioSource>();
@@ -45,11 +49,17 @@ public class LeverBlock : Block {
 			board.startBGTransition(CustomColors.subColor(c, leverColor));
 			//turn off
 			audioSource.PlayOneShot(toggleOffSound);
+			colorModel.switchUntoggled (leverColor);
+			colorModel.switchUntoggled (board.getBackgroundColor ());
 		}
 		else {
 			board.startBGTransition(CustomColors.addColor(c, leverColor));
 			audioSource.PlayOneShot(toggleOnSound);
+			colorModel.switchToggled (leverColor);
+			colorModel.switchToggled (board.getBackgroundColor ());
 		}
+
+
 	}
 
 	public bool getState() {

@@ -6,12 +6,11 @@ using System.Collections.Generic;
 
 public class StartMenu : MonoBehaviour {
 
-	public Canvas exitMenu;
 	public Camera main;
 
 	public Button startButton;
 	public Button exitButton;
-	public Button howTo;
+	public Button zenMode;
 	public Button yesQuit;
 	public Button noQuit;
 
@@ -25,15 +24,10 @@ public class StartMenu : MonoBehaviour {
 	float lastColorChange = -1.0f;
 	public float transitionTime = 1.0f;
 
-	public Image quitScreen;
+	public Text quitMessage;
 
 	// Use this for initialization
 	void Awake() {
-
-		exitMenu = exitMenu.GetComponent<Canvas>();
-
-		quitScreen = quitScreen.GetComponent<Image>();
-		quitScreen.color = CustomColors.White;
 
 		main = main.GetComponent<Camera>();
 		main.backgroundColor = CustomColors.White;
@@ -53,29 +47,32 @@ public class StartMenu : MonoBehaviour {
 		exitCol.highlightedColor = Color.Lerp(CustomColors.Cyan, CustomColors.White, .5F);
 		exitButton.colors = exitCol;
 
-		howTo = howTo.GetComponent<Button>();
-		ColorBlock howToCol = howTo.colors;
-		howToCol.normalColor = CustomColors.Magenta;
-		howToCol.highlightedColor = Color.Lerp(CustomColors.Magenta, CustomColors.White, .5F);
-		howTo.colors = howToCol;
+		zenMode = zenMode.GetComponent<Button>();
+		ColorBlock zenModeCol = zenMode.colors;
+		zenModeCol.normalColor = CustomColors.Magenta;
+		zenModeCol.highlightedColor = Color.Lerp(CustomColors.Magenta, CustomColors.White, .5F);
+		zenMode.colors = zenModeCol;
+
+		// quit menu/buttons
+		exitMessage = exitMessage.GetComponent<Text>();
+		exitMessage.color = CustomColors.Blue;
+		exitMessage.gameObject.SetActive (false);
 
 		yesQuit = yesQuit.GetComponent<Button>();
 		ColorBlock yesCol = yesQuit.colors;
 		yesCol.normalColor = CustomColors.Green;
 		yesCol.highlightedColor = Color.Lerp(CustomColors.Green, CustomColors.White, .5F);
 		yesQuit.colors = yesCol;
+		yesQuit.gameObject.SetActive (false);
 
 		noQuit = noQuit.GetComponent<Button>();
 		ColorBlock noCol = noQuit.colors;
 		noCol.normalColor = CustomColors.Red;
 		noCol.highlightedColor = Color.Lerp(CustomColors.Red, CustomColors.White, .5F);
 		noQuit.colors = noCol;
+		noQuit.gameObject.SetActive (false);
 
-		//Text
-
-		exitMessage = exitMessage.GetComponent<Text>();
-		exitMessage.color = CustomColors.Blue;
-
+		// title letters
 		rTitle = rTitle.GetComponent<Text>();
 		rTitle.color = CustomColors.Red;
 
@@ -84,9 +81,7 @@ public class StartMenu : MonoBehaviour {
 
 		bTitle = bTitle.GetComponent<Text>();
 		bTitle.color = CustomColors.Blue;
-
-
-		exitMenu.enabled = false;
+	
 	}
 
 	void Update() {
@@ -98,17 +93,32 @@ public class StartMenu : MonoBehaviour {
 
 
 	public void ExitPressed() {
-		exitMenu.enabled = true;
-		startButton.enabled = false;
-		exitButton.enabled = false;
-		howTo.enabled = false;
+		BackGroundChangeBlack ();
+		exitMessage.gameObject.SetActive(true);
+		yesQuit.gameObject.SetActive (true);
+		noQuit.gameObject.SetActive (true);
+
+		startButton.gameObject.SetActive (false);
+		exitButton.gameObject.SetActive (false);
+		zenMode.gameObject.SetActive (false);
+
+		rTitle.gameObject.SetActive (false);
+		gTitle.gameObject.SetActive (false);
+		bTitle.gameObject.SetActive (false);
 	}
 
 	public void NoPressed() {
-		exitMenu.enabled = false;
-		startButton.enabled = true;
-		exitButton.enabled = true;
-		howTo.enabled = true;
+		exitMessage.gameObject.SetActive(false);
+		yesQuit.gameObject.SetActive (false);
+		noQuit.gameObject.SetActive (false);
+
+		startButton.gameObject.SetActive (true);
+		exitButton.gameObject.SetActive (true);
+		zenMode.gameObject.SetActive (true);
+
+		rTitle.gameObject.SetActive (true);
+		gTitle.gameObject.SetActive (true);
+		bTitle.gameObject.SetActive (true);
 	}
 
 	public void StartGame() {
@@ -125,6 +135,13 @@ public class StartMenu : MonoBehaviour {
 		byte g = byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
 		byte b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
 		return new Color32(r, g, b, 255);
+	}
+
+	public void BackGroundChangeBlack(){
+		if (bgTransitioning) {
+			finishBGTransitionImmediate();
+		}
+		startBGTransition(CustomColors.Black);
 	}
 
 	public void BackgroundChangeRed() {
