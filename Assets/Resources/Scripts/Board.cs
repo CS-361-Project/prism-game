@@ -112,7 +112,7 @@ public class Board : MonoBehaviour {
 	}
 
 	public void addVerticalEnemy(int x, int y) {
-		VerticalEnemy enemy = Instantiate(Resources.Load<GameObject>("Prefabs/HorizontalEnemy")).GetComponent<VerticalEnemy>();
+		VerticalEnemy enemy = Instantiate(Resources.Load<GameObject>("Prefabs/VerticalEnemy")).GetComponent<VerticalEnemy>();
 		enemy.transform.parent = enemyFolder.transform;
 		enemy.init(this, x, y);
 		enemyList.Add(enemy);
@@ -124,7 +124,7 @@ public class Board : MonoBehaviour {
 		enemy.onKill();
 		Destroy(enemy.gameObject);
 	}
-	//	}
+		
 
 	public void initExit() {
 		exit = Instantiate(Resources.Load<GameObject>("Prefabs/Exit")).GetComponent<Exit>();
@@ -146,6 +146,7 @@ public class Board : MonoBehaviour {
 			blocks[x, y] = obj.AddComponent<LeverBlock>();
 			blocks[x, y].init(c, background.color, this, switchFolder.transform);
 		}
+
 	}
 
 	public void addBlock(int x, int y, Color c) {
