@@ -121,5 +121,13 @@ public class Movable : MonoBehaviour {
 		int[] d = {oldX, oldY};
 		return d;
 	}
+
+	public void setPos(int newX, int newY) {
+		x = newX;
+		y = newY;
+		oldX = newX;
+		oldY = newY;
+		transform.position = board.getBlockPosition(x, y);
+	}
 }
 

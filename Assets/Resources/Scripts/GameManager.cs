@@ -12,9 +12,7 @@ public class GameManager : MonoBehaviour {
 	public float holdMovementTime = 0.35f;
 	MoveCounter moveCounter;
 	SwipeDetector swipeDetector;
-	GameObject levelSelection, packSelection, pauseMenu;
-	bool inLevel = false;
-	bool inLevelSelection = false;
+	MenuManager menuManager; 
 	bool loadingLevel = false;
 	float timeSinceLevelLoad = 0.0f;
 	int currLevel = -1;
@@ -37,26 +35,17 @@ public class GameManager : MonoBehaviour {
 		GreenSwitch = 'G',
 		BlueSwitch = 'B',
 		HorizontalEnemy = 'h',
-		VerticalEnemy = 'v'}
-
+		VerticalEnemy = 'v',
+		Start = 's',
+		Finish = 'f'}
 	;
 
 	// Use this for initialization
 	void Start() {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
-		moveCounter.gameObject.SetActive(false);
 		swipeDetector = new GameObject().AddComponent<SwipeDetector>();
-		pauseMenu = GameObject.Find("PauseMenu");
-		levelSelection = GameObject.Find("Level Selection");
-		if (levelSelection == null) {
-			print("Unable to find level selection");
-		}
-		if (pauseMenu == null) {
-			print("Unable to find pause menu");
-		}
-		else {
-			pauseMenu.SetActive(false);
-		}
+		menuManager = GameObject.Find ("Menu Manager").GetComponent<MenuManager>();
+		menuManager.closeMenu((int)MenuManager.menus.ingameUI);
 
 		//Initialize AudioSource
 		audioSource = gameObject.AddComponent<AudioSource>();
@@ -67,9 +56,7 @@ public class GameManager : MonoBehaviour {
 	public bool loadLevel(String levelPack, int number) {
 		this.levelPack = levelPack;
 		currLevel = number;
-		moveCounter.gameObject.SetActive(true);
-		//rgbDiagram.gameObject.SetActive (true);
-		//string levelFile = "Assets/Resources/Levels/Level" + number + ".txt";
+		menuManager.openMenu((int)MenuManager.menus.ingameUI);
 		string levelFile = "Levels/" + levelPack + "/level" + number;
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
@@ -94,41 +81,45 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void goToLevelSelection() {
-		inLevel = false;
-		inLevelSelection = true;
-		levelSelection.SetActive(true);
+		menuManager.openMenu((int)(MenuManager.menus.levelSelect));
 		moveCounter.gameObject.SetActive(false);
 	}
 
 	public void exitLevelSelection() {
-		inLevel = true;
-		inLevelSelection = false;
-		levelSelection.SetActive(false);
+		menuManager.closeMenu ((int)MenuManager.menus.levelSelect);
 		moveCounter.gameObject.SetActive(true);
 	}
 
 	public void openPauseMenu() {
-		inLevel = false;
-		pauseMenu.SetActive(true);
+		menuManager.openMenu ((int)MenuManager.menus.pauseMenu);
 	}
 
 	public void exitPauseMenu() {
-		inLevel = true;
-		pauseMenu.SetActive(false);
+		menuManager.closeMenu ((int)MenuManager.menus.pauseMenu);
+	}
+
+	public void exitPackSelection(){
+		menuManager.closeMenu ((int)MenuManager.menus.packMenu);
+		moveCounter.gameObject.SetActive(true);
+	}
+
+	public void openPackSelection(){
+		menuManager.openMenu ((int)MenuManager.menus.packMenu);
+		moveCounter.gameObject.SetActive(false);
 	}
 
 	// Update is called once per frame
 	void Update() {
 		bool moved = false;
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			if (inLevel) {
+			if (menuManager.inLevel) {
 				openPauseMenu();
 			}
 			else if (board != null) {
 				exitPauseMenu();
 			}
 		}
-		if (inLevel) {
+		if (menuManager.inLevel) {
 			if (board.getPlayer() == null) {
 				// player is dead
 				audioSource.PlayOneShot(deathSound);
@@ -391,6 +382,12 @@ public class GameManager : MonoBehaviour {
 			case (char)FileSymbols.VerticalEnemy:
 				board.addEmptyBlock(x, y);
 				board.addVerticalEnemy(x, y);
+				break;
+			case (char)FileSymbols.Start:
+				board.getPlayer().setPos(x, y);
+				break;
+			case (char)FileSymbols.Finish:
+				board.moveExit(x, y);
 				break;
 		}
 	}

@@ -60,6 +60,7 @@
      <Compile Include="Assets\Resources\Scripts\HorizontalEnemy.cs" />
      <Compile Include="Assets\Resources\Scripts\LevelButtonManager.cs" />
      <Compile Include="Assets\Resources\Scripts\LevelPackManager.cs" />
+     <Compile Include="Assets\Resources\Scripts\MenuManager.cs" />
      <Compile Include="Assets\Resources\Scripts\Models\BlockModel.cs" />
      <Compile Include="Assets\Resources\Scripts\Models\LeverModel.cs" />
      <Compile Include="Assets\Resources\Scripts\Movable.cs" />
