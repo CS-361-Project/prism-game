@@ -23,7 +23,7 @@ public class StartMenu : MonoBehaviour {
 	public bool bgTransitioning = false;
 	Color newBG, oldBG;
 	float lastColorChange = -1.0f;
-	public float transitionTime = 1f;
+	public float transitionTime = 1.0f;
 
 	public Image quitScreen;
 
