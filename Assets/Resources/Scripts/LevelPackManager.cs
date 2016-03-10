@@ -7,9 +7,11 @@ public class LevelPackManager : MonoBehaviour {
 	GameObject packPanel;
 	GameObject levelPanel;
 	GameObject activePack;
+	GameManager gm;
 	
 	// Use this for initialization
 	void Start() {
+		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 		packPanel = GameObject.Find("LevelPackPanel");
 		levelPanel = GameObject.Find("Level Selection");
 		levelPanel.SetActive(false);
@@ -41,8 +43,10 @@ public class LevelPackManager : MonoBehaviour {
 			activePack.SetActive(false);
 		}
 		else {
-			packPanel.SetActive(false);
-			levelPanel.SetActive(true);
+			//packPanel.SetActive(false);
+			gm.exitPackSelection();
+			gm.goToLevelSelection ();
+			//levelPanel.SetActive(true);
 		}
 		obj.SetActive(true);
 		activePack = obj;
@@ -51,10 +55,10 @@ public class LevelPackManager : MonoBehaviour {
 	public void showPackSelection() {
 		if (activePack != null) {
 			activePack.SetActive(false);
-			levelPanel.SetActive(false);
+			gm.exitLevelSelection();
 			activePack = null;
 		}
-		packPanel.SetActive(true);
+		gm.openPackSelection ();
 	}
 }
 

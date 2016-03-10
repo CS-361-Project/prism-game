@@ -30,8 +30,7 @@ public class LevelButtonManager : MonoBehaviour {
 
 	public void OnSelect(int i) {
 		GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-		GameObject levelSelectUI = GameObject.Find("Level Selection");
-		levelSelectUI.SetActive(false);
+		gm.exitLevelSelection ();
 		int level = int.Parse(buttons[i].GetComponentInChildren<Text>().text);
 		gm.loadLevel(packName, level);
 	}
