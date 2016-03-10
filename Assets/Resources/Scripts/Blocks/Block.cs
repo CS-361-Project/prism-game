@@ -24,6 +24,7 @@ public class Block : MonoBehaviour {
 			blockModel.setActive(true);
 		}
 	}
+		
 
 	public void setHasEnemy(bool x) {
 		hasEnemy = x;

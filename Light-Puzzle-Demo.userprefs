@@ -1,5 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/GameManager.cs">
     <Files>
       <File FileName="Assets/Resources/Scripts/MenuManager.cs" Line="18" Column="21" />
@@ -10,10 +11,25 @@
       <File FileName="Assets/Resources/Scripts/ColorModel.cs" Line="51" Column="37" />
       <File FileName="Assets/Resources/Scripts/CustomColors.cs" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/Blocks/Block.cs" Line="9" Column="76" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/EnemyModel.cs">
+    <Files>
+      <File FileName="Assets/Resources/Scripts/Board.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Blocks/Block.cs" Line="17" Column="33" />
+      <File FileName="Assets/Resources/Scripts/Models/BlockModel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Enemy.cs" Line="30" Column="22" />
+      <File FileName="Assets/Resources/Scripts/HorizontalEnemy.cs" Line="16" Column="5" />
+      <File FileName="Assets/Resources/Scripts/GameManager.cs" Line="16" Column="1" />
+      <File FileName="Assets/Resources/Scripts/EnemyModel.cs" Line="6" Column="128" />
+      <File FileName="Assets/Resources/Scripts/Movable.cs" Line="1" Column="1" />
+>>>>>>> master
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/docglass/Light-Puzzle-Demo/Assets/Resources/Scripts/HorizontalEnemy.cs" line="15" column="1" />
+      <Breakpoint file="/Users/docglass/Light-Puzzle-Demo/Assets/Resources/Scripts/Enemy.cs" line="36" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

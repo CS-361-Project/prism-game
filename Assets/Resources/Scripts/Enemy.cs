@@ -4,6 +4,8 @@ using System.Collections;
 public class Enemy : Movable {
 	
 	public bool markedForDeath = false;
+	protected EnemyModel enemyModel;
+
 
 	public virtual void init(Board B, int xPos, int yPos, int xDirection, int yDirection) {
 		base.init(B, xPos, yPos);
@@ -11,6 +13,11 @@ public class Enemy : Movable {
 		moveDirY = yDirection;
 		board.setHasEnemy(x, y, true);
 		markedForDeath = false;
+
+
+		enemyModel = gameObject.GetComponentInChildren<EnemyModel>();
+		enemyModel.init(this.transform, xDirection,yDirection);
+		enemyModel.setColor(CustomColors.TraversalEnemy);
 	}
 
 	public void move(float time) {
@@ -27,7 +34,7 @@ public class Enemy : Movable {
 		lastMovement = time;
 	}
 
-	void changeDirection() {
+	public virtual void changeDirection() {
 		moveDirX *= -1;
 		moveDirY *= -1;
 	}
@@ -45,5 +52,7 @@ public class Enemy : Movable {
 	public override bool canPassThrough(int x, int y) {
 		return board.getBlockPassableAfterTransition(x, y);
 	}
+
+
 }
 
