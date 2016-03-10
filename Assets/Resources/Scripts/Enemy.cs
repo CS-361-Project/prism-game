@@ -11,9 +11,10 @@ public class Enemy : Movable {
 		base.init(B, xPos, yPos);
 		moveDirX = xDirection;
 		moveDirY = yDirection;
-		board.setHasEnemy(x, y, this);
+		board.setHasEnemy(x, y, true);
 		markedForDeath = false;
-		//should I or should I not instiate the prefab here?
+
+
 		enemyModel = gameObject.GetComponentInChildren<EnemyModel>();
 		enemyModel.init(this.transform, xDirection,yDirection);
 		enemyModel.setColor(CustomColors.TraversalEnemy);
@@ -39,13 +40,13 @@ public class Enemy : Movable {
 	}
 
 	public override void onMovementStart() {
-		board.setHasEnemy(oldX, oldY, this);
-		board.setHasEnemy(x, y, this);
+		board.setHasEnemy(oldX, oldY, false);
+		board.setHasEnemy(x, y, true);
 		lastMovement = Time.time;
 	}
 
 	public void onKill() {
-		board.setHasEnemy(x, y, this);
+		board.setHasEnemy(x, y, false);
 	}
 
 	public override bool canPassThrough(int x, int y) {

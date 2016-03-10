@@ -52,6 +52,12 @@ TagManager:
   - name: Characters
     uniqueID: 3940858523
     locked: 0
+  - name: OffArrowLayer
+    uniqueID: 1402708529
+    locked: 0
+  - name: OnArrowLayer
+    uniqueID: 3426668295
+    locked: 0
   - name: UI
     uniqueID: 771169021
     locked: 0

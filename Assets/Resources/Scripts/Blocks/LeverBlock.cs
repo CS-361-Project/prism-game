@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
 public class LeverBlock : Block {
 	public Color leverColor;
@@ -20,7 +19,6 @@ public class LeverBlock : Block {
 		board = b;
 		leverColor = c;
 		isToggled = false;
-		enemyList = new List<Enemy>();
 
 		//Initialize AudioSource
 		audioSource = gameObject.AddComponent<AudioSource>();

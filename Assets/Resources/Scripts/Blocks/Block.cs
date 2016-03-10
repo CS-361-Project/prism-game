@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
 public class Block : MonoBehaviour {
 	protected BlockModel blockModel;
 	protected Color baseColor;
-	public List<Enemy> enemyList;
+	public bool hasEnemy;
 
 	public virtual void init(Color c, Color bgColor, Board b, Transform parent) {
 		transform.parent = parent;
@@ -14,7 +13,7 @@ public class Block : MonoBehaviour {
 		blockModel.init(transform, baseColor);
 		name = "Block";
 		onBackgroundChange(bgColor);
-		enemyList = new List<Enemy>();
+		hasEnemy = false;
 	}
 
 	public virtual void onBackgroundChange(Color bgColor) {
@@ -25,28 +24,10 @@ public class Block : MonoBehaviour {
 			blockModel.setActive(true);
 		}
 	}
+		
 
-
-	//turn into two functions
-	public void setEnemy(Enemy x) {
-		//check if the enemy was already in the list
-		if (enemyList.Contains(x)) {
-			enemyList.Remove(x);
-		}
-		else {
-			enemyList.Add(x);
-			//if this makes it so there are more than two enemies than alert both enemies. 
-		}
-
-	}
-
-	public bool hasEnemy(){
-		if (enemyList.Count >= 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
+	public void setHasEnemy(bool x) {
+		hasEnemy = x;
 
 	}
 

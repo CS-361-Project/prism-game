@@ -112,7 +112,7 @@ public class Board : MonoBehaviour {
 	}
 
 	public void addVerticalEnemy(int x, int y) {
-		VerticalEnemy enemy = Instantiate(Resources.Load<GameObject>("Prefabs/HorizontalEnemy")).GetComponent<VerticalEnemy>();
+		VerticalEnemy enemy = Instantiate(Resources.Load<GameObject>("Prefabs/VerticalEnemy")).GetComponent<VerticalEnemy>();
 		enemy.transform.parent = enemyFolder.transform;
 		enemy.init(this, x, y);
 		enemyList.Add(enemy);
@@ -124,12 +124,7 @@ public class Board : MonoBehaviour {
 		enemy.onKill();
 		Destroy(enemy.gameObject);
 	}
-
-	//check to see if it is on another stack of enemies 
-//	public bool onStack(){
-//
-//
-//	}
+		
 
 	public void initExit() {
 		exit = Instantiate(Resources.Load<GameObject>("Prefabs/Exit")).GetComponent<Exit>();
@@ -198,9 +193,9 @@ public class Board : MonoBehaviour {
 		}
 	}
 
-	public void setHasEnemy(int x, int y, Enemy enemy) {
+	public void setHasEnemy(int x, int y, bool hasEnemy) {
 		if (onBoard(x, y)) {
-			blocks[x, y].setEnemy(enemy);
+			blocks[x, y].setHasEnemy(hasEnemy);
 		}
 	}
 
@@ -354,7 +349,7 @@ public class Board : MonoBehaviour {
 		int x = player.getPos()[0];
 		int y = player.getPos()[1];
 
-		return blocks[x, y].hasEnemy();
+		return blocks[x, y].hasEnemy;
 
 
 	}
