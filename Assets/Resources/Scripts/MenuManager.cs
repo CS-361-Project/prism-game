@@ -19,12 +19,13 @@ public class MenuManager : MonoBehaviour {
 		levelSelection = GameObject.Find ("Level Selection");
 		pauseMenu = GameObject.Find ("PauseMenu");
 		packSelection = GameObject.Find("LevelPackPanel");
-	
-		//ingameUI = GameObject.Find("IngameUI");
+		ingameUI = GameObject.Find("IngameUI");
+
+
 		menusArray [(int)menus.levelSelect] = levelSelection;
 		menusArray [(int)menus.pauseMenu] = pauseMenu;
 		menusArray [(int)menus.packMenu] = packSelection;
-		//menusArray[(int)menus.ingameUI] = ingameUI;
+		menusArray[(int)menus.ingameUI] = ingameUI;
 
 		if (menusArray [(int)menus.levelSelect] == null) {
 			print("Unable to find level selection");
