@@ -35,8 +35,9 @@ public class GameManager : MonoBehaviour {
 		GreenSwitch = 'G',
 		BlueSwitch = 'B',
 		HorizontalEnemy = 'h',
-		VerticalEnemy = 'v'}
-
+		VerticalEnemy = 'v',
+		Start = 's',
+		Finish = 'f'}
 	;
 
 
@@ -383,6 +384,12 @@ public class GameManager : MonoBehaviour {
 			case (char)FileSymbols.VerticalEnemy:
 				board.addEmptyBlock(x, y);
 				board.addVerticalEnemy(x, y);
+				break;
+			case (char)FileSymbols.Start:
+				board.getPlayer().setPos(x, y);
+				break;
+			case (char)FileSymbols.Finish:
+				board.moveExit(x, y);
 				break;
 		}
 	}
