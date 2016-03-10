@@ -17,14 +17,18 @@ public class Board : MonoBehaviour {
 	Player player;
 	Exit exit;
 	float lastColorChange = -1.0f;
-	float boardSize = 2.0f;
+	public float boardSize = 2.0f;
 
 
 	// Use this for initialization
 	public void init(int w, int h, SpriteRenderer bgRender) {
-		int maxDimension = Mathf.Max(w, h);
-		float cameraSize = Camera.main.orthographicSize * 2;
-		boardSize = cameraSize / (float)maxDimension;
+		Vector3 dim = 1.6f * Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+		if (Screen.width < Screen.height) {
+			boardSize = (float)dim.x / (float)w;
+		}
+		else {
+			boardSize = (float)dim.y / (float)h;
+		}
 		Vector3 center = new Vector3((float)w / 2.0f - .5f, (float)h / 2.0f - .5f, 0) * boardSize;
 		transform.localPosition = -center;
 		transform.localScale = new Vector3(boardSize, boardSize, 1);

@@ -18,8 +18,9 @@ public class FloatingBlockManager : MonoBehaviour {
 		blockFolder.transform.parent = transform;
 		blockFolder.transform.localPosition = new Vector3(0, 0, 0);
 		floatingBlocks = new List<FloatingBlock>();
-		for (int i = 0; i < 20; i++) {
-			addBlock (Random.Range (-5F, 5F), Random.Range (-5F, 5F), CustomColors.randomColor ());
+		for (int i = 0; i < Camera.main.orthographicSize*4; i++) {
+			Vector3 screen = Camera.main.ScreenToWorldPoint (new Vector3 (Random.Range (-Screen.width, Screen.width), Random.Range (-Screen.height, Screen.height), 0));
+			addBlock (screen.x, screen.y, CustomColors.randomColor ());
 		}
 	
 	}
@@ -33,8 +34,8 @@ public class FloatingBlockManager : MonoBehaviour {
 		
 		GameObject obj = new GameObject();
 		FloatingBlock block = obj.AddComponent<FloatingBlock>();
-		block.init(c, this, blockFolder.transform, Random.Range(-.01F,.01F));
-		block.transform.localPosition = new Vector3(x, y, 0);
+		block.init(c, this, blockFolder.transform, Random.Range(-.005F,.005F));
+		block.transform.localPosition = new Vector3(x, y, 0F);
 		float randy = Random.Range (.5F, 1.5F);
 		block.transform.localScale = new Vector3 (randy, randy, 0);
 
