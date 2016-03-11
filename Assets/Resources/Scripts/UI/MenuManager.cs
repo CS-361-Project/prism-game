@@ -9,6 +9,8 @@ public class MenuManager : MonoBehaviour {
 
 	public enum menus {levelSelect, pauseMenu, packMenu, ingameUI}
 	GameObject[] menusArray; 
+	LevelNumber number;
+	LevelPackName packName;
 	//public bool inLevel = false;
 
 	GameObject levelSelection, packSelection, pauseMenu, ingameUI;
@@ -16,10 +18,12 @@ public class MenuManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		menusArray = new GameObject[Enum.GetNames(typeof(menus)).Length];
-		levelSelection = GameObject.Find ("Level Selection");
+		levelSelection = GameObject.Find ("LevelSelection");
 		pauseMenu = GameObject.Find ("PauseMenu");
 		packSelection = GameObject.Find("LevelPackPanel");
 		ingameUI = GameObject.Find("IngameUI");
+		number = GameObject.Find("LevelNumber").GetComponent<LevelNumber>();
+		packName = GameObject.Find("LevelPackName").GetComponent<LevelPackName>();
 
 
 		menusArray [(int)menus.levelSelect] = levelSelection;
@@ -67,5 +71,10 @@ public class MenuManager : MonoBehaviour {
 
 	public void returnToStart(){
 		SceneManager.LoadScene("startUpMenu");
+	}
+
+	public void updateLevelInUI(string levelPack, int levelNumber) {
+		number.setLevel(levelNumber);
+		packName.setLevelPack(levelPack);
 	}
 }
