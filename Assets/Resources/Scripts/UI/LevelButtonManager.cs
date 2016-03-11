@@ -16,9 +16,15 @@ public class LevelButtonManager : MonoBehaviour {
 		levelPanel = gameObject;
 		buttons = new List<Button>();
 		int i = 0;
+		GameObject currPanel = Instantiate(Resources.Load<GameObject>("Prefabs/LevelPanel"));
+		currPanel.transform.SetParent(levelPanel.transform, false);
 		while (Resources.Load<TextAsset>("Levels/" + levelPackName + "/level" + i) != null) {
+			if (i % 25 == 0 && i > 0) {
+				currPanel = Instantiate(Resources.Load<GameObject>("Prefabs/LevelPanel"));
+				currPanel.transform.SetParent(levelPanel.transform, false);
+			}
 			GameObject buttonObj = Instantiate(Resources.Load<GameObject>("Prefabs/Button"));
-			buttonObj.transform.SetParent(levelPanel.transform, false);
+			buttonObj.transform.SetParent(currPanel.transform, false);
 			Button button = buttonObj.GetComponent<Button>();
 			buttons.Add(button);
 			button.gameObject.GetComponentInChildren<Text>().text = i.ToString();
