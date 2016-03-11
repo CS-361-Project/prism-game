@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour {
 			loadingLevel = true;
 			board.scaleComponents(0);
 			board.scaleBackground(0);
+			menuManager.updateLevelInUI(levelPack, number);
 			return true;
 		}
 		else {

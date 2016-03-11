@@ -6,14 +6,18 @@ using System.Collections;
 public class LevelPackManager : MonoBehaviour {
 	GameObject packPanel;
 	GameObject levelPanel;
+	GameObject levelContainer;
 	GameObject activePack;
+	ScrollRect levelScroll;
 	GameManager gm;
 	
 	// Use this for initialization
 	void Start() {
 		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 		packPanel = GameObject.Find("LevelPackPanel");
-		levelPanel = GameObject.Find("Level Selection");
+		levelPanel = GameObject.Find("LevelSelection");
+		levelContainer = GameObject.Find("LevelContainer");
+		levelScroll = GameObject.Find("LevelScrollWindow").GetComponent<ScrollRect>();
 		levelPanel.SetActive(false);
 		initLevelPacks();
 	}
@@ -22,11 +26,12 @@ public class LevelPackManager : MonoBehaviour {
 		TextAsset packFile = Resources.Load<TextAsset>("Levels/LevelPacks");
 		string[] directories = packFile.text.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.None);
 		foreach (string pack in directories) {
-			GameObject g = Instantiate(Resources.Load<GameObject>("Prefabs/LevelPanel"));
-			g.SetActive(false);
-			g.transform.SetParent(levelPanel.transform, false);
+			GameObject g = Instantiate(Resources.Load<GameObject>("Prefabs/LevelPanelContainer"));
+			g.transform.SetParent(levelContainer.transform, false);
+
 			g.GetComponent<LevelButtonManager>().init(pack);
 			addLevelPack(g, pack);
+			g.SetActive(false);
 		}
 	}
 
@@ -45,11 +50,20 @@ public class LevelPackManager : MonoBehaviour {
 		else {
 			//packPanel.SetActive(false);
 			gm.exitPackSelection();
-			gm.goToLevelSelection ();
+			gm.goToLevelSelection();
 			//levelPanel.SetActive(true);
 		}
 		obj.SetActive(true);
 		activePack = obj;
+		levelScroll.content = obj.GetComponent<RectTransform>();
+		StartCoroutine(ResizeOnNextUpdate(obj));
+	}
+
+	IEnumerator ResizeOnNextUpdate(GameObject obj) {
+		yield return 0;
+		RectTransform gt = obj.GetComponent<RectTransform>();
+		print("Size: " + gt.sizeDelta);
+		gt.anchoredPosition = new Vector2(gt.rect.width / 2, 0);
 	}
 
 	public void showPackSelection() {
