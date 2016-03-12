@@ -20,7 +20,7 @@ public class MenuManager : MonoBehaviour {
 		menusArray = new GameObject[Enum.GetNames(typeof(menus)).Length];
 		levelSelection = GameObject.Find ("LevelSelection");
 		pauseMenu = GameObject.Find ("PauseMenu");
-		packSelection = GameObject.Find("LevelPackPanel");
+		packSelection = GameObject.Find("LevelPackScroll");
 		ingameUI = GameObject.Find("IngameUI");
 		number = GameObject.Find("LevelNumber").GetComponent<LevelNumber>();
 		packName = GameObject.Find("LevelPackName").GetComponent<LevelPackName>();
