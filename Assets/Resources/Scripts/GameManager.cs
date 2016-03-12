@@ -99,17 +99,17 @@ public class GameManager : MonoBehaviour {
 
 	public void exitLevelSelection() {
 		menuManager.closeMenu ((int)MenuManager.menus.levelSelect);
-		openIngameUI ();
+		//openIngameUI ();
 	}
 
 	public void openPauseMenu() {
 		menuManager.openMenu ((int)MenuManager.menus.pauseMenu);
-		closeIngameUI ();
+		//closeIngameUI ();
 	}
 
 	public void exitPauseMenu() {
 		menuManager.closeMenu ((int)MenuManager.menus.pauseMenu);
-		openIngameUI ();
+		//openIngameUI ();
 	}
 
 	public void exitPackSelection(){
@@ -134,7 +134,11 @@ public class GameManager : MonoBehaviour {
 				exitPauseMenu();
 			}
 		}
+		if (!menuManager.inLevel ()) {
+			closeIngameUI ();
+		}
 		if (menuManager.inLevel ()) {
+			openIngameUI ();
 			if (board.getPlayer () == null) {
 				// player is dead
 				audioSource.PlayOneShot (deathSound);

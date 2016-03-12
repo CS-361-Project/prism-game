@@ -55,6 +55,11 @@ public class ColorModel : MonoBehaviour {
 			}
 		}
 	}
+	public void resetModel(){
+		for (int i = 0; i < colorArray.Length - 1; i++) {
+			colorArray [i].color = oldColors [i];
+		}
+	}
 
 	public void switchUntoggled(Color c){
 		for (int i = 0; i < colorArray.Length - 1; i++) {
