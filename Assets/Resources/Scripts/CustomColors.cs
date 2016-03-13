@@ -38,7 +38,7 @@ public static class CustomColors {
 		return colors[indexA & ~indexB];
 	}
 
-	static int indexOf(Color c) {
+	public static int indexOf(Color c) {
 		int result = -1;
 		for (int i = 0; i < colors.Length; i++) {
 			if (colors[i] == c) {

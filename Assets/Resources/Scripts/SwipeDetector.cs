@@ -8,7 +8,6 @@ public class SwipeDetector : MonoBehaviour {
 	bool movedOnThisSwipe = false;
 
 	public Vector2 getSwipeDirection() {
-		Vector2 result = Vector2.zero;
 		if (Input.touchCount > 0) {
 			Touch touch = Input.touches[0];
 			switch (touch.phase) {
