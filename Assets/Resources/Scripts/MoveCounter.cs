@@ -17,6 +17,10 @@ public class MoveCounter : MonoBehaviour {
 		text.text = moves.ToString();
 	}
 
+	public int getMoves(){
+		return moves;
+	}
+
 	public void reset() {
 		moves = 0;
 		text.text = moves.ToString();

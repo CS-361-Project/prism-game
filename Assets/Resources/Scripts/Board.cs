@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class Board : MonoBehaviour {
 	//AI specific changes
 	List<Enemy> enemyList;
+	BoardSolver solution;
+	public int optimalMoves { get; set; }
 
 	int width, height;
 	public Block[,] blocks;
@@ -78,11 +80,21 @@ public class Board : MonoBehaviour {
 //		addTraversalAI();
 		//addTrackerAI();
 		initExit();
+		solution = new BoardSolver(this);
+
 	}
 
 	public void initPlayer() {
 		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<Player>();
 		player.init(this);
+	}
+
+	public List<IntPoint> solve(){
+		return solution.solveLevel();
+	}
+
+	public int stepsLeft() {
+		solve().Count;
 	}
 
 	public List<Enemy> getEnemyList() {
