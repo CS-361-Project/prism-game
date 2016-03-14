@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Board : MonoBehaviour {
 	//AI specific changes
 	List<Enemy> enemyList;
+	public int optimalMoves { get; set; }
 
 	int width, height;
 	public Block[,] blocks;
@@ -81,12 +82,22 @@ public class Board : MonoBehaviour {
 //		addTraversalAI();
 		//addTrackerAI();
 		initExit();
+
 		solver = new BoardSolver(this);
+
 	}
 
 	public void initPlayer() {
 		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<Player>();
 		player.init(this);
+	}
+
+	public List<IntPoint> solveLevel() {
+		return solver.solveLevel();
+	}
+
+	public int stepsLeft() {
+		solveLevel().Count;
 	}
 
 	public List<Enemy> getEnemyList() {
@@ -109,9 +120,7 @@ public class Board : MonoBehaviour {
 		}
 	}
 
-	public List<IntPoint> solveLevel() {
-		return solver.solveLevel();
-	}
+
 
 	public void addHorizontalEnemy(int x, int y) {
 		HorizontalEnemy enemy = Instantiate(Resources.Load<GameObject>("Prefabs/HorizontalEnemy")).GetComponent<HorizontalEnemy>();

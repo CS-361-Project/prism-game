@@ -7,6 +7,7 @@ using System;
 
 public class GameManager : MonoBehaviour {
 	Board board, lastBoard;
+	GameData data;
 	public SpriteRenderer background;
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
@@ -48,6 +49,9 @@ public class GameManager : MonoBehaviour {
 		menuManager = GameObject.Find("Menu Manager").GetComponent<MenuManager>();
 
 		closeIngameUI();
+		//Get instance of GameData created on start screen
+		data= GameObject.Find("GameData").GetComponent<GameData>();
+
 
 		//Initialize AudioSource
 		audioSource = gameObject.AddComponent<AudioSource>();
@@ -74,6 +78,7 @@ public class GameManager : MonoBehaviour {
 			board.scaleComponents(0);
 			board.scaleBackground(0);
 			menuManager.updateLevelInUI(levelPack, number);
+			board.optimalMoves = board.stepsLeft();
 			return true;
 		}
 		else {
@@ -149,6 +154,17 @@ public class GameManager : MonoBehaviour {
 			}
 			else if (board.checkLevelDone()) {
 				audioSource.PlayOneShot(endLevelSound, .05f);
+
+				//give Game Data all the stats from this level
+				data.addMoves(moveCounter.getMoves);
+				int count =board.getPlayer().toggleCount;
+				data.addToggles(count);
+				if (board.optimalMoves == moveCounter.getMoves) {
+					data.markLevelPerfect(levelPack, currLevel);
+				}
+				else {
+					data.markLevelComplete(levelPack, currLevel);
+				}
 				nextLevel();
 			}
 			else if (board.checkIfKillPlayer()) {
@@ -298,6 +314,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void nextLevel() {
+
+
+		//Load next level
 		loadLevel(levelPack, currLevel + 1);
 	}
 
