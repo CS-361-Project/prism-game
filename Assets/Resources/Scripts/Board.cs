@@ -95,10 +95,12 @@ public class Board : MonoBehaviour {
 
 	public bool checkLevelDone() {
 		int x, y, oldX, oldY;
-		x = player.getPos()[0];
-		y = player.getPos()[1];
-		oldX = player.getOldPos()[0];
-		oldY = player.getOldPos()[1];
+		IntPoint playerPos = player.getPos();
+		IntPoint oldPlayerPos = player.getOldPos();
+		x = playerPos.x;
+		y = playerPos.y;
+		oldX = oldPlayerPos.x;
+		oldY = oldPlayerPos.y;
 		if (player.moving) {
 			return (exit.x == oldX && exit.y == oldY);
 		}
@@ -359,8 +361,9 @@ public class Board : MonoBehaviour {
 	//checks if the player has moved onto a block that has an AI and kills the player
 	public bool checkIfKillPlayer() {
 		//find out where the player is moving to
-		int x = player.getPos()[0];
-		int y = player.getPos()[1];
+		IntPoint playerPos = player.getPos();
+		int x = playerPos.x;
+		int y = playerPos.y;
 
 		return blocks[x, y].hasEnemy;
 

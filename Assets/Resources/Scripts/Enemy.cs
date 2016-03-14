@@ -6,7 +6,6 @@ public class Enemy : Movable {
 	public bool markedForDeath = false;
 	protected EnemyModel enemyModel;
 
-
 	public virtual void init(Board B, int xPos, int yPos, int xDirection, int yDirection) {
 		base.init(B, xPos, yPos);
 		moveDirX = xDirection;
@@ -29,14 +28,19 @@ public class Enemy : Movable {
 		}
 		else {
 			changeDirection();
-			move(new Vector2(moveDirX, moveDirY));
+			if (canPassThrough(x + moveDirX, y + moveDirY)) {
+				move(new Vector2(moveDirX, moveDirY));
+			}
+			else {
+				changeDirection();
+			}
 		}
 		lastMovement = time;
 	}
 
 	public virtual void changeDirection() {
-		moveDirX *= -1;
-		moveDirY *= -1;
+		moveDirX = -moveDirX;
+		moveDirY = -moveDirY;
 	}
 
 	public override void onMovementStart() {

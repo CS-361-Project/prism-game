@@ -112,14 +112,16 @@ public class Movable : MonoBehaviour {
 		return lastMovement;
 	}
 
-	public int[] getPos(){
-		int[] d = {x,y};
-		return d;
+	public IntPoint getPos(){
+		return new IntPoint(x, y);
 	}
 
-	public int[] getOldPos() {
-		int[] d = {oldX, oldY};
-		return d;
+	public IntPoint getOldPos() {
+		return new IntPoint(oldX, oldY);
+	}
+
+	public IntPoint getDirection() {
+		return new IntPoint(moveDirX, moveDirY);
 	}
 
 	public void setPos(int newX, int newY) {
