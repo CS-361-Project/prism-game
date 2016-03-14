@@ -7,13 +7,12 @@ using System.Collections.Generic;
 
 public class MenuManager : MonoBehaviour {
 
-	public enum menus {levelSelect, pauseMenu, packMenu, ingameUI}
+	public enum menus {levelSelect, pauseMenu, packMenu, ingameUI, backgroundBlocks}
 	GameObject[] menusArray; 
 	LevelNumber number;
 	LevelPackName packName;
-	//public bool inLevel = false;
 
-	GameObject levelSelection, packSelection, pauseMenu, ingameUI;
+	GameObject levelSelection, packSelection, pauseMenu, ingameUI, backgroundBlocks;
 
 	// Use this for initialization
 	void Start () {
@@ -24,12 +23,14 @@ public class MenuManager : MonoBehaviour {
 		ingameUI = GameObject.Find("IngameUI");
 		number = GameObject.Find("LevelNumber").GetComponent<LevelNumber>();
 		packName = GameObject.Find("LevelPackName").GetComponent<LevelPackName>();
+		backgroundBlocks = GameObject.Find ("Background Blocks");
 
 
 		menusArray [(int)menus.levelSelect] = levelSelection;
 		menusArray [(int)menus.pauseMenu] = pauseMenu;
 		menusArray [(int)menus.packMenu] = packSelection;
 		menusArray[(int)menus.ingameUI] = ingameUI;
+		menusArray [(int)menus.backgroundBlocks] = backgroundBlocks;
 
 		if (menusArray [(int)menus.levelSelect] == null) {
 			print("Unable to find level selection");
@@ -39,6 +40,9 @@ public class MenuManager : MonoBehaviour {
 		}
 		if (menusArray [(int)menus.packMenu] == null) {
 			print("Unable to find pack selection");
+		}
+		if (menusArray [(int)menus.backgroundBlocks] == null) {
+			print ("Unable to find background blocks");
 		}
 		else {
 			menusArray [(int)menus.pauseMenu].SetActive(false);
@@ -52,7 +56,7 @@ public class MenuManager : MonoBehaviour {
 		
 	public bool inLevel (){
 		for (int i = 0; i < menusArray.Length - 1; i++) {
-			if (menusArray [i].activeSelf) {
+			if (menusArray [i].activeSelf && menusArray[i] != ingameUI) {
 				return false;
 			}
 		}
@@ -60,12 +64,10 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	public void closeMenu (int menu){
-		//inLevel = true;
 		menusArray [menu].SetActive (false);
 	}
 
 	public void openMenu (int menu){
-		//inLevel = false;
 		menusArray [menu].SetActive (true);
 	}
 

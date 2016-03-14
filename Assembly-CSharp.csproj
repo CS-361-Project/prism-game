@@ -54,6 +54,7 @@
      <Compile Include="Assets\Resources\Scripts\Enemy.cs" />
      <Compile Include="Assets\Resources\Scripts\EnemyModel.cs" />
      <Compile Include="Assets\Resources\Scripts\Exit.cs" />
+     <Compile Include="Assets\Resources\Scripts\GameData.cs" />
      <Compile Include="Assets\Resources\Scripts\GameManager.cs" />
      <Compile Include="Assets\Resources\Scripts\Generator.cs" />
      <Compile Include="Assets\Resources\Scripts\HorizontalEnemy.cs" />

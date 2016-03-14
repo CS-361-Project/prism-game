@@ -17,12 +17,22 @@ public class FloatingBlock : MonoBehaviour {
 		floatingBlockModel.init(this.transform, baseColor);
 		name = "Floating Block";
 
+		float randy = Random.Range (.5F, 1.5F);
+		transform.localScale = new Vector3 (randy, randy, 0);
+
 		if (Random.Range (0, 10) <= 5) {
 			direction = true;
 		} else {
 			direction = false;
 		}
 		speed = sp;
+
+		GameObject obj1 = new GameObject ();
+		FloatingBlock dup1 = obj1.AddComponent<FloatingBlock> ();
+
+		GameObject obj2 = new GameObject ();
+		FloatingBlock dup2 = obj2.AddComponent<FloatingBlock> ();
+
 	}
 		
 	
@@ -31,13 +41,13 @@ public class FloatingBlock : MonoBehaviour {
 		Vector3 screen = Camera.main.ScreenToWorldPoint (new Vector3 (Screen.width, Screen.height, 0));
 		borders (screen.x, screen.y);
 
+
 		if (direction) {
 			transform.Translate (speed, 0, 0);
 		} else {
 			transform.Translate (0, speed, 0);
 		}
-
-	
+			
 	}
 	void borders(float xsize, float ysize){
 		if (transform.localPosition.x > xsize || transform.localPosition.x < -xsize) {
