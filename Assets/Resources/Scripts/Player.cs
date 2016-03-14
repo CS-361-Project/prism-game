@@ -26,15 +26,17 @@ public class Player : Movable {
 
 	public override bool move(Vector2 direction) {
 		float vol = determineVolume();
-		List<IntPoint> path = board.solveLevel();
-		print("There are " + path.Count + " steps until the puzzle is solved.");
-		for (int i = 0; i < path.Count; i++) {
-			print("Move " + i + ": " + path[i].x + ", " + path[i].y);
-		}
 		if (base.move(direction)) {
 			if (board.checkIfKillPlayer()) {
 				board.killPlayer();
 			}
+			List<IntPoint> path = board.solveLevel();
+			string s = "";
+			foreach (IntPoint i in path) {
+				s += "(" + i.x + ", " + i.y + ")";
+			}
+			print(s);
+
 			audioSource.PlayOneShot(moveSound, vol);
 			return true;
 		}

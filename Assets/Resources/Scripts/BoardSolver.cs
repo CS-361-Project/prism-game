@@ -25,7 +25,6 @@ public class BoardSolver {
 	}
 
 	public List<IntPoint> solveLevel(){
-//		int[,,] distanceGrid = new int[width, height, CustomColors.colors.Length];
 		Dictionary<DistanceDictKey, int>[,] distanceGrid = new Dictionary<DistanceDictKey, int>[width, height];
 		bool foundPath = false;
 		int targetX = exit.x;
@@ -43,7 +42,6 @@ public class BoardSolver {
 		queue.Add(new QueueEntry(0, playerPos.x, playerPos.y, bgColor, copyEnemyList(enemyList)));
 		distanceGrid[playerPos.x, playerPos.y].Add(new DistanceDictKey(bgColor, copyEnemyList(enemyList)), 0);
 		while (queue.Count > 0) {
-			GameManager.print("Loop 1");
 			QueueEntry firstEntry = queue[0];
 			queue.RemoveAt(0);
 			int x = firstEntry.x;
@@ -168,7 +166,6 @@ public class BoardSolver {
 //			}
 //		}
 		while (minRemainingDistance > 0) {
-			GameManager.print("Loop 2");
 			bool foundNextStep = false;
 			for (int i = -1; i <= 1; i++) {
 				for (int j = -1; j <= 1; j++) {
@@ -245,6 +242,24 @@ public class BoardSolver {
 
 	class ToyEnemy {
 		public int x, y, dx, dy;
+
+		public override int GetHashCode() {
+			int hash = 23;
+			hash = 37 * hash + x;
+			hash = 37 * hash + y;
+			hash = 37 * hash + dx;
+			hash = 37 * hash + dy;
+			return hash;
+		}
+
+		public override bool Equals(object obj) {
+			ToyEnemy enemy = obj as ToyEnemy;
+			if (enemy != null) {
+				return enemy.x == x && enemy.y == y && enemy.dx == dx && enemy.dy == dy;
+			}
+			return false;
+		}
+
 		public ToyEnemy(int xPos, int yPos, int xDir, int yDir) {
 			x = xPos;
 			y = yPos;
@@ -283,9 +298,35 @@ public class BoardSolver {
 	class DistanceDictKey {
 		public int color;
 		public List<ToyEnemy> enemies;
+
 		public DistanceDictKey(int c, List<ToyEnemy> e) {
 			color = c;
 			enemies = e;
+		}
+
+		public override int GetHashCode() {
+			int hash = 23;
+			foreach (ToyEnemy e in enemies) {
+				hash = hash * 37 + e.GetHashCode();
+			}
+			hash = hash * 37 + color;
+			return hash;
+		}
+
+		public override bool Equals(object obj) {
+			DistanceDictKey key = obj as DistanceDictKey;
+			if (key != null) {
+				if (key.enemies.Count == enemies.Count) {
+					bool result = true;
+					for (int i = 0; i < enemies.Count; i++) {
+						if (!key.enemies[i].Equals(enemies[i])) {
+							result = false;
+						}
+					}
+					return result;
+				}
+			}
+			return false;
 		}
 	}
 
