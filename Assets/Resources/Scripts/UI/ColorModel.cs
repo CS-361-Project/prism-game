@@ -108,12 +108,6 @@ public class ColorModel : MonoBehaviour {
 		}
 	}
 
-	public void resetModel(){
-		for (int i = 0; i < colorArray.Length - 1; i++) {
-			colorArray [i].color = oldColors [i];
-		}
-	}
-
 	public void highlight(int color){
 		if (colorArray [color].color == CustomColors.Red) {
 			colorArray [color].color = new Color (1F, 0, 0);
