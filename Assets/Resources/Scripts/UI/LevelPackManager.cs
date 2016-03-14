@@ -47,12 +47,8 @@ public class LevelPackManager : MonoBehaviour {
 		if (activePack != null) {
 			activePack.SetActive(false);
 		}
-		else {
-			//packPanel.SetActive(false);
-			gm.exitPackSelection();
-			gm.goToLevelSelection();
-			//levelPanel.SetActive(true);
-		}
+		gm.exitPackSelection();
+		gm.goToLevelSelection();
 		obj.SetActive(true);
 		activePack = obj;
 		levelScroll.content = obj.GetComponent<RectTransform>();
@@ -62,7 +58,6 @@ public class LevelPackManager : MonoBehaviour {
 	IEnumerator ResizeOnNextUpdate(GameObject obj) {
 		yield return 0;
 		RectTransform gt = obj.GetComponent<RectTransform>();
-		print("Size: " + gt.sizeDelta);
 		gt.anchoredPosition = new Vector2(gt.rect.width / 2, 0);
 	}
 

@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour {
 	public float holdMovementTime = 0.35f;
 	MoveCounter moveCounter;
 	SwipeDetector swipeDetector;
-	MenuManager menuManager; 
+	MenuManager menuManager;
 	bool loadingLevel = false;
 	float timeSinceLevelLoad = 0.0f;
 	int currLevel = -1;
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour {
 	void Start() {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		swipeDetector = new GameObject().AddComponent<SwipeDetector>();
-		menuManager = GameObject.Find ("Menu Manager").GetComponent<MenuManager>();
+		menuManager = GameObject.Find("Menu Manager").GetComponent<MenuManager>();
 
 		closeIngameUI();
 
@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour {
 		board = boardObj.AddComponent<Board>();
 		if (loadLevelFromFile(levelFile, board)) {
 			exitLevelSelection();
+			openIngameUI();
 			timeSinceLevelLoad = 0.0f;
 			loadingLevel = true;
 			board.scaleComponents(0);
@@ -80,15 +81,16 @@ public class GameManager : MonoBehaviour {
 			Destroy(boardObj);
 			Destroy(lastBoard.gameObject);
 			goToLevelSelection();
+			closeIngameUI();
 			return false;
 		}
 	}
 
-	public void openIngameUI(){
+	public void openIngameUI() {
 		menuManager.openMenu((int)MenuManager.menus.ingameUI);
 	}
 
-	public void closeIngameUI(){
+	public void closeIngameUI() {
 		menuManager.closeMenu((int)MenuManager.menus.ingameUI);
 	}
 
@@ -98,27 +100,24 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void exitLevelSelection() {
-		menuManager.closeMenu ((int)MenuManager.menus.levelSelect);
-		openIngameUI ();
+		menuManager.closeMenu((int)MenuManager.menus.levelSelect);
 	}
 
 	public void openPauseMenu() {
-		menuManager.openMenu ((int)MenuManager.menus.pauseMenu);
-		closeIngameUI ();
+		menuManager.openMenu((int)MenuManager.menus.pauseMenu);
 	}
 
 	public void exitPauseMenu() {
-		menuManager.closeMenu ((int)MenuManager.menus.pauseMenu);
-		openIngameUI ();
+		menuManager.closeMenu((int)MenuManager.menus.pauseMenu);
 	}
 
-	public void exitPackSelection(){
-		menuManager.closeMenu ((int)MenuManager.menus.packMenu);
+	public void exitPackSelection() {
+		menuManager.closeMenu((int)MenuManager.menus.packMenu);
 		//moveCounter.gameObject.SetActive(true);
 	}
 
-	public void openPackSelection(){
-		menuManager.openMenu ((int)MenuManager.menus.packMenu);
+	public void openPackSelection() {
+		menuManager.openMenu((int)MenuManager.menus.packMenu);
 		//moveCounter.gameObject.SetActive(false);
 	}
 
@@ -128,95 +127,103 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			if (menuManager.inLevel()) {
 				openPauseMenu();
-				//closeIngameUI ();
+				closeIngameUI ();
 			}
 			else if (board != null) {
 				exitPauseMenu();
+				openIngameUI();
 			}
 		}
-		if (menuManager.inLevel ()) {
-			if (board.getPlayer () == null) {
+		if (menuManager.inLevel()) {
+			if (board.getPlayer() == null) {
 				// player is dead
-				audioSource.PlayOneShot (deathSound);
-				restartLevel ();
+				audioSource.PlayOneShot(deathSound);
+				restartLevel();
 			}
 			if (loadingLevel) {
 				timeSinceLevelLoad += Time.deltaTime;
-				whileLoading (timeSinceLevelLoad);
-			} else if (Input.GetKeyDown ("r")) {
-				restartLevel ();
-			} else if (board.checkLevelDone ()) {
-				audioSource.PlayOneShot (endLevelSound, .05f);
-				nextLevel ();
-			} else if (board.checkIfKillPlayer ()) {
-				board.killPlayer ();
-			} else if (board.bgTransitioning || board.getPlayer ().animating) {
-				Vector2 dir = swipeDetector.getSwipeDirection ();
+				whileLoading(timeSinceLevelLoad);
+			}
+			else if (Input.GetKeyDown("r")) {
+				restartLevel();
+			}
+			else if (board.checkLevelDone()) {
+				audioSource.PlayOneShot(endLevelSound, .05f);
+				nextLevel();
+			}
+			else if (board.checkIfKillPlayer()) {
+				board.killPlayer();
+			}
+			else if (board.bgTransitioning || board.getPlayer().animating) {
+				Vector2 dir = swipeDetector.getSwipeDirection();
 				if (dir == Vector2.zero) {
-					dir = getKeyPressDirection ();
+					dir = getKeyPressDirection();
 				}
-				if (board.getPlayer ().animating) {
+				if (board.getPlayer().animating) {
 					if (dir != Vector2.zero) {
-						board.getPlayer ().finishMovementImmedate ();
+						board.getPlayer().finishMovementImmedate();
 						//Added AI
-						List<Enemy> EnemyList = board.getEnemyList ();
-						if (board.getPlayer ().moving) {
+						List<Enemy> EnemyList = board.getEnemyList();
+						if (board.getPlayer().moving) {
 							foreach (Enemy x in EnemyList) {
-								x.finishMovementImmedate ();
+								x.finishMovementImmedate();
 							}
 						}
 						if (board.bgTransitioning) {
-							board.finishBGTransitionImmediate ();
+							board.finishBGTransitionImmediate();
 						}
-						if (board.getPlayer ().move (dir)) {
-							moveCounter.increment ();
+						if (board.getPlayer().move(dir)) {
+							moveCounter.increment();
 							foreach (Enemy x in EnemyList) {
-								x.move (board.getPlayer ().lastMovementTime ());
+								x.move(board.getPlayer().lastMovementTime());
 							}
 						}
-					} else {
+					}
+					else {
 //						float t = board.getPlayer().timeSinceLastMovement() / transitionTime;
 						//Added AI
-						List<Enemy> EnemyList = board.getEnemyList ();
+						List<Enemy> EnemyList = board.getEnemyList();
 						foreach (Enemy x in EnemyList) {
 							if (x.moving) {
-								float enemyProgress = x.timeSinceLastMovement () / transitionTime;
-								x.whileMoving (enemyProgress);
+								float enemyProgress = x.timeSinceLastMovement() / transitionTime;
+								x.whileMoving(enemyProgress);
 							}
 						}
-						float playerProgress = board.getPlayer ().timeSinceLastMovement () / transitionTime;
-						board.getPlayer ().whileMoving (playerProgress);
+						float playerProgress = board.getPlayer().timeSinceLastMovement() / transitionTime;
+						board.getPlayer().whileMoving(playerProgress);
 					}
 				}
 				if (board.bgTransitioning) {
-					board.whileBGTransitioning (board.timeSinceLastColorChange () / transitionTime);
+					board.whileBGTransitioning(board.timeSinceLastColorChange() / transitionTime);
 				}
-			} else {
-				Vector2 dir1 = getKeyPressDirection ();
+			}
+			else {
+				Vector2 dir1 = getKeyPressDirection();
 				if (dir1 != Vector2.zero) {
-					moved = board.getPlayer ().move (dir1);
+					moved = board.getPlayer().move(dir1);
 					if (moved) {
-						moveCounter.increment ();
+						moveCounter.increment();
 					}
-				} else {
-					Vector2 dir2 = getKeyHoldDirection ();
-					if (board.getPlayer ().timeSinceLastMovement () >= holdMovementTime &&
+				}
+				else {
+					Vector2 dir2 = getKeyHoldDirection();
+					if (board.getPlayer().timeSinceLastMovement() >= holdMovementTime &&
 					    dir2 != Vector2.zero) {
-						moved = board.getPlayer ().move (dir2);
+						moved = board.getPlayer().move(dir2);
 						if (moved) {
-							moveCounter.increment ();
+							moveCounter.increment();
 						}
 					}
 				}
 			}
 			//Check if Player moved
 			if (moved) {
-				List<Enemy> EnemyList = board.getEnemyList ();
+				List<Enemy> EnemyList = board.getEnemyList();
 				for (int i = EnemyList.Count - 1; i >= 0; i--) {
-					Enemy x = EnemyList [i];
-					x.move (board.getPlayer ().lastMovementTime ());
+					Enemy x = EnemyList[i];
+					x.move(board.getPlayer().lastMovementTime());
 					if (x.markedForDeath) {
-						board.killEnemy (x);
+						board.killEnemy(x);
 					}
 				}
 			}

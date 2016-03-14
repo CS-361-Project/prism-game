@@ -5,7 +5,6 @@ public class AudioControl : MonoBehaviour {
 	float volume;
 	void Start() {
 		setVolume(1.0f);
-		DontDestroyOnLoad(transform.gameObject);
 	}
 	public void setVolume(float v) {
 		AudioListener.volume = v;
