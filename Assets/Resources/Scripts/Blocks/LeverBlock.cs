@@ -49,30 +49,14 @@ public class LeverBlock : Block {
 			board.startBGTransition(CustomColors.subColor(c, leverColor));
 			//turn off
 			audioSource.PlayOneShot(toggleOffSound);
-			/*if (leverColor == CustomColors.Red) {
-				colorModel.redUnswitched ();
-			}
-			if (leverColor == CustomColors.Green) {
-				colorModel.greenUnswitched ();
-			}
-			if (leverColor == CustomColors.Blue) {
-				colorModel.blueUnswitched ();
-			}*/
-			colorModel.onSwitch (CustomColors.subColor(c, leverColor));
+			colorModel.switchUntoggled (leverColor);
+			colorModel.switchUntoggled (board.getBackgroundColor ());
 		}
 		else {
 			board.startBGTransition(CustomColors.addColor(c, leverColor));
 			audioSource.PlayOneShot(toggleOnSound);
-			/*if (leverColor == CustomColors.Red) {
-				colorModel.redSwitched ();
-			}
-			if (leverColor == CustomColors.Green) {
-				colorModel.greenSwitched ();
-			}
-			if (leverColor == CustomColors.Blue) {
-				colorModel.blueSwitched ();
-			}*/
-			colorModel.onSwitch (CustomColors.addColor(c, leverColor));
+			colorModel.switchToggled (leverColor);
+			colorModel.switchToggled (board.getBackgroundColor ());
 		}
 
 

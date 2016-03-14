@@ -31,13 +31,15 @@ public class FloatingBlockManager : MonoBehaviour {
 	}
 
 	public void addBlock(float x, float y, Color c) {
+		
 		GameObject obj = new GameObject();
 		FloatingBlock block = obj.AddComponent<FloatingBlock>();
-
-		float speed = Random.Range (-.005F, .005F);
-		block.init(c, this, blockFolder.transform, speed);
+		block.init(c, this, blockFolder.transform, Random.Range(-.005F,.005F));
 		block.transform.localPosition = new Vector3(x, y, 0F);
-	
+		float randy = Random.Range (.5F, 1.5F);
+		block.transform.localScale = new Vector3 (randy, randy, 0);
+
+
 		floatingBlocks.Add(block);
 	}
 }

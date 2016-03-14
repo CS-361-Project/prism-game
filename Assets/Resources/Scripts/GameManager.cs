@@ -12,13 +12,7 @@ public class GameManager : MonoBehaviour {
 	public float holdMovementTime = 0.35f;
 	MoveCounter moveCounter;
 	SwipeDetector swipeDetector;
-<<<<<<< Updated upstream
 	MenuManager menuManager;
-=======
-	MenuManager menuManager; 
-	ColorModel colorModel;
-
->>>>>>> Stashed changes
 	bool loadingLevel = false;
 	float timeSinceLevelLoad = 0.0f;
 	int currLevel = -1;
@@ -51,13 +45,8 @@ public class GameManager : MonoBehaviour {
 	void Start() {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		swipeDetector = new GameObject().AddComponent<SwipeDetector>();
-<<<<<<< Updated upstream
 		menuManager = GameObject.Find("Menu Manager").GetComponent<MenuManager>();
 
-=======
-		menuManager = GameObject.Find ("Menu Manager").GetComponent<MenuManager>();
-		colorModel = GameObject.Find ("RGB Diagram").GetComponent<ColorModel> ();
->>>>>>> Stashed changes
 		closeIngameUI();
 
 		//Initialize AudioSource
@@ -90,7 +79,7 @@ public class GameManager : MonoBehaviour {
 		else {
 			Destroy(background.gameObject);
 			Destroy(boardObj);
-			Destroy (lastBoard.gameObject);
+			Destroy(lastBoard.gameObject);
 			goToLevelSelection();
 			closeIngameUI();
 			return false;
@@ -107,10 +96,10 @@ public class GameManager : MonoBehaviour {
 
 	public void goToLevelSelection() {
 		menuManager.openMenu((int)MenuManager.menus.levelSelect);
+		//moveCounter.gameObject.SetActive(false);
 	}
 
 	public void exitLevelSelection() {
-<<<<<<< Updated upstream
 		menuManager.closeMenu((int)MenuManager.menus.levelSelect);
 	}
 
@@ -130,33 +119,6 @@ public class GameManager : MonoBehaviour {
 	public void openPackSelection() {
 		menuManager.openMenu((int)MenuManager.menus.packMenu);
 		//moveCounter.gameObject.SetActive(false);
-=======
-		menuManager.closeMenu ((int)MenuManager.menus.levelSelect);
-	}
-
-	public void openPauseMenu() {
-		menuManager.openMenu ((int)MenuManager.menus.pauseMenu);
-	}
-
-	public void exitPauseMenu() {
-		menuManager.closeMenu ((int)MenuManager.menus.pauseMenu);
-	}
-
-	public void exitPackSelection(){
-		menuManager.closeMenu ((int)MenuManager.menus.packMenu);
-	}
-
-	public void openPackSelection(){
-		menuManager.openMenu ((int)MenuManager.menus.packMenu);
-	}
-
-	public void openBackgroundBlocks(){
-		menuManager.openMenu ((int)MenuManager.menus.backgroundBlocks);
-	}
-
-	public void closeBackgroundBlocks(){
-		menuManager.closeMenu ((int)MenuManager.menus.backgroundBlocks);
->>>>>>> Stashed changes
 	}
 
 	// Update is called once per frame
@@ -165,36 +127,21 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			if (menuManager.inLevel()) {
 				openPauseMenu();
-<<<<<<< Updated upstream
 				closeIngameUI ();
-=======
->>>>>>> Stashed changes
 			}
 			else if (board != null) {
 				exitPauseMenu();
 				openIngameUI();
 			}
 		}
-<<<<<<< Updated upstream
 		if (menuManager.inLevel()) {
 			if (board.getPlayer() == null) {
-=======
-		if (!menuManager.inLevel ()) {
-			closeIngameUI ();
-			openBackgroundBlocks ();
-		}
-		if (menuManager.inLevel ()) {
-			openIngameUI ();
-			closeBackgroundBlocks ();
-			if (board.getPlayer () == null) {
->>>>>>> Stashed changes
 				// player is dead
 				audioSource.PlayOneShot(deathSound);
 				restartLevel();
 			}
 			if (loadingLevel) {
 				timeSinceLevelLoad += Time.deltaTime;
-<<<<<<< Updated upstream
 				whileLoading(timeSinceLevelLoad);
 			}
 			else if (Input.GetKeyDown("r")) {
@@ -209,21 +156,6 @@ public class GameManager : MonoBehaviour {
 			}
 			else if (board.bgTransitioning || board.getPlayer().animating) {
 				Vector2 dir = swipeDetector.getSwipeDirection();
-=======
-				whileLoading (timeSinceLevelLoad);
-			} else if (Input.GetKeyDown ("r")) {
-				restartLevel ();
-				colorModel.resetModel ();
-			} else if (board.checkLevelDone ()) {
-				audioSource.PlayOneShot (endLevelSound, .05f);
-				colorModel.resetModel ();
-				nextLevel ();
-			} else if (board.checkIfKillPlayer ()) {
-				colorModel.resetModel ();
-				board.killPlayer ();
-			} else if (board.bgTransitioning || board.getPlayer ().animating) {
-				Vector2 dir = swipeDetector.getSwipeDirection ();
->>>>>>> Stashed changes
 				if (dir == Vector2.zero) {
 					dir = getKeyPressDirection();
 				}
@@ -413,8 +345,6 @@ public class GameManager : MonoBehaviour {
 				}
 				board.setBackground(bgColor);
 				moveCounter.reset();
-				colorModel.resetModel();
-
 			}
 		}
 		catch (Exception e) {
