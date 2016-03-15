@@ -1,0 +1,6 @@
+4 4
+0
+v c B r 
+B w s e 
+e w g G 
+g f c g 

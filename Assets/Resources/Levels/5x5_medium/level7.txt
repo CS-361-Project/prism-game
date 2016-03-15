@@ -1,0 +1,7 @@
+5 5
+0
+e s r b R 
+e R w B G 
+c G g e g 
+r m y y w 
+h f g e w 

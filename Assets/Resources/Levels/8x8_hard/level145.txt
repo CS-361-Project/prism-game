@@ -1,0 +1,10 @@
+8 8
+0
+e w b f e b e h 
+G g b r r R b r 
+e e e g g e R m 
+y s e e g c g e 
+e e e e g e m e 
+e e R r g e e B 
+c e r w e m R G 
+e e e c w e e w 
