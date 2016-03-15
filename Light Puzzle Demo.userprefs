@@ -1,8 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Board.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\VerticalEnemy.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Board.cs" Line="23" Column="32" />
+      <File FileName="Assets\Resources\Scripts\GameManager.cs" Line="177" Column="20" />
+      <File FileName="Assets\Resources\Scripts\Board.cs" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\AudioControl.cs" Line="15" Column="4" />
+      <File FileName="Assets\Resources\Scripts\GameData.cs" Line="31" Column="3" />
+      <File FileName="Assets\Resources\Scripts\Start Menu\FloatingBlockManager.cs" Line="21" Column="1" />
+      <File FileName="Assets\Resources\Scripts\VerticalEnemy.cs" Line="12" Column="42" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

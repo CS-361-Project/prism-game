@@ -47,7 +47,7 @@ public class Player : Movable {
 //		float vol = (timeSinceLastMovement()*2 + 0.3f);
 //		vol = Mathf.Clamp(vol, .3f, 1.0f);
 //		return vol;
-		return 1.0f;
+		return 0.05f;
 	}
 
 	public void onBackgroundTransition(Color oldBG, Color newBG, float progress) {

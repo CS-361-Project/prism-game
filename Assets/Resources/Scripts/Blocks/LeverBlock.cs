@@ -48,12 +48,12 @@ public class LeverBlock : Block {
 		if (isToggled) {
 			board.startBGTransition(CustomColors.subColor(c, leverColor));
 			//turn off
-			audioSource.PlayOneShot(toggleOffSound);
+			audioSource.PlayOneShot(toggleOffSound, .2f);
 			colorModel.onSwitch (CustomColors.subColor (c, leverColor));
 		}
 		else {
 			board.startBGTransition(CustomColors.addColor(c, leverColor));
-			audioSource.PlayOneShot(toggleOnSound);
+			audioSource.PlayOneShot(toggleOnSound, .2f);
 			colorModel.onSwitch(CustomColors.addColor(c, leverColor));
 		}
 

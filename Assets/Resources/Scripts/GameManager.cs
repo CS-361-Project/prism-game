@@ -27,8 +27,9 @@ public class GameManager : MonoBehaviour {
 	string levelPack = "";
 
 	//Sound Effects
+	AudioControl audioSettings;
 	AudioSource audioSource;
-	public AudioClip deathSound, endLevelSound, soundtrack;
+	public AudioClip deathSound, endLevelSound, restartSound;
 
 	public enum FileSymbols {
 		RedBlock = 'r',
@@ -66,6 +67,8 @@ public class GameManager : MonoBehaviour {
 		audioSource = gameObject.AddComponent<AudioSource>();
 		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
 		endLevelSound = Resources.Load<AudioClip>("Audio/Home2");
+		restartSound = Resources.Load<AudioClip>("Audio/restart");
+		audioSettings = GameObject.Find("Audio").GetComponent<AudioControl>();
 	}
 
 	public bool loadLevel(String levelPack, int number) {
@@ -141,6 +144,10 @@ public class GameManager : MonoBehaviour {
 		menuManager.closeMenu ((int)MenuManager.menus.backgroundBlocks);
 	}
 
+	public void setVolume(float v) {
+		audioSettings.setVolume(v);
+	}
+
 	public void highlightNextSwitch() {
 		if (board != null) {
 			List<IntPoint> solution = board.solveLevel();
@@ -190,12 +197,13 @@ public class GameManager : MonoBehaviour {
 				whileLoading(timeSinceLevelLoad);
 			}
 			else if (Input.GetKeyDown("r")) {
-				restartLevel();
 				colorModel.resetModel ();
+				audioSource.PlayOneShot(restartSound, .1f);
+				restartLevel();
 			}
 			else if (levelComplete && !board.getPlayer().animating || levelComplete && board.checkLevelDone()) {
 				levelComplete = false;
-				audioSource.PlayOneShot(endLevelSound, .05f);
+				audioSource.PlayOneShot(endLevelSound, .1f);
 
 				//give Game Data all the stats from this level
 				data.addMoves(moveCounter.getMoves());
