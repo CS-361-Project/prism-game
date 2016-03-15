@@ -200,6 +200,7 @@ public class GameManager : MonoBehaviour {
 						}
 						if (board.getPlayer().move(dir)) {
 							moveCounter.increment();
+							moved = true;
 							foreach (Enemy x in EnemyList) {
 								x.move(board.getPlayer().lastMovementTime());
 							}
