@@ -97,7 +97,7 @@ public class Board : MonoBehaviour {
 	}
 
 	public int stepsLeft() {
-		solveLevel().Count;
+		return solveLevel().Count;
 	}
 
 	public List<Enemy> getEnemyList() {

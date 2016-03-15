@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour {
 		closeIngameUI();
 		//Get instance of GameData created on start screen
 		data= GameObject.Find("GameData").GetComponent<GameData>();
+		data.deserialize();
 
 
 		//Initialize AudioSource
@@ -156,15 +157,16 @@ public class GameManager : MonoBehaviour {
 				audioSource.PlayOneShot(endLevelSound, .05f);
 
 				//give Game Data all the stats from this level
-				data.addMoves(moveCounter.getMoves);
+				data.addMoves(moveCounter.getMoves());
 				int count =board.getPlayer().toggleCount;
 				data.addToggles(count);
-				if (board.optimalMoves == moveCounter.getMoves) {
+				if ((board.optimalMoves-1) == moveCounter.getMoves()) {
 					data.markLevelPerfect(levelPack, currLevel);
 				}
 				else {
 					data.markLevelComplete(levelPack, currLevel);
 				}
+				data.serialize();
 				nextLevel();
 			}
 			else if (board.checkIfKillPlayer()) {
