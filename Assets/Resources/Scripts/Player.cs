@@ -29,15 +29,9 @@ public class Player : Movable {
 	public override bool move(Vector2 direction) {
 		float vol = determineVolume();
 		if (base.move(direction)) {
-			if (board.checkIfKillPlayer()) {
-				board.killPlayer();
-			}
-			List<IntPoint> path = board.solveLevel();
-			string s = "";
-			foreach (IntPoint i in path) {
-				s += "(" + i.x + ", " + i.y + ")";
-			}
-			print(s);
+//			if (board.checkIfKillPlayer()) {
+//				board.killPlayer();
+//			}
 
 			audioSource.PlayOneShot(moveSound, vol);
 			return true;
@@ -53,7 +47,7 @@ public class Player : Movable {
 //		float vol = (timeSinceLastMovement()*2 + 0.3f);
 //		vol = Mathf.Clamp(vol, .3f, 1.0f);
 //		return vol;
-		return 1.0f;
+		return 0.05f;
 	}
 
 	public void onBackgroundTransition(Color oldBG, Color newBG, float progress) {

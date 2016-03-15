@@ -9,11 +9,17 @@ public class GameManager : MonoBehaviour {
 	Board board, lastBoard;
 	GameData data;
 	public SpriteRenderer background;
+
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
+	public bool autopilot = true;
+
 	MoveCounter moveCounter;
 	SwipeDetector swipeDetector;
 	MenuManager menuManager;
+
+	bool levelComplete = false;
+	bool aboutToSquishPlayer = false;
 	ColorModel colorModel;
 	bool loadingLevel = false;
 	float timeSinceLevelLoad = 0.0f;
@@ -21,8 +27,9 @@ public class GameManager : MonoBehaviour {
 	string levelPack = "";
 
 	//Sound Effects
+	AudioControl audioSettings;
 	AudioSource audioSource;
-	public AudioClip deathSound, endLevelSound, soundtrack;
+	public AudioClip deathSound, endLevelSound, restartSound;
 
 	public enum FileSymbols {
 		RedBlock = 'r',
@@ -52,7 +59,7 @@ public class GameManager : MonoBehaviour {
 
 		closeIngameUI();
 		//Get instance of GameData created on start screen
-		data= GameObject.Find("GameData").GetComponent<GameData>();
+		data = GameObject.Find("GameData").GetComponent<GameData>();
 		data.deserialize();
 
 
@@ -60,7 +67,8 @@ public class GameManager : MonoBehaviour {
 		audioSource = gameObject.AddComponent<AudioSource>();
 		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
 		endLevelSound = Resources.Load<AudioClip>("Audio/Home2");
-
+		restartSound = Resources.Load<AudioClip>("Audio/restart");
+		audioSettings = GameObject.Find("Audio").GetComponent<AudioControl>();
 	}
 
 	public bool loadLevel(String levelPack, int number) {
@@ -96,10 +104,12 @@ public class GameManager : MonoBehaviour {
 
 	public void openIngameUI() {
 		menuManager.openMenu((int)MenuManager.menus.ingameUI);
+		closeBackgroundBlocks();
 	}
 
 	public void closeIngameUI() {
 		menuManager.closeMenu((int)MenuManager.menus.ingameUI);
+		openBackgroundBlocks();
 	}
 
 	public void goToLevelSelection() {
@@ -134,6 +144,10 @@ public class GameManager : MonoBehaviour {
 		menuManager.closeMenu ((int)MenuManager.menus.backgroundBlocks);
 	}
 
+	public void setVolume(float v) {
+		audioSettings.setVolume(v);
+	}
+
 	public void highlightNextSwitch() {
 		if (board != null) {
 			List<IntPoint> solution = board.solveLevel();
@@ -143,17 +157,16 @@ public class GameManager : MonoBehaviour {
 				for (int i = 1; i < solution.Count; i++) {
 					IntPoint point = solution[i];
 					Block currBlock = board.getBlock(point.x, point.y);
-					board.highlightBlock(currBlock);
 					if (currBlock.name == "Lever") {
 						nextBlock = currBlock;
 						foundBlock = true;
-//						break;
+						break;
 					}
 				}
 				if (!foundBlock) {
 					nextBlock = board.getBlock(solution[solution.Count - 1].x, solution[solution.Count - 1].y);
 				}
-//				board.highlightBlock(nextBlock);
+				board.highlightBlock(nextBlock);
 			}
 		}
 	}
@@ -164,21 +177,18 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			if (menuManager.inLevel()) {
 				openPauseMenu();
+				closeIngameUI();
 			}
 			else if (board != null) {
 				exitPauseMenu();
+				openIngameUI();
 			}
 		}
-		if (!menuManager.inLevel ()) {
-			closeIngameUI ();
-			openBackgroundBlocks ();
-		}
-		if (menuManager.inLevel ()) {
-			openIngameUI ();
-			closeBackgroundBlocks ();
-			if (board.getPlayer () == null) {
+		if (menuManager.inLevel()) {
+			if (board.getPlayer() == null || (aboutToSquishPlayer && !board.getPlayer().animating)) {
 				// player is dead
-				audioSource.PlayOneShot(deathSound);
+				aboutToSquishPlayer = false;
+				audioSource.PlayOneShot(deathSound, .1f);
 				colorModel.resetModel ();
 				restartLevel();
 			}
@@ -187,11 +197,13 @@ public class GameManager : MonoBehaviour {
 				whileLoading(timeSinceLevelLoad);
 			}
 			else if (Input.GetKeyDown("r")) {
-				restartLevel();
 				colorModel.resetModel ();
+				audioSource.PlayOneShot(restartSound, .1f);
+				restartLevel();
 			}
-			else if (board.checkLevelDone()) {
-				audioSource.PlayOneShot(endLevelSound, .05f);
+			else if (levelComplete && !board.getPlayer().animating || levelComplete && board.checkLevelDone()) {
+				levelComplete = false;
+				audioSource.PlayOneShot(endLevelSound, .1f);
 
 				//give Game Data all the stats from this level
 				data.addMoves(moveCounter.getMoves());
@@ -205,10 +217,6 @@ public class GameManager : MonoBehaviour {
 				}
 				data.serialize();
 				nextLevel();
-				colorModel.resetModel ();
-			}
-			else if (board.checkIfKillPlayer()) {
-				board.killPlayer();
 				colorModel.resetModel ();
 			}
 			else if (board.bgTransitioning || board.getPlayer().animating) {
@@ -231,10 +239,9 @@ public class GameManager : MonoBehaviour {
 						}
 						if (board.getPlayer().move(dir)) {
 							moveCounter.increment();
-							foreach (Enemy x in EnemyList) {
-								x.move(board.getPlayer().lastMovementTime());
-							}
+							moved = true;
 						}
+
 					}
 					else {
 //						float t = board.getPlayer().timeSinceLastMovement() / transitionTime;
@@ -255,9 +262,21 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 			else {
-				Vector2 dir1 = getKeyPressDirection();
-				if (dir1 != Vector2.zero) {
-					moved = board.getPlayer().move(dir1);
+				Vector2 moveDir;
+				if (autopilot) {
+					List<IntPoint> path = board.solveLevel();
+					if (path.Count > 1) {
+						moveDir = new Vector2(path[1].x - path[0].x, path[1].y - path[0].y);
+					}
+					else {
+						moveDir = getKeyPressDirection();
+					}
+				}
+				else {
+					moveDir = getKeyPressDirection();
+				}
+				if (moveDir != Vector2.zero) {
+					moved = board.getPlayer().move(moveDir);
 					if (moved) {
 						moveCounter.increment();
 					}
@@ -275,12 +294,23 @@ public class GameManager : MonoBehaviour {
 			}
 			//Check if Player moved
 			if (moved) {
-				List<Enemy> EnemyList = board.getEnemyList();
-				for (int i = EnemyList.Count - 1; i >= 0; i--) {
-					Enemy x = EnemyList[i];
-					x.move(board.getPlayer().lastMovementTime());
-					if (x.markedForDeath) {
-						board.killEnemy(x);
+				if (board.checkKillPlayer()) {
+					board.killPlayer();
+				}
+				else if (!board.checkKillPlayer() && board.checkLevelDoneAfterAnimation()) {
+					levelComplete = true;
+				}
+				else {
+					List<Enemy> EnemyList = board.getEnemyList();
+					for (int i = EnemyList.Count - 1; i >= 0; i--) {
+						Enemy x = EnemyList[i];
+						x.move(board.getPlayer().lastMovementTime());
+						if (x.markedForDeath) {
+							board.killEnemy(x);
+						}
+					}
+					if (board.checkKillPlayer()) {
+						aboutToSquishPlayer = true;
 					}
 				}
 			}

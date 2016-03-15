@@ -96,7 +96,6 @@ GameObject:
   - 20: {fileID: 245061183}
   - 92: {fileID: 245061182}
   - 124: {fileID: 245061181}
-  - 81: {fileID: 245061180}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -104,13 +103,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &245061180
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 245061179}
-  m_Enabled: 1
 --- !u!124 &245061181
 Behaviour:
   m_ObjectHideFlags: 0
@@ -422,8 +414,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -600,8 +592,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -942,8 +934,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -1875,9 +1867,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2140753275}
-  - 81: {fileID: 2140753274}
   - 82: {fileID: 2140753273}
   - 114: {fileID: 2140753272}
+  - 81: {fileID: 2140753274}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -1906,10 +1898,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0df892ebcca8142ba83282633f2b5475, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   Priority: 128
@@ -1976,7 +1968,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2140753271}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!4 &2140753275
 Transform:
   m_ObjectHideFlags: 0
@@ -2016,6 +2008,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd5d8b3c4532954b8c1fc71bb73c9d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalMoves: 0
+  toggles: 0
 --- !u!4 &2141535818
 Transform:
   m_ObjectHideFlags: 0
