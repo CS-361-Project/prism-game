@@ -1,7 +1,6 @@
-5 5
-0 
-e G m G c
-R B m e c
-m m R e c
-B e e R c
-c c c c e
+4 4
+0
+s e e B
+e e e e
+e h e r
+R e r f
