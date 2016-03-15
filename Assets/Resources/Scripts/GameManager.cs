@@ -6,15 +6,18 @@ using System.IO;
 using System;
 
 public class GameManager : MonoBehaviour {
-	Board board, lastBoard;
-	public SpriteRenderer background;
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
-	public bool autopilot = false;
-	bool levelComplete = false;
+	public bool autopilot = true;
+
+	Board board, lastBoard;
+	public SpriteRenderer background;
 	MoveCounter moveCounter;
 	SwipeDetector swipeDetector;
 	MenuManager menuManager;
+
+	bool levelComplete = false;
+	bool aboutToSquishPlayer = false;
 	bool loadingLevel = false;
 	float timeSinceLevelLoad = 0.0f;
 	int currLevel = -1;
@@ -55,7 +58,6 @@ public class GameManager : MonoBehaviour {
 		audioSource = gameObject.AddComponent<AudioSource>();
 		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
 		endLevelSound = Resources.Load<AudioClip>("Audio/Home2");
-
 	}
 
 	public bool loadLevel(String levelPack, int number) {
@@ -160,9 +162,10 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		if (menuManager.inLevel()) {
-			if (board.getPlayer() == null) {
+			if (board.getPlayer() == null || (aboutToSquishPlayer && !board.getPlayer().animating)) {
 				// player is dead
-				audioSource.PlayOneShot(deathSound);
+				aboutToSquishPlayer = false;
+				audioSource.PlayOneShot(deathSound, .1f);
 				restartLevel();
 			}
 			if (loadingLevel) {
@@ -176,9 +179,6 @@ public class GameManager : MonoBehaviour {
 				levelComplete = false;
 				audioSource.PlayOneShot(endLevelSound, .05f);
 				nextLevel();
-			}
-			else if (board.checkIfKillPlayer()) {
-				board.killPlayer();
 			}
 			else if (board.bgTransitioning || board.getPlayer().animating) {
 				Vector2 dir = swipeDetector.getSwipeDirection();
@@ -201,9 +201,6 @@ public class GameManager : MonoBehaviour {
 						if (board.getPlayer().move(dir)) {
 							moveCounter.increment();
 							moved = true;
-							foreach (Enemy x in EnemyList) {
-								x.move(board.getPlayer().lastMovementTime());
-							}
 						}
 
 					}
@@ -226,15 +223,21 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 			else {
-				Vector2 dir1 = getKeyPressDirection();
+				Vector2 moveDir;
 				if (autopilot) {
 					List<IntPoint> path = board.solveLevel();
 					if (path.Count > 1) {
-						dir1 = new Vector2(path[1].x - path[0].x, path[1].y - path[0].y);
+						moveDir = new Vector2(path[1].x - path[0].x, path[1].y - path[0].y);
+					}
+					else {
+						moveDir = getKeyPressDirection();
 					}
 				}
-				if (dir1 != Vector2.zero) {
-					moved = board.getPlayer().move(dir1);
+				else {
+					moveDir = getKeyPressDirection();
+				}
+				if (moveDir != Vector2.zero) {
+					moved = board.getPlayer().move(moveDir);
 					if (moved) {
 						moveCounter.increment();
 					}
@@ -252,7 +255,10 @@ public class GameManager : MonoBehaviour {
 			}
 			//Check if Player moved
 			if (moved) {
-				if (!board.checkIfKillPlayer() && board.checkLevelDoneAfterAnimation()) {
+				if (board.checkKillPlayer()) {
+					board.killPlayer();
+				}
+				else if (!board.checkKillPlayer() && board.checkLevelDoneAfterAnimation()) {
 					levelComplete = true;
 				}
 				else {
@@ -263,6 +269,9 @@ public class GameManager : MonoBehaviour {
 						if (x.markedForDeath) {
 							board.killEnemy(x);
 						}
+					}
+					if (board.checkKillPlayer()) {
+						aboutToSquishPlayer = true;
 					}
 				}
 			}

@@ -2141,9 +2141,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a034ee50c1a3448bf7ad85a5abca82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  background: {fileID: 0}
   transitionTime: 0.12
   holdMovementTime: 0.35
+  autopilot: 0
+  background: {fileID: 0}
   deathSound: {fileID: 0}
   endLevelSound: {fileID: 0}
   soundtrack: {fileID: 0}

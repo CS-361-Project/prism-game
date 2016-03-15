@@ -368,7 +368,7 @@ public class Board : MonoBehaviour {
 
 
 	//checks if the player has moved onto a block that has an AI and kills the player
-	public bool checkIfKillPlayer() {
+	public bool checkKillPlayer() {
 		//find out where the player is moving to
 		IntPoint playerPos = player.getPos();
 		int x = playerPos.x;
