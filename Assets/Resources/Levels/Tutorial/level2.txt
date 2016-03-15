@@ -1,6 +1,6 @@
-4 4
-0 
-e e e R
-e e e e
-e e e m
-B e m e
+4 4 
+0
+s e e R
+r r r r
+e e R g
+G e g f
