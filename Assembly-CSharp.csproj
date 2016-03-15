@@ -50,6 +50,7 @@
      <Compile Include="Assets\Resources\Scripts\Blocks\EmptyBlock.cs" />
      <Compile Include="Assets\Resources\Scripts\Blocks\LeverBlock.cs" />
      <Compile Include="Assets\Resources\Scripts\Board.cs" />
+     <Compile Include="Assets\Resources\Scripts\BoardSolver.cs" />
      <Compile Include="Assets\Resources\Scripts\CustomColors.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemy.cs" />
      <Compile Include="Assets\Resources\Scripts\EnemyModel.cs" />
@@ -58,6 +59,7 @@
      <Compile Include="Assets\Resources\Scripts\GameManager.cs" />
      <Compile Include="Assets\Resources\Scripts\Generator.cs" />
      <Compile Include="Assets\Resources\Scripts\HorizontalEnemy.cs" />
+     <Compile Include="Assets\Resources\Scripts\IntPoint.cs" />
      <Compile Include="Assets\Resources\Scripts\Models\BlockModel.cs" />
      <Compile Include="Assets\Resources\Scripts\Models\LeverModel.cs" />
      <Compile Include="Assets\Resources\Scripts\Movable.cs" />

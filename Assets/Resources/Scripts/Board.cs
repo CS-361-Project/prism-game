@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,6 +9,7 @@ public class Board : MonoBehaviour {
 
 	int width, height;
 	public Block[,] blocks;
+
 	List<Block> solidBlocks;
 	SpriteRenderer background;
 	GameObject emptyBlockFolder, blockFolder, switchFolder, enemyFolder;
@@ -18,6 +20,7 @@ public class Board : MonoBehaviour {
 	Exit exit;
 	float lastColorChange = -1.0f;
 	public float boardSize = 2.0f;
+	BoardSolver solver;
 
 
 	// Use this for initialization
@@ -78,6 +81,7 @@ public class Board : MonoBehaviour {
 //		addTraversalAI();
 		//addTrackerAI();
 		initExit();
+		solver = new BoardSolver(this);
 	}
 
 	public void initPlayer() {
@@ -91,16 +95,22 @@ public class Board : MonoBehaviour {
 
 	public bool checkLevelDone() {
 		int x, y, oldX, oldY;
-		x = player.getPos()[0];
-		y = player.getPos()[1];
-		oldX = player.getOldPos()[0];
-		oldY = player.getOldPos()[1];
+		IntPoint playerPos = player.getPos();
+		IntPoint oldPlayerPos = player.getOldPos();
+		x = playerPos.x;
+		y = playerPos.y;
+		oldX = oldPlayerPos.x;
+		oldY = oldPlayerPos.y;
 		if (player.moving) {
 			return (exit.x == oldX && exit.y == oldY);
 		}
 		else {
 			return (exit.x == x && exit.y == y);
 		}
+	}
+
+	public List<IntPoint> solveLevel() {
+		return solver.solveLevel();
 	}
 
 	public void addHorizontalEnemy(int x, int y) {
@@ -124,7 +134,6 @@ public class Board : MonoBehaviour {
 		enemy.onKill();
 		Destroy(enemy.gameObject);
 	}
-		
 
 	public void initExit() {
 		exit = Instantiate(Resources.Load<GameObject>("Prefabs/Exit")).GetComponent<Exit>();
@@ -317,6 +326,10 @@ public class Board : MonoBehaviour {
 		return player;
 	}
 
+	public Exit getExit() {
+		return exit;
+	}
+
 	public Color nextBGColor() {
 		return newBG;
 	}
@@ -344,11 +357,13 @@ public class Board : MonoBehaviour {
 
 	}
 
+
 	//checks if the player has moved onto a block that has an AI and kills the player
 	public bool checkIfKillPlayer() {
 		//find out where the player is moving to
-		int x = player.getPos()[0];
-		int y = player.getPos()[1];
+		IntPoint playerPos = player.getPos();
+		int x = playerPos.x;
+		int y = playerPos.y;
 
 		return blocks[x, y].hasEnemy;
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : Movable {
 	//Sound Effects
@@ -29,6 +30,13 @@ public class Player : Movable {
 			if (board.checkIfKillPlayer()) {
 				board.killPlayer();
 			}
+			List<IntPoint> path = board.solveLevel();
+			string s = "";
+			foreach (IntPoint i in path) {
+				s += "(" + i.x + ", " + i.y + ")";
+			}
+			print(s);
+
 			audioSource.PlayOneShot(moveSound, vol);
 			return true;
 		}
