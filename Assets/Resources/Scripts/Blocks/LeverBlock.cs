@@ -49,14 +49,12 @@ public class LeverBlock : Block {
 			board.startBGTransition(CustomColors.subColor(c, leverColor));
 			//turn off
 			audioSource.PlayOneShot(toggleOffSound);
-			colorModel.switchUntoggled (leverColor);
-			colorModel.switchUntoggled (board.getBackgroundColor ());
+			colorModel.onSwitch (CustomColors.subColor (c, leverColor));
 		}
 		else {
 			board.startBGTransition(CustomColors.addColor(c, leverColor));
 			audioSource.PlayOneShot(toggleOnSound);
-			colorModel.switchToggled (leverColor);
-			colorModel.switchToggled (board.getBackgroundColor ());
+			colorModel.onSwitch(CustomColors.addColor(c, leverColor));
 		}
 
 
