@@ -5,6 +5,7 @@ public class Block : MonoBehaviour {
 	protected BlockModel blockModel;
 	protected Color baseColor;
 	public bool hasEnemy;
+	public bool highlighted;
 
 	public virtual void init(Color c, Color bgColor, Board b, Transform parent) {
 		transform.parent = parent;
@@ -14,6 +15,7 @@ public class Block : MonoBehaviour {
 		name = "Block";
 		onBackgroundChange(bgColor);
 		hasEnemy = false;
+		highlighted = false;
 	}
 
 	public virtual void onBackgroundChange(Color bgColor) {
@@ -67,5 +69,13 @@ public class Block : MonoBehaviour {
 
 	public Color getBaseColor(){
 		return baseColor;
+	}
+
+	public void addHighlight(float duration) {
+		GameObject highlightObj = new GameObject();
+		highlightObj.transform.parent = transform;
+		highlightObj.transform.localPosition = new Vector3(0, 0, 0);
+		BlockHighlightModel highlight = highlightObj.AddComponent<BlockHighlightModel>();
+		highlight.init(this, duration);
 	}
 }

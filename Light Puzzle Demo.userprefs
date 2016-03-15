@@ -2,7 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\Board.cs">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Board.cs" Line="12" Column="28" />
+      <File FileName="Assets\Resources\Scripts\Board.cs" Line="23" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

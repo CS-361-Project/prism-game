@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : Movable {
 	//Sound Effects
@@ -28,9 +29,10 @@ public class Player : Movable {
 	public override bool move(Vector2 direction) {
 		float vol = determineVolume();
 		if (base.move(direction)) {
-			if (board.checkIfKillPlayer()) {
-				board.killPlayer();
-			}
+//			if (board.checkIfKillPlayer()) {
+//				board.killPlayer();
+//			}
+
 			audioSource.PlayOneShot(moveSound, vol);
 			return true;
 		}
