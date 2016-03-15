@@ -1,0 +1,8 @@
+6 6
+0
+e f c g e R 
+e c r e y e 
+r w e s e B 
+r G g w y e 
+y y y R b e 
+e y e e y G 

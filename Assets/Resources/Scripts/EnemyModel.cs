@@ -69,8 +69,8 @@ public class EnemyModel : MonoBehaviour {
 			rightRend.sprite = rightArrow;
 		}
 		else if (direcX == 0) {
-			upRend.sprite = upArrow;
-			downRend.sprite = downArrowOutline;
+			upRend.sprite = downArrow;
+			downRend.sprite = upArrowOutline;
 
 		}
 	}

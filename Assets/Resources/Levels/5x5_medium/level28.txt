@@ -1,0 +1,7 @@
+5 5
+0
+e s b m f 
+e e c e m 
+e R w e G 
+B w m e e 
+m G y e g 

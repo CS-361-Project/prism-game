@@ -6,7 +6,7 @@
   </Entry>
   <Entry>
     <Key>Tutorial;1</Key>
-    <Value xsi:type="xsd:int">2</Value>
+    <Value xsi:type="xsd:int">1</Value>
   </Entry>
   <Entry>
     <Key>Tutorial;2</Key>
@@ -14,7 +14,7 @@
   </Entry>
   <Entry>
     <Key>Tutorial;3</Key>
-    <Value xsi:type="xsd:int">2</Value>
+    <Value xsi:type="xsd:int">1</Value>
   </Entry>
   <Entry>
     <Key>Tutorial;4</Key>
@@ -22,7 +22,7 @@
   </Entry>
   <Entry>
     <Key>Tutorial;5</Key>
-    <Value xsi:type="xsd:int">2</Value>
+    <Value xsi:type="xsd:int">1</Value>
   </Entry>
   <Entry>
     <Key>Peter Pack 1;1</Key>
@@ -137,15 +137,11 @@
     <Value xsi:type="xsd:int">1</Value>
   </Entry>
   <Entry>
-    <Key>Tutorial;6</Key>
+    <Key>5x5_medium;5</Key>
     <Value xsi:type="xsd:int">1</Value>
   </Entry>
   <Entry>
-    <Key>Tutorial;7</Key>
-    <Value xsi:type="xsd:int">1</Value>
-  </Entry>
-  <Entry>
-    <Key>Tutorial;8</Key>
+    <Key>5x5_medium;6</Key>
     <Value xsi:type="xsd:int">2</Value>
   </Entry>
 </ArrayOfEntry>

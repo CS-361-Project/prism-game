@@ -1,0 +1,6 @@
+4 4
+0
+f c e R 
+y b b G 
+g e B e 
+b s e e 
