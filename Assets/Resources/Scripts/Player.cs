@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : Movable {
 	//Sound Effects
@@ -10,12 +11,14 @@ public class Player : Movable {
 	SpriteRenderer rend;
 	Color baseColor = Color.white;
 	Color greyColor = CustomColors.Grey;
+	public int toggleCount;
 
 	// Use this for initialization
 	public void init(Board b) {
 		base.init(b, 0, b.getHeight() - 1);
 		rend = GetComponent<SpriteRenderer>();
 		rend.color = baseColor;
+		toggleCount = 0;
 
 		//Initialize AudioSource
 		audioSource = gameObject.AddComponent<AudioSource>();
@@ -26,9 +29,10 @@ public class Player : Movable {
 	public override bool move(Vector2 direction) {
 		float vol = determineVolume();
 		if (base.move(direction)) {
-			if (board.checkIfKillPlayer()) {
-				board.killPlayer();
-			}
+//			if (board.checkIfKillPlayer()) {
+//				board.killPlayer();
+//			}
+
 			audioSource.PlayOneShot(moveSound, vol);
 			return true;
 		}
@@ -69,6 +73,7 @@ public class Player : Movable {
 		if (moving && board.getBlock(x, y).name == "Lever") {
 			LeverBlock lever = (LeverBlock)board.getBlock(x, y);
 			lever.toggle();
+			toggleCount++;
 		}
 		lastMovement = Time.time;
 	}

@@ -1,13 +1,16 @@
-﻿using UnityEngine;
+using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Board : MonoBehaviour {
 	//AI specific changes
 	List<Enemy> enemyList;
+	public int optimalMoves { get; set; }
 
 	int width, height;
 	public Block[,] blocks;
+
 	List<Block> solidBlocks;
 	SpriteRenderer background;
 	GameObject emptyBlockFolder, blockFolder, switchFolder, enemyFolder;
@@ -18,6 +21,7 @@ public class Board : MonoBehaviour {
 	Exit exit;
 	float lastColorChange = -1.0f;
 	public float boardSize = 2.0f;
+	BoardSolver solver;
 
 
 	// Use this for initialization
@@ -78,11 +82,22 @@ public class Board : MonoBehaviour {
 //		addTraversalAI();
 		//addTrackerAI();
 		initExit();
+
+		solver = new BoardSolver(this);
+
 	}
 
 	public void initPlayer() {
 		player = Instantiate(Resources.Load<GameObject>("Prefabs/Player")).GetComponent<Player>();
 		player.init(this);
+	}
+
+	public List<IntPoint> solveLevel() {
+		return solver.solveLevel();
+	}
+
+	public int stepsLeft() {
+		return solveLevel().Count;
 	}
 
 	public List<Enemy> getEnemyList() {
@@ -91,16 +106,23 @@ public class Board : MonoBehaviour {
 
 	public bool checkLevelDone() {
 		int x, y, oldX, oldY;
-		x = player.getPos()[0];
-		y = player.getPos()[1];
-		oldX = player.getOldPos()[0];
-		oldY = player.getOldPos()[1];
+		IntPoint playerPos = player.getPos();
+		IntPoint oldPlayerPos = player.getOldPos();
+		x = playerPos.x;
+		y = playerPos.y;
+		oldX = oldPlayerPos.x;
+		oldY = oldPlayerPos.y;
 		if (player.moving) {
 			return (exit.x == oldX && exit.y == oldY);
 		}
 		else {
 			return (exit.x == x && exit.y == y);
 		}
+	}
+
+	public bool checkLevelDoneAfterAnimation() {
+		IntPoint playerPos = player.getPos();
+		return exit.x == playerPos.x && exit.y == playerPos.y;
 	}
 
 	public void addHorizontalEnemy(int x, int y) {
@@ -126,7 +148,6 @@ public class Board : MonoBehaviour {
 		Destroy(enemy.gameObject);
 		deathEffect.Instance.Explosion (loc);
 	}
-		
 
 	public void initExit() {
 		exit = Instantiate(Resources.Load<GameObject>("Prefabs/Exit")).GetComponent<Exit>();
@@ -194,6 +215,10 @@ public class Board : MonoBehaviour {
 		else {
 			return null;
 		}
+	}
+
+	public void highlightBlock(Block b) {
+		b.addHighlight(5.0f);
 	}
 
 	public void setHasEnemy(int x, int y, bool hasEnemy) {
@@ -319,7 +344,11 @@ public class Board : MonoBehaviour {
 		return player;
 	}
 
-	public Color nextBGColor() {
+	public Exit getExit() {
+		return exit;
+	}
+
+	public Color getNextBGColor() {
 		return newBG;
 	}
 
@@ -346,11 +375,13 @@ public class Board : MonoBehaviour {
 
 	}
 
+
 	//checks if the player has moved onto a block that has an AI and kills the player
-	public bool checkIfKillPlayer() {
+	public bool checkKillPlayer() {
 		//find out where the player is moving to
-		int x = player.getPos()[0];
-		int y = player.getPos()[1];
+		IntPoint playerPos = player.getPos();
+		int x = playerPos.x;
+		int y = playerPos.y;
 
 		return blocks[x, y].hasEnemy;
 

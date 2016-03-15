@@ -11,7 +11,7 @@ public class LeverModel : BlockModel {
 		rend = GetComponent<SpriteRenderer>();
 		this.baseColor = baseColor;
 		rend.color = baseColor;
-		rend.sortingLayerName = "Foreground";
+		rend.sortingLayerName = "Characters";
 
 		GameObject obj = new GameObject();
 		obj.name = "Lever Outline";
@@ -19,7 +19,7 @@ public class LeverModel : BlockModel {
 		obj.transform.localPosition = new Vector3(0, 0, 0);
 		obj.transform.localScale = transform.localScale;
 		outline = obj.AddComponent<SpriteRenderer>();
-		outline.sortingLayerName = "Foreground";
+		outline.sortingLayerName = "Characters";
 		outline.sortingOrder = 2;
 		outline.color = new Color(1, 1, 1);
 		activeOutline = Resources.Load<Sprite>("Sprites/Switch-On-Outline");
