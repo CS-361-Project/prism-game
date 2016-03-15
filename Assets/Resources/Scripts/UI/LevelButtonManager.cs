@@ -9,9 +9,12 @@ public class LevelButtonManager : MonoBehaviour {
 	GameObject levelPanel;
 	int numLevels;
 	string packName;
+	GameData data;
+	Outline outline;
 	// assign in the editor
 
 	public void init(string levelPackName) {
+		data= GameObject.Find("GameData").GetComponent<GameData>();
 		packName = levelPackName;
 		levelPanel = gameObject;
 		buttons = new List<Button>();
@@ -24,6 +27,14 @@ public class LevelButtonManager : MonoBehaviour {
 				currPanel.transform.SetParent(levelPanel.transform, false);
 			}
 			GameObject buttonObj = Instantiate(Resources.Load<GameObject>("Prefabs/Button"));
+			outline = buttonObj.GetComponent<Outline>();
+			if (data.getLevelStatus(packName, i) == 1) {
+				outline.effectColor = CustomColors.HexToColor("003366");
+			}
+			else
+			if (data.getLevelStatus(packName, i) == 2) {
+				outline.effectColor = CustomColors.HexToColor("ffbf00");
+			}
 			buttonObj.transform.SetParent(currPanel.transform, false);
 			Button button = buttonObj.GetComponent<Button>();
 			buttons.Add(button);

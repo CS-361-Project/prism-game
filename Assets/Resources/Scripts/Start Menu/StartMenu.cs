@@ -10,7 +10,7 @@ public class StartMenu : MonoBehaviour {
 
 	public Button startButton;
 	public Button exitButton;
-	public Button zenMode;
+	public Button infoButton;
 	public Button yesQuit;
 	public Button noQuit;
 
@@ -47,11 +47,11 @@ public class StartMenu : MonoBehaviour {
 		exitCol.highlightedColor = Color.Lerp(CustomColors.Cyan, CustomColors.White, .5F);
 		exitButton.colors = exitCol;
 
-		zenMode = zenMode.GetComponent<Button>();
-		ColorBlock zenModeCol = zenMode.colors;
-		zenModeCol.normalColor = CustomColors.Magenta;
-		zenModeCol.highlightedColor = Color.Lerp(CustomColors.Magenta, CustomColors.White, .5F);
-		zenMode.colors = zenModeCol;
+		infoButton = infoButton.GetComponent<Button>();
+		ColorBlock infoButtonCol = infoButton.colors;
+		infoButtonCol.normalColor = CustomColors.Magenta;
+		infoButtonCol.highlightedColor = Color.Lerp(CustomColors.Magenta, CustomColors.White, .5F);
+		infoButton.colors = infoButtonCol;
 
 		// quit menu/buttons
 		exitMessage = exitMessage.GetComponent<Text>();
@@ -100,7 +100,7 @@ public class StartMenu : MonoBehaviour {
 
 		startButton.gameObject.SetActive (false);
 		exitButton.gameObject.SetActive (false);
-		zenMode.gameObject.SetActive (false);
+		infoButton.gameObject.SetActive (false);
 
 		rTitle.gameObject.SetActive (false);
 		gTitle.gameObject.SetActive (false);
@@ -114,7 +114,7 @@ public class StartMenu : MonoBehaviour {
 
 		startButton.gameObject.SetActive (true);
 		exitButton.gameObject.SetActive (true);
-		zenMode.gameObject.SetActive (true);
+		infoButton.gameObject.SetActive (true);
 
 		rTitle.gameObject.SetActive (true);
 		gTitle.gameObject.SetActive (true);

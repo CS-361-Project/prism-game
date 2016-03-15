@@ -6,18 +6,21 @@ using System.IO;
 using System;
 
 public class GameManager : MonoBehaviour {
+	Board board, lastBoard;
+	GameData data;
+	public SpriteRenderer background;
+
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
 	public bool autopilot = true;
 
-	Board board, lastBoard;
-	public SpriteRenderer background;
 	MoveCounter moveCounter;
 	SwipeDetector swipeDetector;
 	MenuManager menuManager;
 
 	bool levelComplete = false;
 	bool aboutToSquishPlayer = false;
+	ColorModel colorModel;
 	bool loadingLevel = false;
 	float timeSinceLevelLoad = 0.0f;
 	int currLevel = -1;
@@ -51,8 +54,13 @@ public class GameManager : MonoBehaviour {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		swipeDetector = new GameObject().AddComponent<SwipeDetector>();
 		menuManager = GameObject.Find("Menu Manager").GetComponent<MenuManager>();
+		colorModel = GameObject.Find ("RGB Diagram").GetComponent<ColorModel> ();
 
 		closeIngameUI();
+		//Get instance of GameData created on start screen
+		data= GameObject.Find("GameData").GetComponent<GameData>();
+		data.deserialize();
+
 
 		//Initialize AudioSource
 		audioSource = gameObject.AddComponent<AudioSource>();
@@ -78,6 +86,7 @@ public class GameManager : MonoBehaviour {
 			board.scaleComponents(0);
 			board.scaleBackground(0);
 			menuManager.updateLevelInUI(levelPack, number);
+			board.optimalMoves = board.stepsLeft();
 			return true;
 		}
 		else {
@@ -100,7 +109,6 @@ public class GameManager : MonoBehaviour {
 
 	public void goToLevelSelection() {
 		menuManager.openMenu((int)MenuManager.menus.levelSelect);
-		//moveCounter.gameObject.SetActive(false);
 	}
 
 	public void exitLevelSelection() {
@@ -117,12 +125,18 @@ public class GameManager : MonoBehaviour {
 
 	public void exitPackSelection() {
 		menuManager.closeMenu((int)MenuManager.menus.packMenu);
-		//moveCounter.gameObject.SetActive(true);
 	}
 
 	public void openPackSelection() {
 		menuManager.openMenu((int)MenuManager.menus.packMenu);
-		//moveCounter.gameObject.SetActive(false);
+	}
+
+	public void openBackgroundBlocks(){
+		menuManager.openMenu ((int)MenuManager.menus.backgroundBlocks);
+	}
+
+	public void closeBackgroundBlocks(){
+		menuManager.closeMenu ((int)MenuManager.menus.backgroundBlocks);
 	}
 
 	public void highlightNextSwitch() {
@@ -154,11 +168,9 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			if (menuManager.inLevel()) {
 				openPauseMenu();
-				closeIngameUI ();
 			}
 			else if (board != null) {
 				exitPauseMenu();
-				openIngameUI();
 			}
 		}
 		if (menuManager.inLevel()) {
@@ -166,6 +178,7 @@ public class GameManager : MonoBehaviour {
 				// player is dead
 				aboutToSquishPlayer = false;
 				audioSource.PlayOneShot(deathSound, .1f);
+				colorModel.resetModel ();
 				restartLevel();
 			}
 			if (loadingLevel) {
@@ -174,11 +187,25 @@ public class GameManager : MonoBehaviour {
 			}
 			else if (Input.GetKeyDown("r")) {
 				restartLevel();
+				colorModel.resetModel ();
 			}
 			else if (levelComplete && !board.getPlayer().animating || levelComplete && board.checkLevelDone()) {
 				levelComplete = false;
 				audioSource.PlayOneShot(endLevelSound, .05f);
+
+				//give Game Data all the stats from this level
+				data.addMoves(moveCounter.getMoves());
+				int count =board.getPlayer().toggleCount;
+				data.addToggles(count);
+				if ((board.optimalMoves-1) == moveCounter.getMoves()) {
+					data.markLevelPerfect(levelPack, currLevel);
+				}
+				else {
+					data.markLevelComplete(levelPack, currLevel);
+				}
+				data.serialize();
 				nextLevel();
+				colorModel.resetModel ();
 			}
 			else if (board.bgTransitioning || board.getPlayer().animating) {
 				Vector2 dir = swipeDetector.getSwipeDirection();
@@ -346,6 +373,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void nextLevel() {
+
+
+		//Load next level
 		loadLevel(levelPack, currLevel + 1);
 	}
 
@@ -393,6 +423,9 @@ public class GameManager : MonoBehaviour {
 				}
 				board.setBackground(bgColor);
 				moveCounter.reset();
+				colorModel.resetModel();
+
+
 			}
 		}
 		catch (Exception e) {
