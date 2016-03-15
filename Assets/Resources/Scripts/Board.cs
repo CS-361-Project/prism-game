@@ -109,6 +109,11 @@ public class Board : MonoBehaviour {
 		}
 	}
 
+	public bool checkLevelDoneAfterAnimation() {
+		IntPoint playerPos = player.getPos();
+		return exit.x == playerPos.x && exit.y == playerPos.y;
+	}
+
 	public List<IntPoint> solveLevel() {
 		return solver.solveLevel();
 	}
@@ -334,7 +339,7 @@ public class Board : MonoBehaviour {
 		return exit;
 	}
 
-	public Color nextBGColor() {
+	public Color getNextBGColor() {
 		return newBG;
 	}
 

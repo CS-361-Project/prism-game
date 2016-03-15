@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour {
 	public SpriteRenderer background;
 	public float transitionTime = 0.15f;
 	public float holdMovementTime = 0.35f;
+	public bool autopilot = false;
+	bool levelComplete = false;
 	MoveCounter moveCounter;
 	SwipeDetector swipeDetector;
 	MenuManager menuManager;
@@ -130,17 +132,16 @@ public class GameManager : MonoBehaviour {
 				for (int i = 1; i < solution.Count; i++) {
 					IntPoint point = solution[i];
 					Block currBlock = board.getBlock(point.x, point.y);
-					board.highlightBlock(currBlock);
 					if (currBlock.name == "Lever") {
 						nextBlock = currBlock;
 						foundBlock = true;
-//						break;
+						break;
 					}
 				}
 				if (!foundBlock) {
 					nextBlock = board.getBlock(solution[solution.Count - 1].x, solution[solution.Count - 1].y);
 				}
-//				board.highlightBlock(nextBlock);
+				board.highlightBlock(nextBlock);
 			}
 		}
 	}
@@ -171,7 +172,8 @@ public class GameManager : MonoBehaviour {
 			else if (Input.GetKeyDown("r")) {
 				restartLevel();
 			}
-			else if (board.checkLevelDone()) {
+			else if (levelComplete && !board.getPlayer().animating || levelComplete && board.checkLevelDone()) {
+				levelComplete = false;
 				audioSource.PlayOneShot(endLevelSound, .05f);
 				nextLevel();
 			}
@@ -202,6 +204,7 @@ public class GameManager : MonoBehaviour {
 								x.move(board.getPlayer().lastMovementTime());
 							}
 						}
+
 					}
 					else {
 //						float t = board.getPlayer().timeSinceLastMovement() / transitionTime;
@@ -223,6 +226,12 @@ public class GameManager : MonoBehaviour {
 			}
 			else {
 				Vector2 dir1 = getKeyPressDirection();
+				if (autopilot) {
+					List<IntPoint> path = board.solveLevel();
+					if (path.Count > 1) {
+						dir1 = new Vector2(path[1].x - path[0].x, path[1].y - path[0].y);
+					}
+				}
 				if (dir1 != Vector2.zero) {
 					moved = board.getPlayer().move(dir1);
 					if (moved) {
@@ -242,12 +251,17 @@ public class GameManager : MonoBehaviour {
 			}
 			//Check if Player moved
 			if (moved) {
-				List<Enemy> EnemyList = board.getEnemyList();
-				for (int i = EnemyList.Count - 1; i >= 0; i--) {
-					Enemy x = EnemyList[i];
-					x.move(board.getPlayer().lastMovementTime());
-					if (x.markedForDeath) {
-						board.killEnemy(x);
+				if (!board.checkIfKillPlayer() && board.checkLevelDoneAfterAnimation()) {
+					levelComplete = true;
+				}
+				else {
+					List<Enemy> EnemyList = board.getEnemyList();
+					for (int i = EnemyList.Count - 1; i >= 0; i--) {
+						Enemy x = EnemyList[i];
+						x.move(board.getPlayer().lastMovementTime());
+						if (x.markedForDeath) {
+							board.killEnemy(x);
+						}
 					}
 				}
 			}
