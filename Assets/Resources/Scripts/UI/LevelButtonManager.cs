@@ -21,6 +21,9 @@ public class LevelButtonManager : MonoBehaviour {
 		int i = 0;
 		GameObject currPanel = Instantiate(Resources.Load<GameObject>("Prefabs/LevelPanel"));
 		currPanel.transform.SetParent(levelPanel.transform, false);
+		if (Resources.Load<TextAsset>("Levels/" + levelPackName + "/level0") == null) {
+			i = 1;
+		}
 		while (Resources.Load<TextAsset>("Levels/" + levelPackName + "/level" + i) != null) {
 			if (i % 25 == 0 && i > 0) {
 				currPanel = Instantiate(Resources.Load<GameObject>("Prefabs/LevelPanel"));
