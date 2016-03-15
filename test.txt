@@ -2,11 +2,11 @@
 <ArrayOfEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Entry>
     <Key>Tutorial;0</Key>
-    <Value xsi:type="xsd:int">1</Value>
+    <Value xsi:type="xsd:int">2</Value>
   </Entry>
   <Entry>
     <Key>Tutorial;1</Key>
-    <Value xsi:type="xsd:int">1</Value>
+    <Value xsi:type="xsd:int">2</Value>
   </Entry>
   <Entry>
     <Key>Tutorial;2</Key>
@@ -22,23 +22,23 @@
   </Entry>
   <Entry>
     <Key>Tutorial;5</Key>
-    <Value xsi:type="xsd:int">1</Value>
+    <Value xsi:type="xsd:int">2</Value>
   </Entry>
   <Entry>
     <Key>Peter Pack 1;1</Key>
-    <Value xsi:type="xsd:int">1</Value>
+    <Value xsi:type="xsd:int">2</Value>
   </Entry>
   <Entry>
     <Key>Peter Pack 1;2</Key>
-    <Value xsi:type="xsd:int">2</Value>
+    <Value xsi:type="xsd:int">1</Value>
   </Entry>
   <Entry>
     <Key>Peter Pack 1;3</Key>
-    <Value xsi:type="xsd:int">2</Value>
+    <Value xsi:type="xsd:int">1</Value>
   </Entry>
   <Entry>
     <Key>Peter Pack 1;4</Key>
-    <Value xsi:type="xsd:int">1</Value>
+    <Value xsi:type="xsd:int">2</Value>
   </Entry>
   <Entry>
     <Key>Peter Pack 1;5</Key>
@@ -46,11 +46,11 @@
   </Entry>
   <Entry>
     <Key>Peter Pack 1;6</Key>
-    <Value xsi:type="xsd:int">2</Value>
+    <Value xsi:type="xsd:int">1</Value>
   </Entry>
   <Entry>
     <Key>Peter Pack 1;7</Key>
-    <Value xsi:type="xsd:int">2</Value>
+    <Value xsi:type="xsd:int">1</Value>
   </Entry>
   <Entry>
     <Key>Peter Pack 1;8</Key>
@@ -119,5 +119,9 @@
   <Entry>
     <Key>Peter Pack 1;24</Key>
     <Value xsi:type="xsd:int">2</Value>
+  </Entry>
+  <Entry>
+    <Key>Peter Pack 1;0</Key>
+    <Value xsi:type="xsd:int">1</Value>
   </Entry>
 </ArrayOfEntry>
