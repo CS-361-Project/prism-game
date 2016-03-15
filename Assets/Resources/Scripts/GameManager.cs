@@ -127,6 +127,30 @@ public class GameManager : MonoBehaviour {
 		//moveCounter.gameObject.SetActive(false);
 	}
 
+	public void highlightNextSwitch() {
+		if (board != null) {
+			List<IntPoint> solution = board.solveLevel();
+			if (solution.Count > 1) {
+				Block nextBlock = board.getBlock(solution[0].x, solution[0].y);
+				bool foundBlock = false;
+				for (int i = 1; i < solution.Count; i++) {
+					IntPoint point = solution[i];
+					Block currBlock = board.getBlock(point.x, point.y);
+					board.highlightBlock(currBlock);
+					if (currBlock.name == "Lever") {
+						nextBlock = currBlock;
+						foundBlock = true;
+//						break;
+					}
+				}
+				if (!foundBlock) {
+					nextBlock = board.getBlock(solution[solution.Count - 1].x, solution[solution.Count - 1].y);
+				}
+//				board.highlightBlock(nextBlock);
+			}
+		}
+	}
+
 	// Update is called once per frame
 	void Update() {
 		bool moved = false;

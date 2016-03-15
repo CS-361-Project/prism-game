@@ -212,6 +212,10 @@ public class Board : MonoBehaviour {
 		}
 	}
 
+	public void highlightBlock(Block b) {
+		b.addHighlight(5.0f);
+	}
+
 	public void setHasEnemy(int x, int y, bool hasEnemy) {
 		if (onBoard(x, y)) {
 			blocks[x, y].setHasEnemy(hasEnemy);

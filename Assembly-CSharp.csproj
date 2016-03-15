@@ -60,6 +60,7 @@
      <Compile Include="Assets\Resources\Scripts\Generator.cs" />
      <Compile Include="Assets\Resources\Scripts\HorizontalEnemy.cs" />
      <Compile Include="Assets\Resources\Scripts\IntPoint.cs" />
+     <Compile Include="Assets\Resources\Scripts\Models\BlockHighlightModel.cs" />
      <Compile Include="Assets\Resources\Scripts\Models\BlockModel.cs" />
      <Compile Include="Assets\Resources\Scripts\Models\LeverModel.cs" />
      <Compile Include="Assets\Resources\Scripts\Movable.cs" />
