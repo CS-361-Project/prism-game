@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour {
 
 		closeIngameUI();
 		//Get instance of GameData created on start screen
-		data= GameObject.Find("GameData").GetComponent<GameData>();
+		data = GameObject.Find("GameData").GetComponent<GameData>();
 		data.deserialize();
 
 
@@ -101,10 +101,12 @@ public class GameManager : MonoBehaviour {
 
 	public void openIngameUI() {
 		menuManager.openMenu((int)MenuManager.menus.ingameUI);
+		closeBackgroundBlocks();
 	}
 
 	public void closeIngameUI() {
 		menuManager.closeMenu((int)MenuManager.menus.ingameUI);
+		openBackgroundBlocks();
 	}
 
 	public void goToLevelSelection() {
@@ -168,9 +170,11 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			if (menuManager.inLevel()) {
 				openPauseMenu();
+				closeIngameUI();
 			}
 			else if (board != null) {
 				exitPauseMenu();
+				openIngameUI();
 			}
 		}
 		if (menuManager.inLevel()) {
