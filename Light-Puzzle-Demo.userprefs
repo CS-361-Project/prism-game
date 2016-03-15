@@ -1,5 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+<<<<<<< HEAD
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/AudioControl.cs">
+    <Files>
+      <File FileName="Assets/Resources/Scripts/AudioControl.cs" Line="16" Column="5" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+=======
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/GameManager.cs">
     <Files>
       <File FileName="Assets/Resources/Scripts/Board.cs" Line="9" Column="39" />
@@ -16,6 +25,7 @@
       <Breakpoint file="/Users/docglass/Light-Puzzle-Demo/Assets/Resources/Scripts/GameManager.cs" line="54" column="1" />
       <Breakpoint file="/Users/docglass/Light-Puzzle-Demo/Assets/Resources/Scripts/GameData.cs" line="94" column="1" />
     </BreakpointStore>
+>>>>>>> master
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

@@ -144,7 +144,9 @@ public class Board : MonoBehaviour {
 	public void killEnemy(Enemy enemy) {
 		enemyList.Remove(enemy);
 		enemy.onKill();
+		Vector3 loc = enemy.transform.position;
 		Destroy(enemy.gameObject);
+		deathEffect.Instance.Explosion (loc);
 	}
 
 	public void initExit() {

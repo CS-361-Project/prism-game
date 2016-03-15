@@ -86,7 +86,6 @@ public class StartMenu : MonoBehaviour {
 
 	void Update() {
 		if (bgTransitioning) {
-			
 			whileBGTransitioning(timeSinceLastColorChange() / transitionTime);
 		}
 	}
@@ -219,9 +218,9 @@ public class StartMenu : MonoBehaviour {
 		return Time.time - lastColorChange;
 	}
 
-	public Color getBackgroundColor() {
+	/*public Color getBackgroundColor() {
 		return main.backgroundColor;
-	}
+	}*/
 		
 
 }

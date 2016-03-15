@@ -12,6 +12,12 @@ public class ColorModel : MonoBehaviour {
 	Image[] colorArray;
 	Color[] oldColors;
 
+	public bool bgTransitioning = false;
+	Color newBG, oldBG;
+	float lastColorChange = -.1f;
+	public float transitionTime = .1f;
+	int transitionIndex;
+
 	// Use this for initialization
 	void Awake () {
 		colorArray = new Image[Enum.GetNames(typeof(colors)).Length];
@@ -52,6 +58,12 @@ public class ColorModel : MonoBehaviour {
 		oldColors [(int)colors.white] = CustomColors.White;
 	}
 
+	void Update(){
+		if (bgTransitioning) {
+			whileBGTransitioning(timeSinceLastColorChange() / transitionTime);
+		}
+	}
+
 	static int indexOf(Color c) {
 		int result = -1;
 		for (int i = 0; i < CustomColors.colors.Length; i++) {
@@ -71,31 +83,76 @@ public class ColorModel : MonoBehaviour {
 			resetModel ();
 			break;
 		case 1: 
-			highlight ((int)colors.red);
+			for (int i = 0; i < colorArray.Length - 1; i++) {
+				if (i == (int)colors.red) {
+					newBG = oldColors [i];
+					oldBG = oldColors [i];
+					highlight (i);
+				} else {
+					unHighlight (i);
+				}
+			}
 			break;
 		case 2:
-			highlight ((int)colors.green);
+			for (int i = 0; i < colorArray.Length - 1; i++) {
+				if (i == (int)colors.green) {
+					newBG = oldColors [i];
+					oldBG = oldColors [i];
+					highlight (i);
+				} else {
+					unHighlight (i);
+				}
+			}
 			break;
 		case 3:
-			highlight ((int)colors.red);
-			highlight ((int)colors.green);
-			highlight ((int)colors.yellow);
+			
+			for (int i = 0; i < colorArray.Length - 1; i++) {
+				if (i == (int)colors.red || i == (int)colors.green || i == (int)colors.yellow) {
+					newBG = oldColors [i];
+					oldBG = oldColors [i];
+					highlight (i);
+				} else {
+					unHighlight (i);
+				}
+			}
 			break;
 		case 4:
-			highlight ((int)colors.blue);
+			for (int i = 0; i < colorArray.Length - 1; i++) {
+				if (i == (int)colors.blue) {
+					newBG = oldColors [i];
+					oldBG = oldColors [i];
+					highlight (i);
+				} else {
+					unHighlight (i);
+				}
+			}
 			break;
 		case 5:
-			highlight ((int)colors.blue);
-			highlight ((int)colors.red);
-			highlight ((int)colors.magenta);
+			for (int i = 0; i < colorArray.Length - 1; i++) {
+				if (i == (int)colors.red || i == (int)colors.blue || i == (int)colors.magenta) {
+					newBG = oldColors [i];
+					oldBG = oldColors [i];
+					highlight (i);
+				} else {
+					unHighlight (i);
+				}
+			}
 			break;
 		case 6:
-			highlight ((int)colors.blue);
-			highlight ((int)colors.green);
-			highlight ((int)colors.cyan);
+			for (int i = 0; i < colorArray.Length - 1; i++) {
+				if (i == (int)colors.green || i == (int)colors.blue || i == (int)colors.cyan) {
+					newBG = oldColors [i];
+					oldBG = oldColors [i];
+					highlight (i);
+				} else {
+					unHighlight (i);
+				}
+			}
 			break;
 		case 7:
 			for (int i = 0; i < colorArray.Length - 1; i++) {
+				newBG = oldColors [i];
+				oldBG = oldColors [i];
 				highlight (i);
 			}
 			break;
@@ -111,29 +168,93 @@ public class ColorModel : MonoBehaviour {
 
 	public void highlight(int color){
 		if (colorArray [color].color == CustomColors.Red) {
-			colorArray [color].color = new Color (1F, 0, 0);
+			transitionIndex = color;
+			if (bgTransitioning) {
+				finishBGTransitionImmediate();
+			}
+			startBGTransition(new Color (1F, 0, 0));
+			//colorArray [color].color = new Color (1F, 0, 0);
 		}
 		if (colorArray [color].color == CustomColors.Green) {
-			colorArray [color].color = new Color (0, 1F, 0);
+			transitionIndex = color;
+			if (bgTransitioning) {
+				finishBGTransitionImmediate();
+			}
+			startBGTransition(new Color (0, 1F, 0));
 		}
 		if (colorArray [color].color == CustomColors.Blue) {
-			colorArray [color].color = new Color (0, 0, 1F);
+			transitionIndex = color;
+			if (bgTransitioning) {
+				finishBGTransitionImmediate();
+			}
+			startBGTransition(new Color (0, 0, 1F));
+			//colorArray [color].color = new Color (0, 0, 1F);
 		}
 		if (colorArray [color].color == CustomColors.Cyan) {
-			colorArray [color].color = new Color (0, 1F, 1F);
+			transitionIndex = color;
+			if (bgTransitioning) {
+				finishBGTransitionImmediate();
+			}
+			startBGTransition(new Color (0, 1F, 1F));
+			//colorArray [color].color = new Color (0, 1F, 1F);
 		}
 		if (colorArray [color].color == CustomColors.Yellow) {
-			colorArray [color].color = new Color (1F, 1F, 0);
+			transitionIndex = color;
+			if (bgTransitioning) {
+				finishBGTransitionImmediate();
+			}
+			startBGTransition(new Color (1F, 1F, 0));
+			//colorArray [color].color = new Color (1F, 1F, 0);
 		}
 		if (colorArray [color].color == CustomColors.Magenta) {
-			colorArray [color].color = new Color (1F, 0, 1F);
+			transitionIndex = color;
+			if (bgTransitioning) {
+				finishBGTransitionImmediate();
+			}
+			startBGTransition(new Color (1F, 0, 1F));
+			//colorArray [color].color = new Color (1F, 0, 1F);
 		}
 		if (colorArray [color].color == CustomColors.White) {
-			colorArray [color].color = new Color (1F, 1F, 1F);
+			transitionIndex = color;
+			if (bgTransitioning) {
+				finishBGTransitionImmediate();
+			}
+			startBGTransition(new Color (1F, 1F, 1F));
+			//colorArray [color].color = new Color (1F, 1F, 1F);
 		}
 	}
 
 	public void unHighlight(int color){
-		colorArray[color].color = oldColors[color];
+		/*transitionIndex = color;
+		if (bgTransitioning) {
+			finishBGTransitionImmediate();
+		}
+		startBGTransition(Color.Lerp(oldColors[color], new Color (1F, 1F, 1F), .5F));*/
+
+		colorArray[color].color = Color.Lerp(oldColors[color], new Color (1F, 1F, 1F), .5F);
+	}
+
+	public void startBGTransition(Color bgColor) {
+		newBG = bgColor;
+		bgTransitioning = true;
+		lastColorChange = Time.time;
+	}
+
+	public void finishBGTransitionImmediate() {
+		newBG = colorArray[transitionIndex].color;
+		whileBGTransitioning(1.0f);
+	}
+
+	public void whileBGTransitioning(float t) {
+		if (t >= 1) {
+			colorArray[transitionIndex].color = newBG;
+			oldBG = newBG;
+			bgTransitioning = false;
+		}
+		colorArray[transitionIndex].color = Color.Lerp(oldBG, newBG, t);
+
+	}
+	public float timeSinceLastColorChange() {
+		return Time.time - lastColorChange;
 	}
 }
