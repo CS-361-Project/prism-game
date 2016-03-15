@@ -65,6 +65,7 @@ public class GameData : MonoBehaviour {
 	public void serialize(){
 		StreamWriter writer = new StreamWriter("test.txt");
 		serializeDic(writer, data.completedLevels);
+		writer.Close();
 	}
 
 	public void deserialize(){
@@ -72,10 +73,11 @@ public class GameData : MonoBehaviour {
 		try {
 			StreamReader reader = new StreamReader(path);
 			deserializeDic(reader, data.completedLevels);
+			reader.Close();
 		} catch (FileNotFoundException){
 			print("Sam");
 		}
-
+	
 	}
 
 
@@ -89,6 +91,7 @@ public class GameData : MonoBehaviour {
 		}
 		XmlSerializer serializer = new XmlSerializer(typeof(List<Entry>));
 		serializer.Serialize(writer, entries);
+
 	}
 
 	public static void deserializeDic(TextReader reader, IDictionary dictionary)
