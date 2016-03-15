@@ -2433,7 +2433,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1156624514}
         m_MethodName: setVolume
         m_Mode: 0
         m_Arguments:
@@ -2768,6 +2768,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e070297a3e5d80948a3faecd318bafa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bgTransitioning: 0
+  transitionTime: 0.1
 --- !u!222 &1389303822
 CanvasRenderer:
   m_ObjectHideFlags: 0

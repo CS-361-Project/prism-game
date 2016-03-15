@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
 	string levelPack = "";
 
 	//Sound Effects
+	AudioControl audioSettings;
 	AudioSource audioSource;
 	public AudioClip deathSound, endLevelSound, soundtrack;
 
@@ -66,6 +67,7 @@ public class GameManager : MonoBehaviour {
 		audioSource = gameObject.AddComponent<AudioSource>();
 		deathSound = Resources.Load("Audio/death", typeof(AudioClip)) as AudioClip;
 		endLevelSound = Resources.Load<AudioClip>("Audio/Home2");
+		audioSettings = GameObject.Find("Audio").GetComponent<AudioControl>();
 	}
 
 	public bool loadLevel(String levelPack, int number) {
@@ -141,6 +143,10 @@ public class GameManager : MonoBehaviour {
 		menuManager.closeMenu ((int)MenuManager.menus.backgroundBlocks);
 	}
 
+	public void setVolume(float v) {
+		audioSettings.setVolume(v);
+	}
+
 	public void highlightNextSwitch() {
 		if (board != null) {
 			List<IntPoint> solution = board.solveLevel();
@@ -181,7 +187,7 @@ public class GameManager : MonoBehaviour {
 			if (board.getPlayer() == null || (aboutToSquishPlayer && !board.getPlayer().animating)) {
 				// player is dead
 				aboutToSquishPlayer = false;
-				audioSource.PlayOneShot(deathSound, .1f);
+				audioSource.PlayOneShot(deathSound, .15f);
 				colorModel.resetModel ();
 				restartLevel();
 			}
@@ -195,7 +201,7 @@ public class GameManager : MonoBehaviour {
 			}
 			else if (levelComplete && !board.getPlayer().animating || levelComplete && board.checkLevelDone()) {
 				levelComplete = false;
-				audioSource.PlayOneShot(endLevelSound, .05f);
+				audioSource.PlayOneShot(endLevelSound, .15f);
 
 				//give Game Data all the stats from this level
 				data.addMoves(moveCounter.getMoves());

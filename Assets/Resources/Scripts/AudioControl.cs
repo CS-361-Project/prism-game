@@ -23,7 +23,7 @@ public class AudioControl : MonoBehaviour {
 		tracks[1] = Resources.Load<AudioClip>("Audio/mediumTrack");
 		tracks[2] = Resources.Load<AudioClip>("Audio/hardTrack");
 		soundtrack = gameObject.GetComponent<AudioSource>();
-		soundtrack.clip = tracks[Random.Range(0, 2)];
+		soundtrack.clip = tracks[0];
 		setVolume(1.0f);
 		soundtrack.Play();
 	}
@@ -39,6 +39,7 @@ public class AudioControl : MonoBehaviour {
 		AudioListener.volume = v;
 		volume = v;
 	}
+
 	public void toggleVolume() {
 		if (volume >= 0) {
 			setVolume(0.0f);
