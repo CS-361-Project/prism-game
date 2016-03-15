@@ -25,7 +25,13 @@ public class BoardSolver {
 	}
 
 	public List<IntPoint> solveLevel(){
+		enemyList = new List<ToyEnemy>();
 		Dictionary<DistanceDictKey, int>[,] distanceGrid = new Dictionary<DistanceDictKey, int>[width, height];
+		foreach (Enemy e in board.getEnemyList()) {
+			IntPoint pos = e.getPos();
+			IntPoint dir = e.getDirection();
+			enemyList.Add(new ToyEnemy(pos.x, pos.y, dir.x, dir.y));
+		}
 		bool foundPath = false;
 		int targetX = exit.x;
 		int targetY = exit.y;
@@ -38,9 +44,16 @@ public class BoardSolver {
 		}
 		List<QueueEntry> queue = new List<QueueEntry>();
 		IntPoint playerPos = player.getPos();
-		int bgColor = CustomColors.indexOf(board.nextBGColor());
+//		GameManager.print("Player is at (" + playerPos.x + ", " + playerPos.y + ")");
+		int bgColor = CustomColors.indexOf(board.getNextBGColor());
+//		GameManager.print("Current background color is: " + bgColor);
+//		foreach (ToyEnemy e in enemyList) {
+//			GameManager.print("Enemy at (" + e.x + ", " + e.y + ") facing (" + e.dx + ", " + e.dy + ")");
+//		}
 		queue.Add(new QueueEntry(0, playerPos.x, playerPos.y, bgColor, copyEnemyList(enemyList)));
-		distanceGrid[playerPos.x, playerPos.y].Add(new DistanceDictKey(bgColor, copyEnemyList(enemyList)), 0);
+		if (!board.getBlock(playerPos.x, playerPos.y).name.Equals("Lever")) {
+			distanceGrid[playerPos.x, playerPos.y].Add(new DistanceDictKey(bgColor, copyEnemyList(enemyList)), 0);
+		}
 		while (queue.Count > 0) {
 			QueueEntry firstEntry = queue[0];
 			queue.RemoveAt(0);
@@ -59,17 +72,17 @@ public class BoardSolver {
 			DistanceDictKey key = new DistanceDictKey(firstEntry.color, copyEnemyList(firstEntry.enemies));
 
 			Block currBlock = board.getBlock(x, y);
-			if (board.getBlock(x, y).name == "Lever") {
-				LeverBlock lever = (LeverBlock)currBlock;
-				int leverColor = CustomColors.indexOf(lever.leverColor);
-				if ((firstEntry.color & leverColor) == leverColor) {
-					firstEntry.color = firstEntry.color & ~leverColor;
-				}
-				else {
-					firstEntry.color = firstEntry.color | leverColor;
-				}
-			}
 			if (firstEntry.distance > 0) {
+				if (board.getBlock(x, y).name == "Lever") {
+					LeverBlock lever = (LeverBlock)currBlock;
+					int leverColor = CustomColors.indexOf(lever.leverColor);
+					if ((firstEntry.color & leverColor) == leverColor) {
+						firstEntry.color = firstEntry.color & ~leverColor;
+					}
+					else {
+						firstEntry.color = firstEntry.color | leverColor;
+					}
+				}
 				for (int i=enemies.Count - 1; i>= 0; i--) {
 					ToyEnemy e = enemies[i];
 					if (!e.canPassThrough(board, e.x, e.y, firstEntry.color)) {
@@ -191,14 +204,16 @@ public class BoardSolver {
 							translateDict[newKey].Add(key);
 						}
 						int newBGColor = currKey.color;
-						if (board.getBlock(x + i, y + j).name == "Lever") {
-							LeverBlock lever = (LeverBlock)board.getBlock(x + i, y + j);
-							int leverColor = CustomColors.indexOf(lever.leverColor);
-							if ((currKey.color & leverColor) == leverColor) {
-								newBGColor = currKey.color & ~leverColor;
-							}
-							else {
-								newBGColor = currKey.color | leverColor;
+						if (minRemainingDistance > 1) {
+							if (board.getBlock(x + i, y + j).name == "Lever") {
+								LeverBlock lever = (LeverBlock)board.getBlock(x + i, y + j);
+								int leverColor = CustomColors.indexOf(lever.leverColor);
+								if ((currKey.color & leverColor) == leverColor) {
+									newBGColor = currKey.color & ~leverColor;
+								}
+								else {
+									newBGColor = currKey.color | leverColor;
+								}
 							}
 						}
 						DistanceDictKey trialKey = new DistanceDictKey(newBGColor, currKey.enemies);
@@ -229,7 +244,26 @@ public class BoardSolver {
 			}
 		}
 		path.Reverse();
+//		print("Before");
+//		printList<IntPoint>(path);
+		if (path[0] != board.getPlayer().getPos()) {
+			path.Insert(0, board.getPlayer().getPos());
+		}
+//		print("After");
+//		printList<IntPoint>(path);
 		return path;
+	}
+
+	void print(string s) {
+		GameManager.print(s);
+	}
+
+	void printList<T>(List<T> list) {
+		string s = "";
+		foreach (T item in list) {
+			s += ", " + item;
+		}
+		print(s);
 	}
 
 	List<ToyEnemy> copyEnemyList(List<ToyEnemy> enemies) {
@@ -291,7 +325,12 @@ public class BoardSolver {
 			}
 		}
 		public bool canPassThrough(Board b, int x, int y, int bgColor) {
-			return b.getBlock(x, y).getBaseColor() == CustomColors.colors[bgColor];
+			if (b.onBoard(x, y)) {
+				return b.getBlock(x, y).getBaseColor() == CustomColors.colors[bgColor];
+			}
+			else {
+				return false;
+			}
 		}
 	}
 

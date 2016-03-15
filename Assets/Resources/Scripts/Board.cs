@@ -120,7 +120,10 @@ public class Board : MonoBehaviour {
 		}
 	}
 
-
+	public bool checkLevelDoneAfterAnimation() {
+		IntPoint playerPos = player.getPos();
+		return exit.x == playerPos.x && exit.y == playerPos.y;
+	}
 
 	public void addHorizontalEnemy(int x, int y) {
 		HorizontalEnemy enemy = Instantiate(Resources.Load<GameObject>("Prefabs/HorizontalEnemy")).GetComponent<HorizontalEnemy>();
@@ -343,7 +346,7 @@ public class Board : MonoBehaviour {
 		return exit;
 	}
 
-	public Color nextBGColor() {
+	public Color getNextBGColor() {
 		return newBG;
 	}
 
@@ -372,7 +375,7 @@ public class Board : MonoBehaviour {
 
 
 	//checks if the player has moved onto a block that has an AI and kills the player
-	public bool checkIfKillPlayer() {
+	public bool checkKillPlayer() {
 		//find out where the player is moving to
 		IntPoint playerPos = player.getPos();
 		int x = playerPos.x;

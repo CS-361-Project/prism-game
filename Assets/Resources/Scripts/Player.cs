@@ -29,15 +29,9 @@ public class Player : Movable {
 	public override bool move(Vector2 direction) {
 		float vol = determineVolume();
 		if (base.move(direction)) {
-			if (board.checkIfKillPlayer()) {
-				board.killPlayer();
-			}
-			List<IntPoint> path = board.solveLevel();
-			string s = "";
-			foreach (IntPoint i in path) {
-				s += "(" + i.x + ", " + i.y + ")";
-			}
-			print(s);
+//			if (board.checkIfKillPlayer()) {
+//				board.killPlayer();
+//			}
 
 			audioSource.PlayOneShot(moveSound, vol);
 			return true;
