@@ -13,11 +13,7 @@ public class GameManager : MonoBehaviour {
 	MoveCounter moveCounter;
 	SwipeDetector swipeDetector;
 	MenuManager menuManager;
-<<<<<<< HEAD
 	ColorModel colorModel;
-
-=======
->>>>>>> master
 	bool loadingLevel = false;
 	float timeSinceLevelLoad = 0.0f;
 	int currLevel = -1;
@@ -51,11 +47,8 @@ public class GameManager : MonoBehaviour {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		swipeDetector = new GameObject().AddComponent<SwipeDetector>();
 		menuManager = GameObject.Find("Menu Manager").GetComponent<MenuManager>();
-<<<<<<< HEAD
 		colorModel = GameObject.Find ("RGB Diagram").GetComponent<ColorModel> ();
-=======
 
->>>>>>> master
 		closeIngameUI();
 
 		//Initialize AudioSource
@@ -105,7 +98,6 @@ public class GameManager : MonoBehaviour {
 
 	public void goToLevelSelection() {
 		menuManager.openMenu((int)MenuManager.menus.levelSelect);
-		//moveCounter.gameObject.SetActive(false);
 	}
 
 	public void exitLevelSelection() {
@@ -126,9 +118,7 @@ public class GameManager : MonoBehaviour {
 
 	public void openPackSelection() {
 		menuManager.openMenu((int)MenuManager.menus.packMenu);
-<<<<<<< HEAD
 	}
-		
 
 	public void openBackgroundBlocks(){
 		menuManager.openMenu ((int)MenuManager.menus.backgroundBlocks);
@@ -136,9 +126,6 @@ public class GameManager : MonoBehaviour {
 
 	public void closeBackgroundBlocks(){
 		menuManager.closeMenu ((int)MenuManager.menus.backgroundBlocks);
-=======
-		//moveCounter.gameObject.SetActive(false);
->>>>>>> master
 	}
 
 	// Update is called once per frame
@@ -147,17 +134,11 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			if (menuManager.inLevel()) {
 				openPauseMenu();
-<<<<<<< HEAD
-=======
-				closeIngameUI ();
->>>>>>> master
 			}
 			else if (board != null) {
 				exitPauseMenu();
 			}
 		}
-<<<<<<< HEAD
-		
 		if (!menuManager.inLevel ()) {
 			closeIngameUI ();
 			openBackgroundBlocks ();
@@ -166,12 +147,9 @@ public class GameManager : MonoBehaviour {
 			openIngameUI ();
 			closeBackgroundBlocks ();
 			if (board.getPlayer () == null) {
-=======
-		if (menuManager.inLevel()) {
-			if (board.getPlayer() == null) {
->>>>>>> master
 				// player is dead
 				audioSource.PlayOneShot(deathSound);
+				colorModel.resetModel ();
 				restartLevel();
 			}
 			if (loadingLevel) {
@@ -180,32 +158,19 @@ public class GameManager : MonoBehaviour {
 			}
 			else if (Input.GetKeyDown("r")) {
 				restartLevel();
+				colorModel.resetModel ();
 			}
 			else if (board.checkLevelDone()) {
 				audioSource.PlayOneShot(endLevelSound, .05f);
 				nextLevel();
+				colorModel.resetModel ();
 			}
 			else if (board.checkIfKillPlayer()) {
 				board.killPlayer();
+				colorModel.resetModel ();
 			}
 			else if (board.bgTransitioning || board.getPlayer().animating) {
 				Vector2 dir = swipeDetector.getSwipeDirection();
-<<<<<<< HEAD
-				whileLoading (timeSinceLevelLoad);
-			} else if (Input.GetKeyDown ("r")) {
-				restartLevel ();
-				colorModel.resetModel ();
-			} else if (board.checkLevelDone ()) {
-				audioSource.PlayOneShot (endLevelSound, .05f);
-				colorModel.resetModel ();
-				nextLevel ();
-			} else if (board.checkIfKillPlayer ()) {
-				colorModel.resetModel ();
-				board.killPlayer ();
-			} else if (board.bgTransitioning || board.getPlayer ().animating) {
-				Vector2 dir = swipeDetector.getSwipeDirection ();
-=======
->>>>>>> master
 				if (dir == Vector2.zero) {
 					dir = getKeyPressDirection();
 				}
@@ -395,6 +360,9 @@ public class GameManager : MonoBehaviour {
 				}
 				board.setBackground(bgColor);
 				moveCounter.reset();
+				colorModel.resetModel();
+
+
 			}
 		}
 		catch (Exception e) {

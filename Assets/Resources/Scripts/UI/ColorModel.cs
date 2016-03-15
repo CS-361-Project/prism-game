@@ -2,16 +2,20 @@
 using UnityEngine.UI;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ColorModel : MonoBehaviour {
 	Image r, g, b, c, m, y, w;
 
 	public enum colors{red, green, blue, cyan, magenta, yellow, white}
 
-	Image[] colorArray = new Image[Enum.GetNames(typeof(colors)).Length];
-	Color[] oldColors = new Color[Enum.GetNames(typeof(colors)).Length];
+	Image[] colorArray;
+	Color[] oldColors;
+
 	// Use this for initialization
-	void Start () {
+	void Awake () {
+		colorArray = new Image[Enum.GetNames(typeof(colors)).Length];
+		oldColors = new Color[Enum.GetNames(typeof(colors)).Length];
 		r = transform.Find("Red").GetComponent<Image>();
 		r.color = CustomColors.Red;
 		colorArray [(int)colors.red] = r;
@@ -48,34 +52,88 @@ public class ColorModel : MonoBehaviour {
 		oldColors [(int)colors.white] = CustomColors.White;
 	}
 
-	public void switchToggled(Color c){
-		for (int i = 0; i < colorArray.Length - 1; i++) {
-			if (colorArray [i].color == c) {
-				highlight (i);
+	static int indexOf(Color c) {
+		int result = -1;
+		for (int i = 0; i < CustomColors.colors.Length; i++) {
+			if (CustomColors.colors[i] == c) {
+				result = i;
+				break;
 			}
 		}
+		return result;
 	}
-<<<<<<< HEAD
-	public void resetModel(){
-=======
 
-	public void switchUntoggled(Color c){
->>>>>>> master
-		for (int i = 0; i < colorArray.Length - 1; i++) {
-			if (colorArray [i].color == c) {
-				unHighlight (i);
+	public void onSwitch(Color background){
+		int a = indexOf (background);
+		resetModel ();
+		switch (a) {
+		case 0:
+			resetModel ();
+			break;
+		case 1: 
+			highlight ((int)colors.red);
+			break;
+		case 2:
+			highlight ((int)colors.green);
+			break;
+		case 3:
+			highlight ((int)colors.red);
+			highlight ((int)colors.green);
+			highlight ((int)colors.yellow);
+			break;
+		case 4:
+			highlight ((int)colors.blue);
+			break;
+		case 5:
+			highlight ((int)colors.blue);
+			highlight ((int)colors.red);
+			highlight ((int)colors.magenta);
+			break;
+		case 6:
+			highlight ((int)colors.blue);
+			highlight ((int)colors.green);
+			highlight ((int)colors.cyan);
+			break;
+		case 7:
+			for (int i = 0; i < colorArray.Length - 1; i++) {
+				highlight (i);
 			}
+			break;
+		}
+
+	}
+
+	public void resetModel(){
+		for (int i = 0; i < colorArray.Length - 1; i++) {
+			colorArray [i].color = oldColors [i];
 		}
 	}
 
 	public void highlight(int color){
-		//colorArray [color].color = new Color (colorArray [color].color.r + .1F, colorArray [color].color.g +.1F, colorArray [color].color.b + .1F);
-		colorArray[color].color = CustomColors.Black;
-	
+		if (colorArray [color].color == CustomColors.Red) {
+			colorArray [color].color = new Color (1F, 0, 0);
+		}
+		if (colorArray [color].color == CustomColors.Green) {
+			colorArray [color].color = new Color (0, 1F, 0);
+		}
+		if (colorArray [color].color == CustomColors.Blue) {
+			colorArray [color].color = new Color (0, 0, 1F);
+		}
+		if (colorArray [color].color == CustomColors.Cyan) {
+			colorArray [color].color = new Color (0, 1F, 1F);
+		}
+		if (colorArray [color].color == CustomColors.Yellow) {
+			colorArray [color].color = new Color (1F, 1F, 0);
+		}
+		if (colorArray [color].color == CustomColors.Magenta) {
+			colorArray [color].color = new Color (1F, 0, 1F);
+		}
+		if (colorArray [color].color == CustomColors.White) {
+			colorArray [color].color = new Color (1F, 1F, 1F);
+		}
 	}
 
 	public void unHighlight(int color){
-		//colorArray [color].color = new Color (colorArray [color].color.r - .1F, colorArray [color].color.g - .1F, colorArray [color].color.b - .1F);
 		colorArray[color].color = oldColors[color];
 	}
 }
