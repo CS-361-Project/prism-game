@@ -75,6 +75,7 @@
      <Compile Include="Assets\Resources\Scripts\UI\LevelPackName.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\MenuManager.cs" />
      <Compile Include="Assets\Resources\Scripts\VerticalEnemy.cs" />
+     <Compile Include="Assets\Resources\Scripts\deathEffect.cs" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level40.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level100.txt" />
      <None Include="Assets\Resources\Levels\Peter Pack 1\level39.txt" />
