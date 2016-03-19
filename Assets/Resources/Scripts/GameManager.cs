@@ -197,13 +197,13 @@ public class GameManager : MonoBehaviour {
 				whileLoading(timeSinceLevelLoad);
 			}
 			else if (Input.GetKeyDown("r")) {
-				colorModel.resetModel ();
-				audioSource.PlayOneShot(restartSound, .1f);
+				
 				restartLevel();
+				audioSource.PlayOneShot(restartSound, .1f);
 			}
 			else if (levelComplete && !board.getPlayer().animating || levelComplete && board.checkLevelDone()) {
 				levelComplete = false;
-				audioSource.PlayOneShot(endLevelSound, .1f);
+
 
 				//give Game Data all the stats from this level
 				data.addMoves(moveCounter.getMoves());
@@ -217,7 +217,7 @@ public class GameManager : MonoBehaviour {
 				}
 				data.serialize();
 				nextLevel();
-				colorModel.resetModel ();
+				audioSource.PlayOneShot(endLevelSound, .1f);
 			}
 			else if (board.bgTransitioning || board.getPlayer().animating) {
 				Vector2 dir = swipeDetector.getSwipeDirection();
