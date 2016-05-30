@@ -10,7 +10,7 @@
   </Entry>
   <Entry>
     <Key>Tutorial;2</Key>
-    <Value xsi:type="xsd:int">1</Value>
+    <Value xsi:type="xsd:int">2</Value>
   </Entry>
   <Entry>
     <Key>Tutorial;3</Key>
@@ -18,7 +18,7 @@
   </Entry>
   <Entry>
     <Key>Tutorial;4</Key>
-    <Value xsi:type="xsd:int">2</Value>
+    <Value xsi:type="xsd:int">1</Value>
   </Entry>
   <Entry>
     <Key>Tutorial;5</Key>
@@ -158,6 +158,26 @@
   </Entry>
   <Entry>
     <Key>5x5_medium;3</Key>
+    <Value xsi:type="xsd:int">1</Value>
+  </Entry>
+  <Entry>
+    <Key>5x5_medium;2</Key>
+    <Value xsi:type="xsd:int">1</Value>
+  </Entry>
+  <Entry>
+    <Key>5x5_medium;4</Key>
+    <Value xsi:type="xsd:int">1</Value>
+  </Entry>
+  <Entry>
+    <Key>4x4_easy;57</Key>
+    <Value xsi:type="xsd:int">1</Value>
+  </Entry>
+  <Entry>
+    <Key>4x4_easy;58</Key>
+    <Value xsi:type="xsd:int">1</Value>
+  </Entry>
+  <Entry>
+    <Key>4x4_easy;31</Key>
     <Value xsi:type="xsd:int">1</Value>
   </Entry>
 </ArrayOfEntry>

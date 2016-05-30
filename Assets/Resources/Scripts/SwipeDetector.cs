@@ -2,9 +2,10 @@
 using System.Collections;
 
 public class SwipeDetector : MonoBehaviour {
-	Vector3 startPos = Vector3.zero;
-	const int minSwipeDistX = 50;
-	const int minSwipeDistY = 50;
+	Vector2 startPos = Vector2.zero;
+	Vector2 lastPos = Vector2.zero;
+	const int minSwipeDistX = 100;
+	const int minSwipeDistY = 100;
 	bool movedOnThisSwipe = false;
 
 	public Vector2 getSwipeDirection() {
@@ -12,48 +13,52 @@ public class SwipeDetector : MonoBehaviour {
 			Touch touch = Input.touches[0];
 			switch (touch.phase) {
 				case TouchPhase.Began:
-					print("Started new swipe");
+//					print("Started new swipe");
 					startPos = touch.position;
+					lastPos = startPos;
 					movedOnThisSwipe = false;
 					break;
-				case TouchPhase.Stationary:
-					print("Started new swipe");
-					startPos = touch.position;
-					movedOnThisSwipe = false;
-					break;
+//				case TouchPhase.Stationary:
+//					print("Started new swipe");
+//					startPos = touch.position;
+//					movedOnThisSwipe = false;
+//					break;
 				case TouchPhase.Moved:
+					Vector2 pos = touch.position;
+					if (Vector2.Distance(lastPos, startPos) > Vector2.Distance(pos, startPos)) {
+						startPos = pos;
+						lastPos = pos;
+						movedOnThisSwipe = false;
+						print("Switched directions");
+					}
 					if (!movedOnThisSwipe) {
-						print("New position: " + touch.position);
-						Vector2 pos = touch.position;
 						if (Mathf.Abs(startPos.x - pos.x) >= minSwipeDistX) {
 							movedOnThisSwipe = true;
 							if (Mathf.Sign(startPos.x - pos.x) > 0) {
-								// right swipe
-								return Vector2.right;
+								return Vector2.left;
 							}
 							else {
-								// left swipe;
-								return Vector2.left;
+								return Vector2.right;
 							}
 						}
 						else if (Mathf.Abs(startPos.y - pos.y) >= minSwipeDistY) {
 							movedOnThisSwipe = true;
 							if (Mathf.Sign(startPos.y - pos.y) > 0) {
-								// up swipe
-								return Vector2.up;
+								return Vector2.down;
 							}
 							else {
-								// down swipe
-								return Vector2.down;
+								return Vector2.up;
 							}
 						}
 						else {
 							return Vector2.zero;
 						}
 					}
+					lastPos = pos;
 					break;
 			}
 		}
+		//print("No swipes detected");
 		return Vector2.zero;
 	}
 }

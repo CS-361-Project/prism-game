@@ -12,12 +12,13 @@ public class GameData : MonoBehaviour {
 	public static GameData Instance;
 	public int totalMoves = 0;
 	public int toggles = 0;
+	public string saveFile;
 
 	// Use this for initialization
 	void Start() {
 		// TODO: load previous data from file into new SaveData object
+		saveFile = Application.persistentDataPath+"/GameData.txt";
 		data = new SaveData();
-
 	}
 
 	void Awake () {
@@ -63,15 +64,20 @@ public class GameData : MonoBehaviour {
 	}
 
 	public void serialize(){
-		StreamWriter writer = new StreamWriter("test.txt");
+		StreamWriter writer = null;
+		if (!File.Exists(saveFile)) {
+			writer = new StreamWriter(File.Create(saveFile));
+		}
+		else {
+			writer = new StreamWriter(File.OpenWrite(saveFile));
+		}
 		serializeDic(writer, data.completedLevels);
 		writer.Close();
 	}
 
 	public void deserialize(){
-		string path = "test.txt";
 		try {
-			StreamReader reader = new StreamReader(path);
+			StreamReader reader = new StreamReader(saveFile);
 			deserializeDic(reader, data.completedLevels);
 			reader.Close();
 		} catch (FileNotFoundException){

@@ -32,7 +32,7 @@ public class FloatingBlockManager : MonoBehaviour {
 
 	public void addBlock(float x, float y, Color c) {
 		
-		GameObject obj = new GameObject();
+		/*GameObject obj = new GameObject();
 		FloatingBlock block = obj.AddComponent<FloatingBlock>();
 		block.init(c, this, blockFolder.transform, Random.Range(-.005F,.005F));
 		block.transform.localPosition = new Vector3(x, y, 0F);
@@ -40,6 +40,6 @@ public class FloatingBlockManager : MonoBehaviour {
 		block.transform.localScale = new Vector3 (randy, randy, 0);
 
 
-		floatingBlocks.Add(block);
+		floatingBlocks.Add(block);*/
 	}
 }

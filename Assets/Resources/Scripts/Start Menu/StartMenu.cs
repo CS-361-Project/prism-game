@@ -9,7 +9,6 @@ public class StartMenu : MonoBehaviour {
 	public Camera main;
 
 	public Button startButton;
-	public Button exitButton;
 	public Button infoButton;
 	public Button yesQuit;
 	public Button noQuit;
@@ -40,12 +39,6 @@ public class StartMenu : MonoBehaviour {
 		startCol.normalColor = CustomColors.Yellow;
 		startCol.highlightedColor = Color.Lerp(CustomColors.Yellow, CustomColors.White, .5F);
 		startButton.colors = startCol;
-
-		exitButton = exitButton.GetComponent<Button>();
-		ColorBlock exitCol = exitButton.colors;
-		exitCol.normalColor = CustomColors.Cyan;
-		exitCol.highlightedColor = Color.Lerp(CustomColors.Cyan, CustomColors.White, .5F);
-		exitButton.colors = exitCol;
 
 		infoButton = infoButton.GetComponent<Button>();
 		ColorBlock infoButtonCol = infoButton.colors;
@@ -98,7 +91,6 @@ public class StartMenu : MonoBehaviour {
 		noQuit.gameObject.SetActive (true);
 
 		startButton.gameObject.SetActive (false);
-		exitButton.gameObject.SetActive (false);
 		infoButton.gameObject.SetActive (false);
 
 		rTitle.gameObject.SetActive (false);
@@ -112,7 +104,6 @@ public class StartMenu : MonoBehaviour {
 		noQuit.gameObject.SetActive (false);
 
 		startButton.gameObject.SetActive (true);
-		exitButton.gameObject.SetActive (true);
 		infoButton.gameObject.SetActive (true);
 
 		rTitle.gameObject.SetActive (true);
@@ -221,6 +212,4 @@ public class StartMenu : MonoBehaviour {
 	/*public Color getBackgroundColor() {
 		return main.backgroundColor;
 	}*/
-		
-
 }

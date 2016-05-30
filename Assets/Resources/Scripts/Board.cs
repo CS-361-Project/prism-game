@@ -26,7 +26,7 @@ public class Board : MonoBehaviour {
 
 	// Use this for initialization
 	public void init(int w, int h, SpriteRenderer bgRender) {
-		Vector3 dim = 1.6f * Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+		Vector3 dim = 1.9f * Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 		if (Screen.width < Screen.height) {
 			boardSize = (float)dim.x / (float)w;
 		}
@@ -180,10 +180,16 @@ public class Board : MonoBehaviour {
 			blocks[x, y].transform.localPosition = new Vector3(x, y, 0);
 		}
 		else {
-			GameObject obj = blocks[x, y].gameObject;
+			/*GameObject obj = blocks[x, y].gameObject;
 			DestroyImmediate(blocks[x, y]);
 			blocks[x, y] = obj.AddComponent<Block>();
+			blocks[x, y].init(c, background.color, this, blockFolder.transform);*/
+			GameObject obj = blocks[x, y].gameObject;
+			DestroyImmediate(obj);
+			obj = new GameObject();
+			blocks[x, y] = obj.AddComponent<Block>();
 			blocks[x, y].init(c, background.color, this, blockFolder.transform);
+			blocks[x, y].transform.localPosition = new Vector3(x, y, 0);
 		}
 		solidBlocks.Add(blocks[x, y]);
 	}
@@ -192,7 +198,8 @@ public class Board : MonoBehaviour {
 		if (blocks[x, y] == null) {
 			GameObject obj = new GameObject();
 			EmptyBlock b = obj.AddComponent<EmptyBlock>();
-			b.init(background.color, background.color, this, emptyBlockFolder.transform);
+			//b.init(background.color, background.color, this, emptyBlockFolder.transform);
+			b.init(CustomColors.Black, background.color, this, emptyBlockFolder.transform);
 			b.transform.localPosition = new Vector3(x, y, 0);
 			blocks[x, y] = b;
 		}

@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
 	MoveCounter moveCounter;
 	SwipeDetector swipeDetector;
 	MenuManager menuManager;
+	LevelPackManager packManager;
 
 	bool levelComplete = false;
 	bool aboutToSquishPlayer = false;
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour {
 		moveCounter = GameObject.Find("MoveCounter").GetComponent<MoveCounter>();
 		swipeDetector = new GameObject().AddComponent<SwipeDetector>();
 		menuManager = GameObject.Find("Menu Manager").GetComponent<MenuManager>();
+		packManager = GameObject.Find("LevelPackManager").GetComponent<LevelPackManager>();
 		colorModel = GameObject.Find ("RGB Diagram").GetComponent<ColorModel> ();
 
 		closeIngameUI();
@@ -114,10 +116,14 @@ public class GameManager : MonoBehaviour {
 
 	public void goToLevelSelection() {
 		menuManager.openMenu((int)MenuManager.menus.levelSelect);
+		if (packManager.currPack != levelPack) {
+			packManager.displayPack(packManager.currPack);
+		}
 	}
 
 	public void exitLevelSelection() {
 		menuManager.closeMenu((int)MenuManager.menus.levelSelect);
+		packManager.destroyLevelSelectionPanel();
 	}
 
 	public void openPauseMenu() {
@@ -262,7 +268,7 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 			else {
-				Vector2 moveDir;
+				Vector2 moveDir = swipeDetector.getSwipeDirection();
 				if (autopilot) {
 					List<IntPoint> path = board.solveLevel();
 					if (path.Count > 1) {
@@ -272,7 +278,7 @@ public class GameManager : MonoBehaviour {
 						moveDir = getKeyPressDirection();
 					}
 				}
-				else {
+				else if (moveDir == Vector2.zero) {
 					moveDir = getKeyPressDirection();
 				}
 				if (moveDir != Vector2.zero) {

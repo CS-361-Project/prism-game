@@ -14,6 +14,7 @@ public class BlockModel : MonoBehaviour {
 		transform.localPosition = new Vector3(0, 0, 0);
 
 		rend = GetComponent<SpriteRenderer>();
+
 		this.baseColor = baseColor;
 		inactiveColor = baseColor - new Color(.1f, .1f, .1f, 0.36f);
 		rend.color = baseColor;
