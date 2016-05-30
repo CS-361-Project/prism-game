@@ -8,10 +8,9 @@ public class LevelPackManager : MonoBehaviour {
 	GameObject levelPanel;
 	GameObject levelContainer;
 	GameObject activePack;
-	public string currPack;
 	ScrollRect levelScroll;
 	GameManager gm;
-	
+
 	// Use this for initialization
 	void Start() {
 		gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -27,38 +26,21 @@ public class LevelPackManager : MonoBehaviour {
 		TextAsset packFile = Resources.Load<TextAsset>("Levels/LevelPacks");
 		string[] directories = packFile.text.Split(new string[] { "\r\n", "\n" }, System.StringSplitOptions.None);
 		foreach (string pack in directories) {
-			addLevelPack(pack);
+			GameObject g = Instantiate(Resources.Load<GameObject>("Prefabs/LevelPanelContainer"));
+			g.transform.SetParent(levelContainer.transform, false);
+
+			g.GetComponent<LevelButtonManager>().init(pack);
+			addLevelPack(g, pack);
+			g.SetActive(false);
 		}
 	}
 
-	void addLevelPack(string name) {
+	void addLevelPack(GameObject panel, string name) {
 		GameObject buttonObj = Instantiate(Resources.Load<GameObject>("Prefabs/PackButton"));
 		Button button = buttonObj.GetComponent<Button>();
 		buttonObj.transform.SetParent(packPanel.transform, false);
 		buttonObj.GetComponentInChildren<Text>().text = name;
-		button.onClick.AddListener(() => setActivePack(name));
-	}
-
-	public void setActivePack(string name) {
-		displayPack(name);
-		gm.exitPackSelection();
-		gm.goToLevelSelection();
-		currPack = name;
-	}
-
-	public void displayPack(string name) {
-		if (activePack != null) {
-			print("Destroying active pack");
-			Destroy(activePack);
-		}
-		print("Creating pack " + name);
-		GameObject g = Instantiate(Resources.Load<GameObject>("Prefabs/LevelPanelContainer"));
-		g.transform.SetParent(levelContainer.transform, false);
-		g.GetComponent<LevelButtonManager>().init(name);
-		activePack = g;
-		levelScroll.content = g.GetComponent<RectTransform>();
-		StartCoroutine(ResizeOnNextUpdate(g));
-		currPack = name;
+		button.onClick.AddListener(() => setActivePack(panel));
 	}
 
 	void setActivePack(GameObject obj) {
@@ -71,10 +53,6 @@ public class LevelPackManager : MonoBehaviour {
 		activePack = obj;
 		levelScroll.content = obj.GetComponent<RectTransform>();
 		StartCoroutine(ResizeOnNextUpdate(obj));
-	}
-
-	public void destroyLevelSelectionPanel() {
-		Destroy(activePack);
 	}
 
 	IEnumerator ResizeOnNextUpdate(GameObject obj) {
@@ -92,4 +70,3 @@ public class LevelPackManager : MonoBehaviour {
 		gm.openPackSelection ();
 	}
 }
-

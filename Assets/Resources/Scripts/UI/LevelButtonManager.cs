@@ -35,9 +35,9 @@ public class LevelButtonManager : MonoBehaviour {
 				outline.effectColor = CustomColors.HexToColor("003366");
 			}
 			else
-			if (data.getLevelStatus(packName, i) == 2) {
-				outline.effectColor = CustomColors.HexToColor("ffbf00");
-			}
+				if (data.getLevelStatus(packName, i) == 2) {
+					outline.effectColor = CustomColors.HexToColor("ffbf00");
+				}
 			buttonObj.transform.SetParent(currPanel.transform, false);
 			Button button = buttonObj.GetComponent<Button>();
 			buttons.Add(button);

@@ -116,14 +116,10 @@ public class GameManager : MonoBehaviour {
 
 	public void goToLevelSelection() {
 		menuManager.openMenu((int)MenuManager.menus.levelSelect);
-		if (packManager.currPack != levelPack) {
-			packManager.displayPack(packManager.currPack);
-		}
 	}
 
 	public void exitLevelSelection() {
 		menuManager.closeMenu((int)MenuManager.menus.levelSelect);
-		packManager.destroyLevelSelectionPanel();
 	}
 
 	public void openPauseMenu() {
