@@ -12,7 +12,7 @@ public class EmptyBlock : Block {
 	}
 
 	public override void onBackgroundChange(Color bgColor) {
-		blockModel.setColor(bgColor);
+		//blockModel.setColor(bgColor);
 	}
 
 	public override void onBGTransition(Color a, Color b, float t) {
