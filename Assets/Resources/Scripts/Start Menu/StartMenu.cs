@@ -27,6 +27,7 @@ public class StartMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake() {
+		Application.targetFrameRate = 60;
 
 		main = main.GetComponent<Camera>();
 		main.backgroundColor = CustomColors.White;
