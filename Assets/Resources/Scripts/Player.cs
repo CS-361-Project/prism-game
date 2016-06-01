@@ -7,6 +7,7 @@ public class Player : Movable {
 	AudioSource audioSource;
 	public AudioClip moveSound;
 	public AudioClip squishSound;
+	public GameObject eye;
 
 	SpriteRenderer rend;
 	Color baseColor = Color.white;
@@ -24,6 +25,13 @@ public class Player : Movable {
 		audioSource = gameObject.AddComponent<AudioSource>();
 		moveSound = Resources.Load("Audio/ScrollUp", typeof(AudioClip)) as AudioClip;
 		squishSound = Resources.Load("Audio/ScrollDown", typeof(AudioClip)) as AudioClip;
+	}
+
+	public void Start(){
+		//points the eye in the right direction initally
+		Vector3 forward = board.getExit().transform.position - eye.GetComponent<Transform>().position;
+		float ang = Mathf.Atan2(forward.y, forward.x) * Mathf.Rad2Deg;
+		eye.GetComponent<Transform>().rotation = Quaternion.Euler(new Vector3(0, 0, ang));
 	}
 
 	public override bool move(Vector2 direction) {
@@ -54,19 +62,30 @@ public class Player : Movable {
 		if (newBG == CustomColors.White) {
 			if (progress >= 1) {
 				rend.color = greyColor;
+				eye.GetComponent<SpriteRenderer>().color = greyColor;
 			}
 			else {
 				rend.color = Color.Lerp(baseColor, greyColor, progress);
+				eye.GetComponent<SpriteRenderer>().color = Color.Lerp(baseColor, greyColor, progress);
 			}
 		}
 		else if (oldBG == CustomColors.White) {
 			if (progress >= 1) {
 				rend.color = baseColor;
+				eye.GetComponent<SpriteRenderer>().color = baseColor;
 			}
 			else {
 				rend.color = Color.Lerp(greyColor, baseColor, progress);
+				eye.GetComponent<SpriteRenderer>().color = Color.Lerp(greyColor, baseColor, progress);
 			}
 		}
+	}
+
+	public override void whileMoving(float percentDone) {
+		Vector3 forward = board.getExit().transform.position - eye.GetComponent<Transform>().position;
+		float ang = Mathf.Atan2(forward.y, forward.x) * Mathf.Rad2Deg;
+		eye.GetComponent<Transform>().rotation = Quaternion.Euler(new Vector3(0, 0, ang));
+		base.whileMoving(percentDone);
 	}
 
 	public override void onMovementStart() {

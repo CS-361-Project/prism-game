@@ -54,7 +54,7 @@ public class Movable : MonoBehaviour {
 		return board.getBlockPassable(x, y);
 	}
 
-	public void whileMoving(float percentDone) {
+	public virtual void whileMoving(float percentDone) {
 		if (percentDone >= 1.0f) {
 			percentDone = 1.0f;
 			moving = false;
