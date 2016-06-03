@@ -16,7 +16,7 @@ public class Enemy : Movable {
 
 		enemyModel = gameObject.GetComponentInChildren<EnemyModel>();
 		enemyModel.init(this.transform, xDirection,yDirection);
-		enemyModel.setColor(CustomColors.TraversalEnemy);
+		enemyModel.setColor(CustomColors.White);
 	}
 
 	public void move(float time) {

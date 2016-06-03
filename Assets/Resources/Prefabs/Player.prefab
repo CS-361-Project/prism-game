@@ -137,7 +137,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -354108773
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 436319de0ccb846caa1bcdf232b230bc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 38f4b074fd032411e8bc027e17cdb557, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -168,6 +168,11 @@ Prefab:
       propertyPath: eye
       value: 
       objectReference: {fileID: 184224}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 38f4b074fd032411e8bc027e17cdb557,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 135588}

@@ -11,7 +11,7 @@ public class EnemyModel : MonoBehaviour {
 		transform.parent = parent;
 		transform.localPosition = new Vector3(0, 0, 0);
 		//print("I have been created" + parent);
-		directionX = direcX;
+		/*directionX = direcX;
 		directionY = direcY;
 
 
@@ -72,7 +72,7 @@ public class EnemyModel : MonoBehaviour {
 			upRend.sprite = downArrow;
 			downRend.sprite = upArrowOutline;
 
-		}
+		}*/
 	}
 
 

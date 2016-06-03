@@ -812,7 +812,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   main: {fileID: 245061183}
   startButton: {fileID: 1621281627}
-  exitButton: {fileID: 0}
   infoButton: {fileID: 1713024467}
   yesQuit: {fileID: 1884693323}
   noQuit: {fileID: 392405779}
@@ -1848,6 +1847,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalMoves: 0
   toggles: 0
+  saveFile: 
 --- !u!4 &2141535818
 Transform:
   m_ObjectHideFlags: 0

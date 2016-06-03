@@ -18,9 +18,9 @@ public class HorizontalEnemy : Enemy {
 		moveDirY *= -1;
 		//change the direction indicator for a horizontal AI
 		if(moveDirX==1){
-			enemyModel.changeIndicator(true);
+			//enemyModel.changeIndicator(true);
 		} else{
-			enemyModel.changeIndicator(false);
+			//enemyModel.changeIndicator(false);
 		}
 	}
 }
