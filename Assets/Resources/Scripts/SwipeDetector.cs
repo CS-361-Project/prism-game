@@ -4,61 +4,38 @@ using System.Collections;
 public class SwipeDetector : MonoBehaviour {
 	Vector2 startPos = Vector2.zero;
 	Vector2 lastPos = Vector2.zero;
-	const int minSwipeDistX = 100;
-	const int minSwipeDistY = 100;
-	bool movedOnThisSwipe = false;
+	IntPoint lastCoords = IntPoint.zero;
+	float blockSize = 100;
+	bool moved;
+
+	public void init(Board b) {
+		blockSize = 100;
+		if (b.blocks.Length > 0) {
+			blockSize = b.getBlock(0, 0).gameObject.transform.localScale.x;
+		}
+	}
 
 	public Vector2 getSwipeDirection() {
+		moved = false;
 		if (Input.touchCount > 0) {
 			Touch touch = Input.touches[0];
 			switch (touch.phase) {
-				case TouchPhase.Began:
-//					print("Started new swipe");
-					startPos = touch.position;
-					lastPos = startPos;
-					movedOnThisSwipe = false;
-					break;
-//				case TouchPhase.Stationary:
-//					print("Started new swipe");
-//					startPos = touch.position;
-//					movedOnThisSwipe = false;
-//					break;
-				case TouchPhase.Moved:
-					Vector2 pos = touch.position;
-					if (Vector2.Distance(lastPos, startPos) > Vector2.Distance(pos, startPos)) {
-						startPos = pos;
-						lastPos = pos;
-						movedOnThisSwipe = false;
-						print("Switched directions");
-					}
-					if (!movedOnThisSwipe) {
-						if (Mathf.Abs(startPos.x - pos.x) >= minSwipeDistX) {
-							movedOnThisSwipe = true;
-							if (Mathf.Sign(startPos.x - pos.x) > 0) {
-								return Vector2.left;
-							}
-							else {
-								return Vector2.right;
-							}
-						}
-						else if (Mathf.Abs(startPos.y - pos.y) >= minSwipeDistY) {
-							movedOnThisSwipe = true;
-							if (Mathf.Sign(startPos.y - pos.y) > 0) {
-								return Vector2.down;
-							}
-							else {
-								return Vector2.up;
-							}
-						}
-						else {
-							return Vector2.zero;
-						}
-					}
-					lastPos = pos;
-					break;
+			case TouchPhase.Began:
+				startPos = touch.position;
+				lastCoords = IntPoint.zero;
+				break;
+			case TouchPhase.Moved:
+				Vector2 pos = touch.position;
+				IntPoint relCoords = new IntPoint(Mathf.RoundToInt(pos.x - startPos.x), Mathf.RoundToInt(pos.y - startPos.y));
+				if (relCoords != lastCoords) {
+					IntPoint dir = relCoords - lastCoords;
+					dir.normalize();
+					lastCoords = relCoords;
+					return dir.getVector2();
+				}
+				break;
 			}
 		}
-		//print("No swipes detected");
 		return Vector2.zero;
 	}
 }

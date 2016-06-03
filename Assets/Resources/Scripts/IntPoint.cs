@@ -1,7 +1,9 @@
 ﻿using System;
+using UnityEngine;
 
 public class IntPoint {
 	public int x,y;
+	public static IntPoint zero = new IntPoint(0, 0);
 
 	public IntPoint(int x, int y) {
 		this.x = x;
@@ -27,6 +29,17 @@ public class IntPoint {
 		else {
 			return false;
 		}
+	}
+
+	public void normalize() {
+		if (x != 0 || y != 0) {
+			x = x > y ? 1 : 0;
+			y = 1 - x;
+		}
+	}
+
+	public Vector2 getVector2() {
+		return new Vector2(x, y);
 	}
 
 	public static IntPoint operator -(IntPoint a, IntPoint b) {
