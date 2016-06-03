@@ -26,7 +26,7 @@ public class SwipeDetector : MonoBehaviour {
 				break;
 			case TouchPhase.Moved:
 				Vector2 pos = touch.position;
-				IntPoint relCoords = new IntPoint(Mathf.RoundToInt(pos.x - startPos.x), Mathf.RoundToInt(pos.y - startPos.y));
+				IntPoint relCoords = new IntPoint(Mathf.RoundToInt((pos.x - startPos.x) / blockSize), Mathf.RoundToInt((pos.y - startPos.y) / blockSize));
 				if (relCoords != lastCoords) {
 					IntPoint dir = relCoords - lastCoords;
 					dir.normalize();
