@@ -98,11 +98,13 @@ div.title {
 }
 
 .template-wrap canvas {
-    margin: 0 0 10px 0;
+    /*    margin: 0 0 10px 0;*/
     position: relative;
     z-index: 9;
+    /*
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+*/
 }
 
 .fullscreen {
@@ -115,7 +117,7 @@ body.template {}
 
 .template .template-wrap {}
 
-.template .template-wrap canvas {}
-
-
+.template .template-wrap canvas {
+    width: 100vmin;
+    height: 100vmin;
 }
