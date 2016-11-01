@@ -68,10 +68,12 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public bool loadLevel(String levelPack, int number) {
+		string levelFile = "Levels/" + levelPack + "/level" + number;
+
 		this.levelPack = levelPack;
 		currLevel = number;
 		openIngameUI();
-		string levelFile = "Levels/" + levelPack + "/level" + number;
+
 		background = Instantiate(Resources.Load<GameObject>("Prefabs/Background")).GetComponent<SpriteRenderer>();
 		background.color = CustomColors.Green;
 		lastBoard = board;
@@ -377,6 +379,11 @@ public class GameManager : MonoBehaviour {
 	public bool loadLevelFromFile(string fileName, Board board) {
 		try {
 			TextAsset file = Resources.Load<TextAsset>(fileName);
+
+			if (file == null) {
+				return false;
+			}
+
 			string[] lines = file.text.Split("\n"[0]);
 			int lineNumber = 0;
 			int width = 0;
