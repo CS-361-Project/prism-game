@@ -1,34 +1,36 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | 2013_10 - Sample Assets</title>
+    <title>IRIS</title>
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="shortcut icon" href="TemplateData/favicon.ico" />
     <script src="TemplateData/UnityProgress.js"></script>
-  </head>
-  <body class="template">
-    <p class="header"><span>Unity WebGL Player | </span>2013_10 - Sample Assets</p>
-    <div class="template-wrap clear">
-      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
-      <br>
-      <div class="logo"></div>
-      <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
-      <div class="title">2013_10 - Sample Assets</div>
-    </div>
-    <p class="footer">&laquo; created with <a href="http://unity3d.com/" title="Go to unity3d.com">Unity</a> &raquo;</p>
-    <script type='text/javascript'>
-  var Module = {
-    TOTAL_MEMORY: 268435456,
-    errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
-    compatibilitycheck: null,
-    dataUrl: "Release/Light Puzzle.data",
-    codeUrl: "Release/Light Puzzle.js",
-    memUrl: "Release/Light Puzzle.mem",
-  };
-</script>
-<script src="Release/UnityLoader.js"></script>
+</head>
 
-  </body>
+<body class="template">
+    <p class="header"><span>Unity WebGL Player | </span>IRIS</p>
+    <div class="template-wrap clear">
+        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="500px" width="960px"></canvas>
+        <br>
+        <!--        <div class="logo"></div>-->
+        <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
+        <div class="title">IRIS - A game by Simon Ever-Hale, Sam Grund, Puck Bregstone and Daniel Karcher</div>
+    </div>
+    <script type='text/javascript'>
+        var Module = {
+            TOTAL_MEMORY: 268435456,
+            errorhandler: null, // arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
+            compatibilitycheck: null,
+            dataUrl: "Release/Light Puzzle.data",
+            codeUrl: "Release/Light Puzzle.js",
+            memUrl: "Release/Light Puzzle.mem",
+        };
+    </script>
+    <script src="Release/UnityLoader.js"></script>
+
+</body>
+
 </html>
