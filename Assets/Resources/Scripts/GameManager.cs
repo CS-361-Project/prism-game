@@ -7,7 +7,6 @@ using System;
 
 public class GameManager : MonoBehaviour {
 	Board board, lastBoard;
-	GameData data;
 	public SpriteRenderer background;
 
 	public float transitionTime = 0.15f;
@@ -58,9 +57,6 @@ public class GameManager : MonoBehaviour {
 		colorModel = GameObject.Find ("RGB Diagram").GetComponent<ColorModel> ();
 
 		closeIngameUI();
-		//Get instance of GameData created on start screen
-		data = GameObject.Find("GameData").GetComponent<GameData>();
-		data.deserialize();
 
 
 		//Initialize AudioSource
@@ -203,19 +199,6 @@ public class GameManager : MonoBehaviour {
 			}
 			else if (levelComplete && !board.getPlayer().animating || levelComplete && board.checkLevelDone()) {
 				levelComplete = false;
-
-
-				//give Game Data all the stats from this level
-				data.addMoves(moveCounter.getMoves());
-				int count =board.getPlayer().toggleCount;
-				data.addToggles(count);
-				if ((board.optimalMoves-1) == moveCounter.getMoves()) {
-					data.markLevelPerfect(levelPack, currLevel);
-				}
-				else {
-					data.markLevelComplete(levelPack, currLevel);
-				}
-				data.serialize();
 				nextLevel();
 				audioSource.PlayOneShot(endLevelSound, .1f);
 			}

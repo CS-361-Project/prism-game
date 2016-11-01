@@ -1,5 +1,0 @@
-5 3
-0
-e e c c e
-R r B G c
-e e c c e

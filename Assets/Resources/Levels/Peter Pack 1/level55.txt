@@ -1,6 +1,0 @@
-4 4
-0
-e B c b 
-e w y e 
-R w B w 
-G g w e 

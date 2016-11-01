@@ -1,8 +1,0 @@
-6 6
-0
-e e e e e G 
-e e G e e e 
-e w R e e g 
-y e w r b e 
-e e e r y b 
-e e B c e e 

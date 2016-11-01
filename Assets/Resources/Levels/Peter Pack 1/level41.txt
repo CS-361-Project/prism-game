@@ -1,6 +1,0 @@
-4 4
-0
-e e e e 
-R e e G 
-m r g m 
-B r b e 

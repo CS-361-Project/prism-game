@@ -1,9 +1,0 @@
-7 7
-0
-e e b c b g f 
-e e e b e g m 
-R r B g c e e 
-y e e c e e e 
-e e b R r B y 
-c c g e w c s 
-g e y G r G R 

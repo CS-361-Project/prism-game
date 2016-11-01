@@ -2,10 +2,5 @@ Tutorial
 4x4_easy
 5x5_medium
 6x6_hard
-6x6_pack2
-7x7_medium
 8x8_hard
 12x12_hard
-Peter Pack 1
-Peter Pack 2
-Peter Pack 3

@@ -1,6 +1,0 @@
-4 4
-0
-e e e G 
-e e b e 
-e c e y 
-R y g e 

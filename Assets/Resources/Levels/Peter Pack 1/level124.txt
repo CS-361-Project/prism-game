@@ -1,7 +1,0 @@
-5 5
-0
-e e B G R 
-e e e b c 
-e w c g e 
-y b B e w 
-e e e b e 

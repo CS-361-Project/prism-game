@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class BlockHighlightModel : MonoBehaviour {
-	Block block;
 	float age = 0.0f;
 	float maxAge = 5.0f;
 	SpriteRenderer rend;
@@ -10,7 +9,6 @@ public class BlockHighlightModel : MonoBehaviour {
 	Color colorB = CustomColors.Yellow;
 
 	public void init(Block parent, float lifespan) {
-		block = parent;
 		transform.parent = parent.transform;
 		transform.localPosition = new Vector3(0, 0, 0);
 		transform.localScale = new Vector3(1, 1, 1);
