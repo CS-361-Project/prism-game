@@ -1,31 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/AudioControl.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\GameManager.cs">
     <Files>
-      <File FileName="Assets/Resources/Scripts/AudioControl.cs" Line="16" Column="5" />
+      <File FileName="Assets\Resources\Scripts\GameManager.cs" Line="393" Column="21" />
+      <File FileName="Assets\Resources\Scripts\UI\LevelPackManager.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
-=======
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/GameManager.cs">
-    <Files>
-      <File FileName="Assets/Resources/Scripts/Board.cs" Line="9" Column="39" />
-      <File FileName="Assets/Resources/Scripts/GameManager.cs" Line="157" Column="50" />
-      <File FileName="Assets/Resources/Scripts/GameData.cs" Line="75" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/MoveCounter.cs" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/AudioControl.cs" Line="1" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/docglass/Light-Puzzle-Demo/Assets/Resources/Scripts/GameData.cs" line="67" column="1" />
-      <Breakpoint file="/Users/docglass/Light-Puzzle-Demo/Assets/Resources/Scripts/GameManager.cs" line="54" column="1" />
-      <Breakpoint file="/Users/docglass/Light-Puzzle-Demo/Assets/Resources/Scripts/GameData.cs" line="94" column="1" />
-    </BreakpointStore>
->>>>>>> master
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
