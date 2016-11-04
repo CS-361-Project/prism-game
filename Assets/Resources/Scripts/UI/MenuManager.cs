@@ -76,6 +76,12 @@ public class MenuManager : MonoBehaviour {
 		SceneManager.LoadScene("startUpMenu");
 	}
 
+	public void pauseMenuButton(){
+		openMenu((int)menus.pauseMenu);
+		openMenu((int)menus.backgroundBlocks);
+		closeMenu((int)menus.ingameUI);
+	}
+
 	public void updateLevelInUI(string levelPack, int levelNumber) {
 		number.setLevel(levelNumber);
 		packName.setLevelPack(levelPack);
