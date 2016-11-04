@@ -1,0 +1,76 @@
+/****************************************
+  ==== RESETS
+****************************************/
+
+html,
+body,
+div,
+canvas {
+    margin: 0;
+    padding: 0;
+}
+
+::-moz-selection {
+    color: #333;
+    text-shadow: none;
+}
+
+::selection {
+    color: #333;
+    text-shadow: none;
+}
+
+
+/* End hide from IE-mac */
+
+
+/****************************************
+  ==== LAYOUT
+****************************************/
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    font-family: Helvetica, Verdana, Arial, sans-serif;
+}
+
+body {
+    background: #272622;
+}
+
+p.header,
+p.footer {
+    display: none;
+}
+
+div.logo {
+    width: 204px;
+    height: 38px;
+    float: left;
+    background: url(logo.png) 0 0 no-repeat;
+    position: relative;
+    z-index: 10;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vmin;
+    margin: 0 auto;
+}
+
+canvas {
+    z-index: 9;
+    width: 100vmin;
+    height: 100vmin;
+}
+
+div.title {
+    color: #aaa;
+    text-align: left;
+    align-self: flex-start;
+    font-size: 18px;
+    z-index: 10;
+}

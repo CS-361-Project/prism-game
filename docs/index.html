@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Prism</title>
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+    <script src="TemplateData/UnityProgress.js"></script>
+</head>
+
+<body class="template">
+    <p class="header"><span>Unity WebGL Player | </span>Prism</p>
+    <div id="container">
+        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="500px" width="500px"></canvas>
+        <div class="title">
+            <h2>Prism</h2>by Simon Ever-Hale, Sam Grund, Peter Stefek, Jonah Bregstone and Daniel Karcher</div>
+    </div>
+    <script type='text/javascript'>
+        var Module = {
+            TOTAL_MEMORY: 268435456,
+            errorhandler: null, // arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
+            compatibilitycheck: null,
+            dataUrl: "Release/Light Puzzle.data",
+            codeUrl: "Release/Light Puzzle.js",
+            memUrl: "Release/Light Puzzle.mem",
+        };
+    </script>
+    <script src="Release/UnityLoader.js"></script>
+
+</body>
+
+</html>
