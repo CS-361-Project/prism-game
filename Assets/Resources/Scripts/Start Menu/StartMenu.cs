@@ -19,6 +19,8 @@ public class StartMenu : MonoBehaviour {
 	public Text gTitle;
 	public Text bTitle;
 
+	public Image infoPanel;
+
 	public bool bgTransitioning = false;
 	Color newBG, oldBG;
 	float lastColorChange = -1.0f;
@@ -35,44 +37,79 @@ public class StartMenu : MonoBehaviour {
 		oldBG = main.backgroundColor;
 
 		//Buttons 
+		setupStartButton();
+		setupExitButton();
+		setupInfoButton();
+
+	
+		// quit menu/buttons
+		setupExitMessage();
+		setupYesQuitButton();
+		setupNoQuitButton();
+
+
+		// title letters
+		setupTitle();
+
+		setupInfoPanel();
+	
+	}
+
+	private void setupInfoPanel(){
+		infoPanel = infoPanel.GetComponent<Image>();
+		infoPanel.gameObject.SetActive(false);
+
+	}
+
+	private void setupStartButton(){
 		startButton = startButton.GetComponent<Button>();
 		ColorBlock startCol = startButton.colors;
 		startCol.normalColor = CustomColors.Yellow;
 		startCol.highlightedColor = Color.Lerp(CustomColors.Yellow, CustomColors.White, .5F);
 		startButton.colors = startCol;
+	}
 
+	private void setupExitButton(){
 		exitButton = exitButton.GetComponent<Button>();
 		ColorBlock exitCol = exitButton.colors;
 		exitCol.normalColor = CustomColors.Cyan;
 		exitCol.highlightedColor = Color.Lerp(CustomColors.Cyan, CustomColors.White, .5F);
 		exitButton.colors = exitCol;
+	}
 
+	private void setupInfoButton(){
 		infoButton = infoButton.GetComponent<Button>();
 		ColorBlock infoButtonCol = infoButton.colors;
 		infoButtonCol.normalColor = CustomColors.Magenta;
 		infoButtonCol.highlightedColor = Color.Lerp(CustomColors.Magenta, CustomColors.White, .5F);
 		infoButton.colors = infoButtonCol;
+	}
 
-		// quit menu/buttons
+	private void setupExitMessage(){
 		exitMessage = exitMessage.GetComponent<Text>();
 		exitMessage.color = CustomColors.Blue;
 		exitMessage.gameObject.SetActive (false);
+	}
 
+	private void setupYesQuitButton(){
 		yesQuit = yesQuit.GetComponent<Button>();
 		ColorBlock yesCol = yesQuit.colors;
 		yesCol.normalColor = CustomColors.Green;
 		yesCol.highlightedColor = Color.Lerp(CustomColors.Green, CustomColors.White, .5F);
 		yesQuit.colors = yesCol;
 		yesQuit.gameObject.SetActive (false);
+	}
 
+	private void setupNoQuitButton(){
 		noQuit = noQuit.GetComponent<Button>();
 		ColorBlock noCol = noQuit.colors;
 		noCol.normalColor = CustomColors.Red;
 		noCol.highlightedColor = Color.Lerp(CustomColors.Red, CustomColors.White, .5F);
 		noQuit.colors = noCol;
 		noQuit.gameObject.SetActive (false);
+	}
 
-		// title letters
+	private void setupTitle(){
 		rTitle = rTitle.GetComponent<Text>();
 		rTitle.color = CustomColors.Red;
 
@@ -81,7 +118,6 @@ public class StartMenu : MonoBehaviour {
 
 		bTitle = bTitle.GetComponent<Text>();
 		bTitle.color = CustomColors.Blue;
-	
 	}
 
 	void Update() {
@@ -90,34 +126,45 @@ public class StartMenu : MonoBehaviour {
 		}
 	}
 
+	public void InfoPressed(){
+		BackgroundChangeMagenta();
+		toggleMainMenu(false);
+		infoPanel.gameObject.SetActive(true);
+	}
+
+	public void infoReturnPressed(){
+		BackgroundReset();
+		infoPanel.gameObject.SetActive(false);
+		toggleMainMenu(true);
+	}
 
 	public void ExitPressed() {
 		BackGroundChangeBlack ();
-		exitMessage.gameObject.SetActive(true);
-		yesQuit.gameObject.SetActive (true);
-		noQuit.gameObject.SetActive (true);
+		toggleExitMenu(true);
+		toggleMainMenu(false);
 
-		startButton.gameObject.SetActive (false);
-		exitButton.gameObject.SetActive (false);
-		infoButton.gameObject.SetActive (false);
-
-		rTitle.gameObject.SetActive (false);
-		gTitle.gameObject.SetActive (false);
-		bTitle.gameObject.SetActive (false);
 	}
 
 	public void NoPressed() {
-		exitMessage.gameObject.SetActive(false);
-		yesQuit.gameObject.SetActive (false);
-		noQuit.gameObject.SetActive (false);
+		BackgroundReset();
+		toggleExitMenu(false);
+		toggleMainMenu(true);
+	}
 
-		startButton.gameObject.SetActive (true);
-		exitButton.gameObject.SetActive (true);
-		infoButton.gameObject.SetActive (true);
+	private void toggleMainMenu(bool toggle){
+		startButton.gameObject.SetActive (toggle);
+		exitButton.gameObject.SetActive (toggle);
+		infoButton.gameObject.SetActive (toggle);
 
-		rTitle.gameObject.SetActive (true);
-		gTitle.gameObject.SetActive (true);
-		bTitle.gameObject.SetActive (true);
+		rTitle.gameObject.SetActive (toggle);
+		gTitle.gameObject.SetActive (toggle);
+		bTitle.gameObject.SetActive (toggle);
+	}
+
+	private void toggleExitMenu(bool toggle){
+		exitMessage.gameObject.SetActive(toggle);
+		yesQuit.gameObject.SetActive (toggle);
+		noQuit.gameObject.SetActive (toggle);
 	}
 
 	public void StartGame() {
